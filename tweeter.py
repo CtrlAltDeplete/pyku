@@ -77,5 +77,5 @@ class StdOutListener(tweepy.StreamListener):
 
 if __name__ == '__main__':
     l = StdOutListener()
-    stream = tweepy.Stream(auth, l)
+    stream = tweepy.Stream(credentials.auth, l)
     stream.filter(track=['@TrashPostBot'])
