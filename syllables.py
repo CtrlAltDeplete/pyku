@@ -16,7 +16,7 @@ def inWord(word):
             elif word[i] in 'aeiouy':
                 syllables += 1
         if word[-1] == 'e':
-            if word[-2] != 'l' and syllables > 1 and word[-3] in 'aeiouyd':
+            if (word[-2] != 'l' and syllables > 1 and word[-3] in 'aeiouyd') or word[-3:-1] == 'nn':
                 syllables -= 1
         if len(word) > 3 and word[-3] not in 'aeiouys' and word[-2:] == 'es' and word[-4:] not in ['ches', 'shes'
                                                                                                    ] and word[-3:] != 'ces':
@@ -47,6 +47,9 @@ def inWord(word):
         syllables += word.count('ybe')
         syllables += word.count('ious')
         syllables -= word.count('erned')
+        syllables -= word.count('ouched')
+        syllables -= word.count('oyed')
+        syllables -= word.count('hole')
         return max(syllables, 1)
     return 0
 
@@ -75,5 +78,5 @@ if __name__ == '__main__':
     # for word in quadSyl.split():
     #     if inWord(word) != 4:
     #         print(word, inWord(word))
-    for word in "Darkness smashes onto the bus.".split():
+    for word in "And the whole heart.".split():
         print("{}, {}".format(word, inWord(word)))
