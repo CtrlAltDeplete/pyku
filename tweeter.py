@@ -6,7 +6,8 @@ import haiku
 # Twitter credentials
 api = credentials.api
 
-if __name__ == '__main__':
+
+def generateTweet():
     options = {
         'Batman': 'batman.json',
         'Bible': 'bible.json',
@@ -21,4 +22,10 @@ if __name__ == '__main__':
     i = randint(0, len(keys) - 1)
     with open('sources/{}'.format(options[keys[i]])) as f:
         model = markovify.Text.from_json(f.read())
-    api.update_status(status=haiku.makeHaiku(model, keys[i]))
+    status = haiku.makeHaiku(model, keys[i])
+    api.update_status(status=status)
+    return status
+
+
+if __name__ == '__main__':
+    generateTweet()

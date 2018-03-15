@@ -49,6 +49,7 @@ def inWord(word):
         syllables -= word.count('ouched')
         syllables -= word.count('oyed')
         syllables -= word.count('hole')
+        syllables -= word.count('where')
         return max(syllables, 1)
     return 0
 
