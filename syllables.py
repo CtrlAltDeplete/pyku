@@ -16,10 +16,9 @@ def inWord(word):
             elif word[i] in 'aeiouy':
                 syllables += 1
         if word[-1] == 'e':
-            if (word[-2] != 'l' and syllables > 1 and word[-3] in 'aeiouyd') or word[-3:-1] == 'nn':
+            if len(word) >= 3 and ((word[-2] != 'l' and syllables > 1 and word[-3] in 'aeiouyd') or word[-3:-1] == 'nn'):
                 syllables -= 1
-        if len(word) > 3 and word[-3] not in 'aeiouys' and word[-2:] == 'es' and word[-4:] not in ['ches', 'shes'
-                                                                                                   ] and word[-3:] != 'ces':
+        if len(word) > 3 and word[-3] not in 'aeiouys' and word[-2:] == 'es' and word[-4:] not in ['ches', 'shes'] and word[-3:] != 'ces':
             syllables -= 1
         if len(word) > 3 and word[-4] in 'aeiouy' and word[-3:] == 'sed':
             syllables -= 1

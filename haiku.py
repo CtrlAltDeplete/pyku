@@ -15,8 +15,9 @@ def makeHaiku(model, signature):
         line = model.make_short_sentence(max_chars=140, tries=100)
     haiku += line
     if signature:
-        haiku += '\n-{}'.format(signature)
+        haiku += '\n#{}'.format("".join(signature.split()))
     return haiku
+
 
 if __name__ == '__main__':
     for filename in os.listdir("sources"):
