@@ -17,12 +17,12 @@ options = {
     'Scarlet Letter': 'scarletletter.json',
     'The Room': 'theroom.json'
 }
-keys = list(options.keys())
+keys = list(options.keys()).append("Random")
 
 
-def generateTweet(handle=None, source=None):
-    if not source:
-        i = randint(0, len(keys) - 1)
+def generateTweet(handle=None, source="Random"):
+    if source == "Random":
+        i = randint(0, len(keys) - 2)
         source = keys[i]
     with open('sources/{}'.format(options[source])) as f:
         model = markovify.Text.from_json(f.read())
