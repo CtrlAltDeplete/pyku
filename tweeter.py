@@ -20,7 +20,7 @@ options = {
 keys = list(options.keys()).append("Random")
 
 
-def generateTweet(handle=None, source="Random"):
+def generateTweet(handle='', source="Random"):
     if source == "Random":
         i = randint(0, len(keys) - 2)
         source = keys[i]
@@ -28,7 +28,7 @@ def generateTweet(handle=None, source="Random"):
         model = markovify.Text.from_json(f.read())
     status = haiku.makeHaiku(model)
     status = "{}\n#{}".format(status, ''.join(source.split()))
-    if handle:
+    if handle != '':
         status = "{}\n{}".format(handle, status)
     api.update_status(status=status)
     return status
