@@ -17,7 +17,8 @@ options = {
     'Scarlet Letter': 'scarletletter.json',
     'The Room': 'theroom.json'
 }
-keys = list(options.keys()).append("Random")
+keys = list(options.keys())
+keys.append('Random')
 
 
 def generateTweet(handle='', source="Random"):
