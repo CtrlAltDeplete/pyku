@@ -27,12 +27,12 @@ def generateTweet(handle=None, source=None):
     with open('sources/{}'.format(options[source])) as f:
         model = markovify.Text.from_json(f.read())
     status = haiku.makeHaiku(model)
-    status = "{}\n{}".format(status, source)
-    if not handle:
+    status = "{}\n#{}".format(status, ''.join(source.split()))
+    if handle:
         status = "{}\n{}".format(handle, status)
     api.update_status(status=status)
     return status
 
 
 if __name__ == '__main__':
-    generateTweet()
+    generateTweet(source='The Room')

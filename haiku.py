@@ -18,6 +18,5 @@ def makeHaiku(model):
 
 
 if __name__ == '__main__':
-    for filename in os.listdir("sources"):
-        with open("sources/" + filename) as f:
-            print(makeHaiku(markovify.Text.from_json(f.read())))
+    with open("sources/" + "theroom.json") as f:
+        print(makeHaiku(markovify.Text.from_json(f.read())))

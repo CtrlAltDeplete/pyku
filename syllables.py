@@ -53,6 +53,7 @@ def inWord(word):
         syllables += word.count('were')
         syllables -= word.count('hale')
         syllables -= word.count('iage')
+        syllables -= word.count('eyes')
         return max(syllables, 1)
     return 0
 
