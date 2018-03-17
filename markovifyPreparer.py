@@ -15,5 +15,6 @@ def createCorpus(filename):
 
 if __name__ == '__main__':
     # Write a model for every file in the rawTexts directory.
-    for filename in os.listdir("rawTexts"):
-        createCorpus(filename)
+    # for filename in os.listdir("rawTexts"):
+    #     createCorpus(filename)
+    createCorpus("theroom.txt")
