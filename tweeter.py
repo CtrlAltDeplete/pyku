@@ -36,4 +36,4 @@ def generateTweet(handle='', source="Random"):
 
 
 if __name__ == '__main__':
-    generateTweet(source='The Room')
+    generateTweet()
