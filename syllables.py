@@ -37,6 +37,8 @@ def inWord(word):
         syllables += word.count('uar')
         syllables += word.count('dnt')
         syllables += word.count('snt')
+        syllables += word.count('dn\'t')
+        syllables += word.count('sn\'t')
         syllables -= word.count('used')
         syllables -= word.count('ushed')
         syllables -= word.count('eigned')
@@ -54,6 +56,7 @@ def inWord(word):
         syllables -= word.count('hale')
         syllables -= word.count('iage')
         syllables -= word.count('eyes')
+        syllables -= word.count('pped')
         return max(syllables, 1)
     return 0
 
@@ -66,21 +69,5 @@ def inText(text):
 
 
 if __name__ == '__main__':
-    # singleSyl = "life, love, ER, world, ME, one, Day, AL, you, IN, tip, heart, on, Ate, no, Be, to, ay, AR, near, MA, en, CA, OR, la, Ta, Na, ch, ab, ad, ion, sh, MO, NE, DE, AN, ness, BA, Es, ring, ace, wolf, ap, go, fish, re, five, ae, man, and el"
-    # for word in singleSyl.split():
-    #     if inWord(word) != 1:
-    #         print(word, inWord(word))
-    # doubleSyl = "purple, perfect, silver, seven, thirteen, Godard, about, Thursday, again, Tuesday, pizza, thirty, donate, princess, people, water, future, Heaven, happy, sixty, country, pumpkin, Christmas, special, over, Angel, freedom, able, music, fifty, ana, thousand, fourteen, party, Monday, picture, office, language, nature, Kelly, city, Mumbai, woman, twenty, sugar, husband, anna,"
-    # for word in doubleSyl.split():
-    #     if inWord(word) != 2:
-    #         print(word, inWord(word))
-    # tripleSyl = "fireboard, family, chocolate, banana, assonant, Africa, happiness, piano, eleven, animal, Wednesday, seventy, Melissa, chipotle, celebrate, jessica, potato, business, favorite, elephant, erica, adventure, energy, history, Georgia, important, amazing, consonant, rihanna, India, feminine, ninety, dangerous, masculine, forever, Indian, holiday, syllable, abdicate, Madison, Canada, Jupiter, envelope, diamond, memory, together, media, Adrian,"
-    # for word in tripleSyl.split():
-    #     if inWord(word) != 3:
-    #         print(word, inWord(word))
-    # quadSyl = "identical, America, American, everything, January, undemanding, Virginia, Australia, irregular, aboveboard, information, Elizabeth, macaronic, intermittent, preposition, February, literature, secretary, Victoria, Amerindic, homecoming, independence, alligator, ordinary, syllabicate, alternative, technology, celebration, Carolina, maleficent, watermelon, Ariana, appreciate, community, relaxation, salmonella, forgiveness, aberration, vegetable, eternity, amelia, belligerent, angelica, retirement, television, intelligence"
-    # for word in quadSyl.split():
-    #     if inWord(word) != 4:
-    #         print(word, inWord(word))
-    for word in "And the whole heart.".split():
+    for word in "but thou art shipped".split():
         print("{}, {}".format(word, inWord(word)))
