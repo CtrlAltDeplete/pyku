@@ -11,14 +11,15 @@ options = {
     'Bible': 'bible.json',
     'Common Sense': 'commonsense.json',
     'Dracula': 'dracula.json',
+    'The Great Gatsby': 'greatgatsby.json',
     'Brothers Grimm': 'grimms.json',
     'Kamasutra': 'kamasutra.json',
     'Moby Dick': 'mobydick.json',
-    'Scarlet Letter': 'scarletletter.json',
-    'The Room': 'theroom.json'
+    'The Room': 'theroom.json',
+    'Scarlet Letter': 'scarletletter.json'
 }
 keys = list(options.keys())
-keys.append('Random')
+keys.insert(0, 'Random')
 
 
 def generateTweet(handle='', source="Random"):

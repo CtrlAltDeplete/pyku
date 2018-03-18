@@ -14,7 +14,7 @@ def processFile(filename):
     data = text.split()
     # Iterate through every word and remove bad symbols.
     for i in range(len(data)):
-        for char in "@#$%^&*()-_=+[{]}\\|;:'\"<>/`~0123456789":
+        for char in "@#$%^&*()_=+[{]}\\|;:\"<>/`~0123456789":
             data[i] = data[i].replace(char, "")
     # Write out the processed text to the same file.
     with open("rawTexts/" + filename, 'w') as f:
@@ -25,4 +25,4 @@ if __name__ == '__main__':
     # Process every file in the rawTexts directory.
     # for filename in os.listdir("rawTexts"):
     #     processFile(filename)
-    processFile("theroom.txt")
+    processFile("greatgatsby.txt")

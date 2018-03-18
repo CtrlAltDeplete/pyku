@@ -1,6 +1,5 @@
 import syllables
 import markovify
-import os
 
 
 def makeHaiku(model):
@@ -18,5 +17,5 @@ def makeHaiku(model):
 
 
 if __name__ == '__main__':
-    with open("sources/" + "theroom.json") as f:
+    with open("sources/" + "greatgatsby.json") as f:
         print(makeHaiku(markovify.Text.from_json(f.read())))

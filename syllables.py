@@ -26,6 +26,8 @@ def inWord(word):
             syllables += 1
         if len(word) > 4 and word[-4:] == 'ened':
             syllables -= 1
+            if len(word) > 6 and word[-5] == word[-6]:
+                syllables += 1
         syllables += word.count('ia')
         syllables -= word.count('tia')
         syllables -= (word.count('cia') - word.count('ciate'))
@@ -69,5 +71,5 @@ def inText(text):
 
 
 if __name__ == '__main__':
-    for word in "but thou art shipped".split():
+    for word in "happened appened".split():
         print("{}, {}".format(word, inWord(word)))
