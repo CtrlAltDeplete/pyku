@@ -100,6 +100,6 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "hinted over vertical teddy".split():
+    for word in "home experimenting homer rome".split():
         print("{}, {}".format(word, syllablesInWord(word)))
         print(breakdownWord(word))

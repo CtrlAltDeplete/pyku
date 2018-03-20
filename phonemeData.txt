@@ -22,7 +22,7 @@ e,ea,u,ie,ai,a,eo,ei,ae,ay:/e/
 e,ee,ea,y,ey,oe,ie,i,ei,eo,ay:/-e/
 i,e,o,u,ui,y,ie:/i/
 i,y,igh,ie,uy,ye,ai,eight,i_e:/-i/
-o,a,ho,au,aw,ough:/o/
+o,a,au,aw,ough:/o/
 o,oa,o_e,oe,ow,ough,eau,oo,ew:/-o/
 o,oo,u,ou:/oo/
 u,o,oo,ou:/u/
@@ -58,3 +58,5 @@ going:1
 doing:1
 ver:1
 ted:1
+omer:1
+imen:1
