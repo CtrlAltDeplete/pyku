@@ -74,6 +74,8 @@ def breakdownWord(word):
             newPhenomes = breakdownWord(word[i:len(word)])
             if newPhenomes:
                 phonemes.extend(breakdownWord(word[i:len(word)]))
+            else:
+                raise TypeError("Recursion produced None type: ", word[i:len(word)])
             return phonemes
 
 
