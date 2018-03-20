@@ -60,3 +60,4 @@ ver:1
 ted:1
 omer:1
 imen:1
+area:2
