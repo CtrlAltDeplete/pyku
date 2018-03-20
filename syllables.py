@@ -54,7 +54,6 @@ def inWord(word):
         syllables -= word.count('oyed')
         syllables -= word.count('hole')
         syllables -= word.count('where')
-        syllables += word.count('were')
         syllables -= word.count('hale')
         syllables -= word.count('iage')
         syllables -= word.count('eyes')
