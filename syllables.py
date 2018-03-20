@@ -63,33 +63,33 @@ def breakdownWord(word):
     word = regex.sub('', word)
     word = word.lower()
     phonemes = []
-    for i in reversed(range(1, min(len(word) + 1, 5))):
-        part = word[:i]
-        pho = findPhoneme(part)
-        if pho and part == word:
-            phonemes.append(pho)
-            return phonemes
-        elif pho:
-            phonemes.append(pho)
-            newPhenomes = breakdownWord(word[i:len(word)])
-            if newPhenomes:
+    if word:
+        for i in reversed(range(1, min(len(word) + 1, 5))):
+            part = word[:i]
+            pho = findPhoneme(part)
+            if pho and part == word:
+                phonemes.append(pho)
+                return phonemes
+            elif pho:
+                phonemes.append(pho)
                 phonemes.extend(breakdownWord(word[i:len(word)]))
-            else:
-                raise TypeError("Recursion produced None type: ", word[i:len(word)])
-            return phonemes
+                return phonemes
+    return None
 
 
 def syllablesInWord(word):
     phonemes = breakdownWord(word)
     count = 0
-    for i in range(len(phonemes)):
-        count += phonemes[i][1]
-        if i != 0:
-            if phonemes[i][0] == '/e/' and phonemes[i - 1][0] == '/schwa/':
-                count -= 1
-    for key in exceptions:
-        count += word.count(key) * exceptions[key]
-    return max(1, count)
+    if phonemes:
+        for i in range(len(phonemes)):
+            count += phonemes[i][1]
+            if i != 0:
+                if phonemes[i][0] == '/e/' and phonemes[i - 1][0] == '/schwa/':
+                    count -= 1
+        for key in exceptions:
+            count += word.count(key) * exceptions[key]
+        return max(1, count)
+    return 0
 
 
 def syllablesInString(text):
@@ -100,5 +100,6 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "test string".split():
+    for word in "hinted over vertical teddy".split():
         print("{}, {}".format(word, syllablesInWord(word)))
+        print(breakdownWord(word))

@@ -56,3 +56,5 @@ div:1
 oeu:-1
 going:1
 doing:1
+ver:1
+ted:1
