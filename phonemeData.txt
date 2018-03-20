@@ -64,3 +64,4 @@ imen:1
 area:2
 ven:1
 ded:1
+self:1
