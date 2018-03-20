@@ -4,13 +4,13 @@ import markovify
 
 def makeHaiku(model):
     line = model.make_short_sentence(max_chars=140, tries=100)
-    while syllables.inText(line) != 5:
+    while syllables.syllablesInString(line) != 5:
         line = model.make_short_sentence(max_chars=140, tries=100)
     haiku = line + '\n'
-    while syllables.inText(line) != 7:
+    while syllables.syllablesInString(line) != 7:
         line = model.make_short_sentence(max_chars=140, tries=100)
     haiku += line + '\n'
-    while syllables.inText(line) != 5:
+    while syllables.syllablesInString(line) != 5:
         line = model.make_short_sentence(max_chars=140, tries=100)
     haiku += line
     return haiku

@@ -1,74 +1,100 @@
 import re
 
+consonants = {}
+vowels = {}
+rvowels = {}
+exceptions = {}
 
-def inWord(word):
+# Populate the phoneme dictionaries with data
+with open("phonemeData.txt", 'r') as f:
+    data = f.read()
+    data = data.split()
+    for i in range(18):
+        graphemes = data[i].split(':')[0].split(',')
+        phoneme = data[i].split(':')[1]
+        for gr in graphemes:
+            if gr not in consonants:
+                if "_" in gr:
+                    for ch in "bcdfghjklmnpqrstvwxz":
+                        if gr.replace("_", ch) not in consonants:
+                            consonants[gr.replace("_", ch)] = phoneme
+                else:
+                    consonants[gr] = phoneme
+    for i in range(18, 33):
+        graphemes = data[i].split(':')[0].split(',')
+        phoneme = data[i].split(':')[1]
+        for gr in graphemes:
+            if gr not in vowels:
+                if "_" in gr:
+                    for ch in "bcdfghjklmnpqrstvwxz":
+                        if gr.replace("_", ch) not in vowels:
+                            vowels[gr.replace("_", ch)] = phoneme
+                else:
+                    vowels[gr] = phoneme
+    for i in range(33, 39):
+        graphemes = data[i].split(':')[0].split(',')
+        phoneme = data[i].split(':')[1]
+        for gr in graphemes:
+            if gr not in rvowels:
+                if "_" in gr:
+                    for ch in "bcdfghjklmnpqrstvwxz":
+                        if gr.replace("_", ch) not in rvowels:
+                            rvowels[gr.replace("_", ch)] = phoneme
+                else:
+                    rvowels[gr] = phoneme
+    for i in range(39, len(data)):
+        exception = data[i].split(':')[0]
+        mult = int(data[i].split(':')[1])
+        exceptions[exception] = mult
+
+
+def findPhoneme(graph):
+    if graph in vowels:
+        return vowels[graph], 1
+    if graph in rvowels:
+        return rvowels[graph], 1
+    if graph in consonants:
+        return consonants[graph], 0
+    return None
+
+
+def breakdownWord(word):
     regex = re.compile('[^a-zA-Z]')
     word = regex.sub('', word)
     word = word.lower()
-    syllables = 0
-    if len(word) > 0:
-        for i in range(len(word)):
-            if i != 0:
-                if word[i] in 'aeiouy' and word[i - 1] not in 'aeiouy':
-                    syllables += 1
-                elif i + 1 < len(word) and word[i - 1] in 'aeiou' and word[i] == 'y' and word[i + 1] in 'aeiou':
-                    syllables += 1
-            elif word[i] in 'aeiouy':
-                syllables += 1
-        if word[-1] == 'e':
-            if len(word) >= 3 and ((word[-2] != 'l' and syllables > 1 and word[-3] in 'aeiouyd') or word[-3:-1] == 'nn'):
-                syllables -= 1
-        if len(word) > 3 and word[-3] not in 'aeiouys' and word[-2:] == 'es' and word[-4:] not in ['ches', 'shes'] and word[-3:] != 'ces':
-            syllables -= 1
-        if len(word) > 3 and word[-4] in 'aeiouy' and word[-3:] == 'sed':
-            syllables -= 1
-        if len(word) > 4 and word[2] in 'aeiouy' and word[:2] in ['re', 'tri', 'bi']:
-            syllables += 1
-        if len(word) > 4 and word[-4:] == 'ened':
-            syllables -= 1
-            if len(word) > 6 and word[-5] == word[-6]:
-                syllables += 1
-        syllables += word.count('ia')
-        syllables -= word.count('tia')
-        syllables -= (word.count('cia') - word.count('ciate'))
-        syllables += word.count('ying')
-        syllables += word.count('aing')
-        syllables += word.count('eing')
-        syllables += word.count('oing')
-        syllables += word.count('uing')
-        syllables += word.count('uar')
-        syllables += word.count('dnt')
-        syllables += word.count('snt')
-        syllables += word.count('dn\'t')
-        syllables += word.count('sn\'t')
-        syllables -= word.count('used')
-        syllables -= word.count('ushed')
-        syllables -= word.count('eigned')
-        syllables += word.count('uate')
-        syllables -= word.count('ened')
-        syllables += word.count('idea')
-        syllables += word.count('ybe')
-        syllables += word.count('ious')
-        syllables -= word.count('erned')
-        syllables -= word.count('ouched')
-        syllables -= word.count('oyed')
-        syllables -= word.count('hole')
-        syllables -= word.count('where')
-        syllables -= word.count('hale')
-        syllables -= word.count('iage')
-        syllables -= word.count('eyes')
-        syllables -= word.count('pped')
-        return max(syllables, 1)
-    return 0
+    phonemes = []
+    for i in reversed(range(1, min(len(word) + 1, 5))):
+        part = word[:i]
+        pho = findPhoneme(part)
+        if pho and part == word:
+            phonemes.append(pho)
+            return phonemes
+        elif pho:
+            phonemes.append(pho)
+            phonemes.extend(breakdownWord(word[i:len(word)]))
+            return phonemes
 
 
-def inText(text):
+def syllablesInWord(word):
+    phonemes = breakdownWord(word)
+    count = 0
+    for i in range(len(phonemes)):
+        count += phonemes[i][1]
+        if i != 0:
+            if phonemes[i][0] == '/e/' and phonemes[i - 1][0] == '/schwa/':
+                count -= 1
+    for key in exceptions:
+        count += word.count(key) * exceptions[key]
+    return max(1, count)
+
+
+def syllablesInString(text):
     syllables = 0
     for word in text.split():
-        syllables += inWord(word)
+        syllables += syllablesInWord(word)
     return syllables
 
 
 if __name__ == '__main__':
-    for word in "happened appened".split():
-        print("{}, {}".format(word, inWord(word)))
+    for word in "test string".split():
+        print("{}, {}".format(word, syllablesInWord(word)))
