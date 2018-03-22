@@ -1,4 +1,4 @@
-ow,ou,ie,igh,ay,oi,oo,ea,ee,air,ure,eau
+you,ow,ou,ie,igh,ay,oi,oo,ea,ee,air,ure,eau
 th,sh,ph,ch,wh
 beau,dis,mis,ab,ad,in,im,com,con,co,be,de,re,pre,pro,per,un,ex,en,tri,di,bi
 anti,reason
