@@ -17,5 +17,10 @@ def makeHaiku(model):
 
 
 if __name__ == '__main__':
-    with open("sources/" + "greatgatsby.json") as f:
-        print(makeHaiku(markovify.Text.from_json(f.read())))
+    with open("sources/mobydick.json") as f:
+        model = markovify.Text.from_json(f.read())
+    print(makeHaiku(model))
+    print(makeHaiku(model))
+    print(makeHaiku(model))
+    print(makeHaiku(model))
+    print(makeHaiku(model))

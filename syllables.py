@@ -24,6 +24,7 @@ def countVowels(part):
 def syllablesInPart(part):
     count = countVowels(part)
     if part[-1] == 'e':
+        part = part[:-1]
         count -= 1
     for dip in diphthongs:
         if dip in part:
@@ -93,7 +94,7 @@ def syllablesInWord(word):
             parts.append(word[:mid + 1])
             parts.append(word[mid + 1:])
             word = ''
-    if len(parts) == 0 or word != '':
+    if word != '':
         parts.append(word)
     for part in parts:
         count += syllablesInPart(part)
@@ -108,8 +109,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    with open("test.txt", 'r') as f:
-        for line in f.read().split():
-            data = line.split(',')
-            if syllablesInWord(data[0]) != int(data[1]):
-                print(data[0], syllablesInWord(data[0]))
+    for word in "No the reason for this".split():
+        print(word, syllablesInWord(word))
