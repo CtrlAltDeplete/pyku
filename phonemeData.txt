@@ -65,3 +65,6 @@ area:2
 ven:1
 ded:1
 self:1
+omen:1
+aren:1
+oker:1
