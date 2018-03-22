@@ -35,6 +35,8 @@ def syllablesInWord(word):
     regex = re.compile('[^a-zA-Z]')
     word = regex.sub('', word)
     word = word.lower()
+    if len(word) == 0:
+        return 0
     parts = []
     count = 0
     split = True
