@@ -11,7 +11,16 @@ def processFile(filename):
         with open("rawTexts/" + filename, encoding="UTF8") as f:
             text = f.read()
     # Split on blank lines.
-    data = text.split()
+    data = text.split('\n')
+    remove = []
+    # Delete lines that are in all caps, likely directorial notes
+    for i in range(len(data)):
+        if data[i].upper() == data[i]:
+            remove.insert(0, i)
+    for i in remove:
+        data.pop(i)
+    # Split on blank space
+    data = ' '.join(data).split()
     # Iterate through every word and remove bad symbols.
     for i in range(len(data)):
         for char in "@#$%^&*()_=+[{]}\\|;:\"<>/`~0123456789":
@@ -25,4 +34,4 @@ if __name__ == '__main__':
     # Process every file in the rawTexts directory.
     # for filename in os.listdir("rawTexts"):
     #     processFile(filename)
-    processFile("infinitejest.txt")
+    processFile("bluevelvet.txt")

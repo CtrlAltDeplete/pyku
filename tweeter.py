@@ -17,7 +17,8 @@ options = {
     'Moby Dick': 'mobydick.json',
     'The Room': 'theroom.json',
     'Scarlet Letter': 'scarletletter.json',
-    'Infinite Jest': 'infinitejest.json'
+    'Infinite Jest': 'infinitejest.json',
+    'Blue Velvet': 'bluevelvet.json'
 }
 keys = list(options.keys())
 keys.sort()

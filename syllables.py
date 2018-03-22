@@ -43,6 +43,8 @@ def syllablesInWord(word):
     split = True
     if word[-1] == 's':
         word = word[:-1]
+        if len(word) > 4 and word[-4:] == 'tche':
+            count += 1
     if len(word) > 3 and word[-2:] == 'le' and word[-3] in consonants:
         count += 1
         word = word[:-3]
@@ -109,5 +111,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "No the reason for this".split():
+    for word in "someone anyone".split():
         print(word, syllablesInWord(word))

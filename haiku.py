@@ -17,7 +17,7 @@ def makeHaiku(model):
 
 
 if __name__ == '__main__':
-    with open("sources/infinitejest.json") as f:
+    with open("sources/bluevelvet.json") as f:
         model = markovify.Text.from_json(f.read())
     print(makeHaiku(model))
     print(makeHaiku(model))
