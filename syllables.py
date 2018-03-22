@@ -51,7 +51,7 @@ def syllablesInWord(word):
     while split:
         split = False
         for twoPre in twoPrefixes:
-            if len(twoPre) <= len(word):
+            if len(twoPre) < len(word):
                 if word[:len(twoPre)] == twoPre:
                     word = word[len(twoPre):]
                     count += 2

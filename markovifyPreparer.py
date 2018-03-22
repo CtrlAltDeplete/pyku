@@ -13,8 +13,9 @@ def createCorpus(filename):
     with open("sources/" + filename[:-4] + ".json", 'w') as f:
         print(modelJson, file=f)
 
+
 if __name__ == '__main__':
     # Write a model for every file in the rawTexts directory.
     # for filename in os.listdir("rawTexts"):
     #     createCorpus(filename)
-    createCorpus("greatgatsby.txt")
+    createCorpus("infinitejest.txt")

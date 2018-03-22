@@ -25,4 +25,4 @@ if __name__ == '__main__':
     # Process every file in the rawTexts directory.
     # for filename in os.listdir("rawTexts"):
     #     processFile(filename)
-    processFile("greatgatsby.txt")
+    processFile("infinitejest.txt")

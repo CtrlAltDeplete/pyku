@@ -16,9 +16,11 @@ options = {
     'Kamasutra': 'kamasutra.json',
     'Moby Dick': 'mobydick.json',
     'The Room': 'theroom.json',
-    'Scarlet Letter': 'scarletletter.json'
+    'Scarlet Letter': 'scarletletter.json',
+    'Infinite Jest': 'infinitejest.json'
 }
 keys = list(options.keys())
+keys.sort()
 keys.insert(0, 'Random')
 
 
