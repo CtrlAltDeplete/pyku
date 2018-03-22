@@ -20,7 +20,7 @@ def processFile(filename):
     for i in remove:
         data.pop(i)
     # Split on blank space
-    data = ' '.join(data).split()
+    data = ' '.join(data).lower().split()
     # Iterate through every word and remove bad symbols.
     for i in range(len(data)):
         for char in "@#$%^&*()_=+[{]}\\|;:\"<>/`~0123456789":
@@ -33,5 +33,5 @@ def processFile(filename):
 if __name__ == '__main__':
     # Process every file in the rawTexts directory.
     # for filename in os.listdir("rawTexts"):
-    #     processFile(filename)
-    processFile("bluevelvet.txt")
+        # processFile(filename)
+    processFile("theroom.txt")

@@ -18,4 +18,4 @@ if __name__ == '__main__':
     # Write a model for every file in the rawTexts directory.
     # for filename in os.listdir("rawTexts"):
     #     createCorpus(filename)
-    createCorpus("bluevelvet.txt")
+    createCorpus("theroom.txt")

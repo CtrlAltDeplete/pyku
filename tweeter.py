@@ -15,7 +15,7 @@ options = {
     'Brothers Grimm': 'grimms.json',
     'Kamasutra': 'kamasutra.json',
     'Moby Dick': 'mobydick.json',
-    'The Room': 'theroom.json',
+    'The Room (Original Script)': 'theroom.json',
     'Scarlet Letter': 'scarletletter.json',
     'Infinite Jest': 'infinitejest.json',
     'Blue Velvet': 'bluevelvet.json'
