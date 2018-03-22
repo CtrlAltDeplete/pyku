@@ -24,7 +24,7 @@ keys.insert(0, 'Random')
 
 def generateTweet(handle='', source="Random"):
     if source == "Random":
-        i = randint(0, len(keys) - 2)
+        i = 1 + randint(0, len(keys) - 2)
         source = keys[i]
     with open('sources/{}'.format(options[source])) as f:
         model = markovify.Text.from_json(f.read())
