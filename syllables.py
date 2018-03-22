@@ -1,105 +1,113 @@
 import re
 
-consonants = {}
-vowels = {}
-rvowels = {}
-exceptions = {}
 
-# Populate the phoneme dictionaries with data
-with open("phonemeData.txt", 'r') as f:
-    data = f.read()
-    data = data.split()
-    for i in range(18):
-        graphemes = data[i].split(':')[0].split(',')
-        phoneme = data[i].split(':')[1]
-        for gr in graphemes:
-            if gr not in consonants:
-                if "_" in gr:
-                    for ch in "bcdfghjklmnpqrstvwxz":
-                        if gr.replace("_", ch) not in consonants:
-                            consonants[gr.replace("_", ch)] = phoneme
-                else:
-                    consonants[gr] = phoneme
-    for i in range(18, 33):
-        graphemes = data[i].split(':')[0].split(',')
-        phoneme = data[i].split(':')[1]
-        for gr in graphemes:
-            if gr not in vowels:
-                if "_" in gr:
-                    for ch in "bcdfghjklmnpqrstvwxz":
-                        if gr.replace("_", ch) not in vowels:
-                            vowels[gr.replace("_", ch)] = phoneme
-                else:
-                    vowels[gr] = phoneme
-    for i in range(33, 39):
-        graphemes = data[i].split(':')[0].split(',')
-        phoneme = data[i].split(':')[1]
-        for gr in graphemes:
-            if gr not in rvowels:
-                if "_" in gr:
-                    for ch in "bcdfghjklmnpqrstvwxz":
-                        if gr.replace("_", ch) not in rvowels:
-                            rvowels[gr.replace("_", ch)] = phoneme
-                else:
-                    rvowels[gr] = phoneme
-    for i in range(39, len(data)):
-        exception = data[i].split(':')[0]
-        mult = int(data[i].split(':')[1])
-        exceptions[exception] = mult
+with open("rules.txt") as f:
+    rules = f.read().split()
+    diphthongs = rules[0].split(',')
+    digraphs = rules[1].split(',')
+    onePrefixes = rules[2].split(',')
+    twoPrefixes = rules[3].split(',')
+    oneSuffixes = rules[4].split(',')
+    twoSuffixes = rules[5].split(',')
+consonants = "bcdfghjklmnpqrstvwxyz"
+vowels = "aeiouy"
 
 
-def findPhoneme(graph):
-    if graph in vowels:
-        return vowels[graph], 1
-    if graph in rvowels:
-        return rvowels[graph], 1
-    if graph in consonants:
-        return consonants[graph], 0
-    return None
+def countVowels(part):
+    count = 0
+    for ch in part:
+        if ch in vowels:
+            count += 1
+    return count
 
 
-def breakdownWord(word):
-    regex = re.compile('[^a-zA-Z]')
-    word = regex.sub('', word)
-    word = word.lower()
-    phonemes = []
-    if word:
-        for i in reversed(range(1, min(len(word) + 1, 5))):
-            part = word[:i]
-            pho = findPhoneme(part)
-            if pho and part == word:
-                phonemes.append(pho)
-                return phonemes
-            elif pho:
-                phonemes.append(pho)
-                phonemes.extend(breakdownWord(word[i:len(word)]))
-                return phonemes
-    return None
+def syllablesInPart(part):
+    count = countVowels(part)
+    if part[-1] == 'e':
+        count -= 1
+    for dip in diphthongs:
+        if dip in part:
+            count -= countVowels(dip) - 1
+    return max(0, count)
 
 
 def syllablesInWord(word):
-    phonemes = breakdownWord(word)
+    regex = re.compile('[^a-zA-Z]')
+    word = regex.sub('', word)
+    word = word.lower()
+    parts = []
     count = 0
-    if phonemes:
-        for i in range(len(phonemes)):
-            count += phonemes[i][1]
-            if i != 0:
-                if phonemes[i][0] == '/e/' and phonemes[i - 1][0] == '/schwa/':
-                    count -= 1
-        for key in exceptions:
-            count += word.count(key) * exceptions[key]
-        return max(1, count)
-    return 0
+    split = True
+    if word[-1] == 's':
+        word = word[:-1]
+    if len(word) > 3 and word[-2:] == 'le' and word[-3] in consonants:
+        count += 1
+        word = word[:-3]
+    if len(word) > 5 and word[-5:] == 'tched':
+        count -= 1
+    while split:
+        split = False
+        for twoPre in twoPrefixes:
+            if len(twoPre) <= len(word):
+                if word[:len(twoPre)] == twoPre:
+                    word = word[len(twoPre):]
+                    count += 2
+                    split = True
+        for onePre in onePrefixes:
+            if len(onePre) < len(word):
+                if word[:len(onePre)] == onePre:
+                    word = word[len(onePre):]
+                    count += 1
+                    split = True
+        for twoSuf in twoSuffixes:
+            if len(twoSuf) < len(word):
+                if word[-len(twoSuf):] == twoSuf:
+                    word = word[:-len(twoSuf)]
+                    count += 2
+                    split = True
+        for suf in oneSuffixes:
+            if len(suf) < len(word):
+                if word[-len(suf):] == suf:
+                    word = word[:-len(suf)]
+                    count += 1
+                    split = True
+    odd = len(word) % 2 == 1
+    mid = len(word) // 2
+    if not odd and len(word) >= 4:
+        if countVowels(word[mid - 1:mid + 1]) == 0 and word[mid - 1:mid + 1] not in digraphs and countVowels(word[mid - 2:mid + 2]) == 2:
+            parts.append(word[:mid])
+            parts.append(word[mid:])
+            word = ''
+        elif countVowels(word[mid - 1:mid + 2]) == 2 and word[mid] in consonants:
+            parts.append(word[:mid])
+            parts.append(word[mid:])
+            word = ''
+    elif odd and len(word) >= 5:
+        if countVowels(word[mid - 1:mid + 1]) == 0 and word[mid - 1:mid + 1] not in digraphs and countVowels(word[mid - 2:mid + 2]) == 2:
+            parts.append(word[:mid])
+            parts.append(word[mid:])
+            word = ''
+        elif countVowels(word[mid:mid + 3]) == 2 and word[mid + 1] in consonants:
+            parts.append(word[:mid + 1])
+            parts.append(word[mid + 1:])
+            word = ''
+    if len(parts) == 0 or word != '':
+        parts.append(word)
+    for part in parts:
+        count += syllablesInPart(part)
+    return max(count, 1)
 
 
 def syllablesInString(text):
-    syllables = 0
+    count = 0
     for word in text.split():
-        syllables += syllablesInWord(word)
-    return syllables
+        count += syllablesInWord(word)
+    return count
 
 
 if __name__ == '__main__':
-    for word in "".split():
-        print("{}, {}".format(word, syllablesInWord(word)))
-        print(breakdownWord(word))
+    with open("test.txt", 'r') as f:
+        for line in f.read().split():
+            data = line.split(',')
+            if syllablesInWord(data[0]) != int(data[1]):
+                print(data[0], syllablesInWord(data[0]))
