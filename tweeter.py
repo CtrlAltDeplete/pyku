@@ -12,8 +12,6 @@ options = {
     'Common Sense': 'commonsense.json',
     'Dracula': 'dracula.json',
     'The Great Gatsby': 'greatgatsby.json',
-    'Brothers Grimm': 'grimms.json',
-    'Kamasutra': 'kamasutra.json',
     'Moby Dick': 'mobydick.json',
     'The Room (Original Script)': 'theroom.json',
     'Scarlet Letter': 'scarletletter.json',

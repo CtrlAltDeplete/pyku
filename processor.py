@@ -1,4 +1,5 @@
 import os
+import re
 
 
 # Opens a raw text file and prepares it for everything else.
@@ -10,6 +11,8 @@ def processFile(filename):
     except UnicodeDecodeError:
         with open("rawTexts/" + filename, encoding="UTF8") as f:
             text = f.read()
+    regex = re.compile('[^a-zA-Z ]')
+    text = regex.sub('', text)
     # Split on blank lines.
     data = text.split('\n')
     remove = []
@@ -21,10 +24,6 @@ def processFile(filename):
         data.pop(i)
     # Split on blank space
     data = ' '.join(data).lower().split()
-    # Iterate through every word and remove bad symbols.
-    for i in range(len(data)):
-        for char in "@#$%^&*()_=+[{]}\\|;:\"<>/`~0123456789":
-            data[i] = data[i].replace(char, "")
     # Write out the processed text to the same file.
     with open("rawTexts/" + filename, 'w') as f:
         print(" ".join(data), file=f)
@@ -32,6 +31,5 @@ def processFile(filename):
 
 if __name__ == '__main__':
     # Process every file in the rawTexts directory.
-    # for filename in os.listdir("rawTexts"):
-        # processFile(filename)
-    processFile("theroom.txt")
+    for filename in os.listdir("rawTexts"):
+        processFile(filename)
