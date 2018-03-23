@@ -10,11 +10,9 @@ options = {
     'Batman': 'batman.json',
     'Bible': 'bible.json',
     'Common Sense': 'commonsense.json',
-    'Dracula': 'dracula.json',
     'The Great Gatsby': 'greatgatsby.json',
     'Moby Dick': 'mobydick.json',
     'The Room (Original Script)': 'theroom.json',
-    'Scarlet Letter': 'scarletletter.json',
     'Infinite Jest': 'infinitejest.json',
     'Blue Velvet': 'bluevelvet.json'
 }

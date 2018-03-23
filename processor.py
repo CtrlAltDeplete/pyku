@@ -11,7 +11,7 @@ def processFile(filename):
     except UnicodeDecodeError:
         with open("rawTexts/" + filename, encoding="UTF8") as f:
             text = f.read()
-    regex = re.compile('[^a-zA-Z ]')
+    regex = re.compile('[^a-zA-Z\s,.!?]')
     text = regex.sub('', text)
     # Split on blank lines.
     data = text.split('\n')
@@ -23,13 +23,17 @@ def processFile(filename):
     for i in remove:
         data.pop(i)
     # Split on blank space
-    data = ' '.join(data).lower().split()
+    data = ' '.join(data).split()
+    for i in range(len(data)):
+        if data[i] in ['.', ',', '!', '?']:
+            data[i] = ''
+    data = ' '.join(data).split()
     # Write out the processed text to the same file.
-    with open("rawTexts/" + filename, 'w') as f:
+    with open("procTexts/" + filename, 'w') as f:
         print(" ".join(data), file=f)
 
 
 if __name__ == '__main__':
     # Process every file in the rawTexts directory.
-    for filename in os.listdir("rawTexts"):
+    for filename in os.listdir("procTexts"):
         processFile(filename)

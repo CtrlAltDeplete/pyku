@@ -1,5 +1,6 @@
 import syllables
 import markovify
+import os
 
 
 def makeHaiku(model):
@@ -17,10 +18,7 @@ def makeHaiku(model):
 
 
 if __name__ == '__main__':
-    with open("sources/bluevelvet.json") as f:
-        model = markovify.Text.from_json(f.read())
-    print(makeHaiku(model))
-    print(makeHaiku(model))
-    print(makeHaiku(model))
-    print(makeHaiku(model))
-    print(makeHaiku(model))
+    for filename in os.listdir("sources"):
+        with open("sources/{}".format(filename)) as f:
+            model = markovify.Text.from_json(f.read())
+        print(makeHaiku(model))
