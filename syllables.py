@@ -48,7 +48,7 @@ def syllablesInWord(word):
     if len(word) > 3 and word[-2:] == 'le' and word[-3] in consonants:
         count += 1
         word = word[:-3]
-    if len(word) > 5 and word[-5:] == 'tched':
+    if len(word) > 5 and word[-5:] == 'tched' or word[-4:] == 'shed':
         count -= 1
     while split:
         split = False
@@ -111,5 +111,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "yeah im just confused".split():
+    for word in "shoulders".split():
         print(word, syllablesInWord(word))
