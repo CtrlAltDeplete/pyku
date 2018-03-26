@@ -43,12 +43,12 @@ def syllablesInWord(word):
     split = True
     if word[-1] == 's':
         word = word[:-1]
-        if len(word) > 4 and word[-4:] == 'tche':
+        if len(word) > 4 and word[-4:] in ['tche', 'esse']:
             count += 1
     if len(word) > 3 and word[-2:] == 'le' and word[-3] in consonants:
         count += 1
         word = word[:-3]
-    if len(word) > 5 and word[-5:] == 'tched' or word[-4:] == 'shed':
+    if len(word) > 5 and word[-5:] in ['tched'] or word[-4:] in ['shed', 'osed']:
         count -= 1
     while split:
         split = False
@@ -111,5 +111,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "shoulders".split():
+    for word in "dresser".split():
         print(word, syllablesInWord(word))
