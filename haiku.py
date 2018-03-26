@@ -3,11 +3,6 @@ import markovify
 import os
 
 
-def makeHaiku(model):
-    haiku = firstLine(model)
-    return haiku
-
-
 def split12(line):
     words = line.split()
     line1, line2 = '', ''
@@ -47,7 +42,7 @@ def split23(line):
     return False, line2, line3
 
 
-def firstLine(model):
+def makeHaiku(model):
     line = model.make_short_sentence(max_chars=150, tries=100)
     while True:
         count = syllables.syllablesInString(line)
