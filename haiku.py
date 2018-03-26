@@ -82,8 +82,11 @@ def thirdLine(model):
 
 
 if __name__ == '__main__':
-    for filename in os.listdir("sources"):
-        with open("sources/{}".format(filename)) as f:
-            model = markovify.Text.from_json(f.read())
-        print(makeHaiku(model))
-        print('-' * 30)
+    # for filename in os.listdir("sources"):
+    #     with open("sources/{}".format(filename)) as f:
+    #         model = markovify.Text.from_json(f.read())
+    #     print(makeHaiku(model))
+    #     print('-' * 30)
+    with open("sources/scottwalker.json") as f:
+        model = markovify.Text.from_json(f.read())
+    print(makeHaiku(model))
