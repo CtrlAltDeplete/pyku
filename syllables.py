@@ -43,7 +43,7 @@ def syllablesInWord(word):
     split = True
     if word[-1] == 's':
         word = word[:-1]
-        if len(word) > 4 and word[-4:] in ['tche', 'esse']:
+        if len(word) >= 4 and word[-4:] in ['tche', 'esse', 'asse']:
             count += 1
     if len(word) > 3 and word[-2:] == 'le' and word[-3] in consonants:
         count += 1
