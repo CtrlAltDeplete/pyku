@@ -113,5 +113,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "slammed".split():
+    for word in "Annual vol nos".split():
         print(word, syllablesInWord(word))
