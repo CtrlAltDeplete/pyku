@@ -1,6 +1,7 @@
 import re
 
 
+# Read in all our dipthongs, digraphs, prefixes, and suffixes from our rules.txt file.
 with open("rules.txt") as f:
     rules = f.read().split()
     diphthongs = rules[0].split(',')
@@ -13,6 +14,7 @@ consonants = "bcdfghjklmnpqrstvwxyz"
 vowels = "aeiouy"
 
 
+# This function simply returns the number of vowels in a string.
 def countVowels(part):
     count = 0
     for ch in part:
@@ -21,66 +23,93 @@ def countVowels(part):
     return count
 
 
+# This function attempts to count the number of syllables in a part.
 def syllablesInPart(part):
+    # Start with a base score of how many vowels are in the part,
     count = countVowels(part)
+    # Then subtract one for a silent 'e',
     if part[-1] == 'e':
         part = part[:-1]
         count -= 1
+    # And subtract one for each dipthong.
     for dip in diphthongs:
         if dip in part:
             count -= countVowels(dip) - 1
+    # Return the count, with a minimum of 0.
     return max(0, count)
 
 
+# This functions attempts to count the number of syllables in a word, and is the function most called.
 def syllablesInWord(word):
+    # Strip all nun alphabetic characters from the word.
+    word = word.lower()
     regex = re.compile('[^a-zA-Z]')
     word = regex.sub('', word)
-    word = word.lower()
+    # If there is no longer a word, return 0.
     if len(word) == 0:
         return 0
+    # Initialize parts, counts, and split.
     parts = []
     count = 0
+    # Split is used to decide when to stop iterating through our previously loaded prefixes and suffixes.
     split = True
+    # If the word ends in s, remove the s.
     if word[-1] == 's':
         word = word[:-1]
+        # Some special cases where we need to add a syllable.
         if len(word) >= 4 and word[-4:] in ['tche', 'esse', 'asse']:
             count += 1
+    # If the word ends in 'le', add 1 to the count and remove the 'le'.
     if len(word) > 3 and word[-2:] == 'le' and word[-3] in consonants:
         count += 1
         word = word[:-3]
+    # If the word ends in 'ed' and the letter before is a consonant and not 'd', remove 'ed'.
     if len(word) > 5 and word[-2:] == 'ed' and word[-3] != 'd' and word[-3] in consonants:
         word = word[:-3]
+    # There are a few exceptions where the ending should not add a syllable.
     if len(word) > 5 and word[-5:] in ['tched'] or word[-4:] in ['shed', 'osed']:
         count -= 1
+    # This loop will run until it goes through once without separating the word.
     while split:
         split = False
+        # Iterate through all the double prefixes,
         for twoPre in twoPrefixes:
             if len(twoPre) < len(word):
+                # If the word starts with the prefix, remove it from the word and add 2 to the count.
                 if word[:len(twoPre)] == twoPre:
                     word = word[len(twoPre):]
                     count += 2
                     split = True
+        # Iterate through all the single prefixes,
         for onePre in onePrefixes:
             if len(onePre) < len(word):
+                # If the word starts with the prefix, remove it from the word and add 1 to the count.
                 if word[:len(onePre)] == onePre:
                     word = word[len(onePre):]
                     count += 1
                     split = True
+        # Iterate through all the double suffixes,
         for twoSuf in twoSuffixes:
             if len(twoSuf) < len(word):
+                # If the word ends with the prefix, remove it from the word and add 2 to the count.
                 if word[-len(twoSuf):] == twoSuf:
                     word = word[:-len(twoSuf)]
                     count += 2
                     split = True
+        # Iterate through all the single suffixes,
         for suf in oneSuffixes:
             if len(suf) < len(word):
+                # If the word ends with the prefix, remove it from the word and add 1 to the count.
                 if word[-len(suf):] == suf:
                     word = word[:-len(suf)]
                     count += 1
                     split = True
+    # Calculate whether the word is odd and the middle position of the word.
     odd = len(word) % 2 == 1
     mid = len(word) // 2
+    # If it is even,
     if not odd and len(word) >= 4:
+        # And the middle of the word is vowel + consonant + consonant + vowel, excluding digraphs,
         if countVowels(word[mid - 1:mid + 1]) == 0 and word[mid - 1:mid + 1] not in digraphs and countVowels(word[mid - 2:mid + 2]) == 2:
             parts.append(word[:mid])
             parts.append(word[mid:])
@@ -113,5 +142,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "Annual vol nos".split():
+    for word in "jesus".split():
         print(word, syllablesInWord(word))
