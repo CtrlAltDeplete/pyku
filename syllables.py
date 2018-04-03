@@ -57,14 +57,11 @@ def syllablesInWord(word):
     if word[-1] == 's':
         word = word[:-1]
         # Some special cases where we need to add a syllable.
-        if len(word) >= 4 and word[-4:] in ['tche', 'esse', 'asse']:
+        if len(word) >= 4 and word[-4:] in ['tche', 'esse', 'asse', 'ishe']:
             count += 1
     # If the word ends in 'le', add 1 to the count and remove the 'le'.
     if len(word) > 3 and word[-2:] == 'le' and word[-3] in consonants:
         count += 1
-        word = word[:-3]
-    # If the word ends in 'ed' and the letter before is a consonant and not 'd', remove 'ed'.
-    if len(word) > 5 and word[-2:] == 'ed' and word[-3] != 'd' and word[-3] in consonants:
         word = word[:-3]
     # There are a few exceptions where the ending should not add a syllable.
     if len(word) > 5 and word[-5:] in ['tched'] or word[-4:] in ['shed', 'osed']:
@@ -142,5 +139,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "jesus".split():
+    for word in "pointed".split():
         print(word, syllablesInWord(word))
