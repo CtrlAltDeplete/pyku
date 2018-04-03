@@ -87,7 +87,7 @@ def syllablesInWord(word):
                     split = True
         # Iterate through all the double suffixes,
         for twoSuf in twoSuffixes:
-            if len(twoSuf) < len(word):
+            if len(twoSuf) <= len(word):
                 # If the word ends with the prefix, remove it from the word and add 2 to the count.
                 if word[-len(twoSuf):] == twoSuf:
                     word = word[:-len(twoSuf)]
@@ -139,5 +139,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "pointed".split():
+    for word in "oil foil foiling".split():
         print(word, syllablesInWord(word))
