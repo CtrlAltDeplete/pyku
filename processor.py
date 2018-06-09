@@ -35,6 +35,6 @@ def processFile(filename):
 
 if __name__ == '__main__':
     # Process every file in the rawTexts directory.
-    # for filename in os.listdir("procTexts"):
+    # for filename in os.listdir("rawTexts"):
     #     processFile(filename)
-    processFile("warandpeace.txt")
+    processFile("bravenewworld.txt")
