@@ -128,6 +128,6 @@ if __name__ == '__main__':
     #         model = markovify.Text.from_json(f.read())
     #     print(makeHaiku(model))
     #     print('-' * 30)
-    with open("sources/scottwalker.json") as f:
+    with open("sources/warandpeace.json") as f:
         model = markovify.Text.from_json(f.read())
     print(makeHaiku(model))
