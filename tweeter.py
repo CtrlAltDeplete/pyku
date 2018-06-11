@@ -16,7 +16,7 @@ options = {
     'Infinite Jest': 'infinitejest.json',
     'Blue Velvet': 'bluevelvet.json',
     'War And Peace': 'warandpeace.json',
-    '1984': '1984.json',
+    'Nineteen Eighty Four': '1984.json',
     'Brave New World': 'bravenewworld.json',
     'Farewell To Arms': 'farewelltoarms.json'
 }
@@ -27,25 +27,34 @@ keys.insert(0, 'Random')
 
 
 # Handle is the user to tweet at, and source is the key for the file to base the model.
-def generateTweet(handle='', source="Random"):
-    # If random, choose a key randomly.
-    if source == "Random":
-        i = 1 + randint(0, len(keys) - 2)
-        source = keys[i]
-    # Create a model from the source.
-    with open('sources/{}'.format(options[source])) as f:
-        model = markovify.Text.from_json(f.read())
+def generateTweet(handle='', source=["Random"]):
+    models = []
+    if len(source) > 3:
+        source = source[:3]
+    for s in source:
+        # If random, choose a key randomly.
+        if source == "Random":
+            i = 1 + randint(0, len(keys) - 2)
+            source = keys[i]
+        # Create a model from the source.
+        with open('sources/{}'.format(options[s])) as f:
+            model = markovify.Text.from_json(f.read())
+        models.append(model)
+    if len(models) > 1:
+        model = markovify.combine(models)
+    else:
+        model = models[0]
     # Generate a haiku (and format it).
     status = haiku.makeHaiku(model)
-    status = "{}\n#{}".format(status, ''.join(source.split()))
+    status = "{}\n#{}".format(status, ' #'.join(''.join(s.split()) for s in source))
     # Insert the handle at the beginning if needed.
     if handle != '':
         status = "{}\n{}".format(handle, status)
-    # Send the twee,
-    api.update_status(status=status)
+    # Send the tweet,
+    # api.update_status(status=status)
     # And return the generated tweet.
     return status
 
 
 if __name__ == '__main__':
-    generateTweet()
+    print(generateTweet(source=["Bible", "Batman"]))
