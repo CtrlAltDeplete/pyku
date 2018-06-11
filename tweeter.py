@@ -51,10 +51,10 @@ def generateTweet(handle='', source=["Random"]):
     if handle != '':
         status = "{}\n{}".format(handle, status)
     # Send the tweet,
-    # api.update_status(status=status)
+    api.update_status(status=status)
     # And return the generated tweet.
     return status
 
 
 if __name__ == '__main__':
-    print(generateTweet(source=["Bible", "Batman"]))
+    generateTweet(source=["Bible", "Batman"])
