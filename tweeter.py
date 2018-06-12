@@ -18,7 +18,8 @@ options = {
     'War And Peace': 'warandpeace.json',
     'Nineteen Eighty Four': '1984.json',
     'Brave New World': 'bravenewworld.json',
-    'Farewell To Arms': 'farewelltoarms.json'
+    'Farewell To Arms': 'farewelltoarms.json',
+    'Dota 2': 'dota2.json'
 }
 keys = list(options.keys())
 keys.sort()
