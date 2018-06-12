@@ -30,6 +30,7 @@ keys.insert(0, 'Random')
 # Handle is the user to tweet at, and source is the key for the file to base the model.
 def generateTweet(handle='', source=["Random"]):
     models = []
+    weights = []
     if len(source) > 3:
         source = source[:3]
     for s in source:
@@ -40,9 +41,16 @@ def generateTweet(handle='', source=["Random"]):
         # Create a model from the source.
         with open('sources/{}'.format(options[s])) as f:
             model = markovify.Text.from_json(f.read())
+            with open('procTexts/{}'.format(options[s][:-4] + "txt"), 'r') as of:
+                weights.append(len(of.read()))
         models.append(model)
     if len(models) > 1:
-        model = markovify.combine(models)
+        total = 0
+        for w in weights:
+            total += w
+        for i in range(len(weights)):
+            weights[i] = int(total / weights[i])
+        model = markovify.combine(models, weights)
     else:
         model = models[0]
     # Generate a haiku (and format it).
@@ -52,10 +60,10 @@ def generateTweet(handle='', source=["Random"]):
     if handle != '':
         status = "{}\n{}".format(handle, status)
     # Send the tweet,
-    api.update_status(status=status)
+    #api.update_status(status=status)
     # And return the generated tweet.
     return status
 
 
 if __name__ == '__main__':
-    generateTweet()
+    print(generateTweet(source=["Bible", "Batman"]))
