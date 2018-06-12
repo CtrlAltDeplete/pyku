@@ -37,4 +37,4 @@ if __name__ == '__main__':
     # Process every file in the rawTexts directory.
     # for filename in os.listdir("rawTexts"):
     #     processFile(filename)
-    processFile("dota2.txt")
+    processFile("dota2reviews.txt")
