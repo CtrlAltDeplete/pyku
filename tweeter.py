@@ -33,15 +33,15 @@ def generateTweet(handle='', source=["Random"]):
     weights = []
     if len(source) > 3:
         source = source[:3]
-    for s in source:
+    for i in range(len(source)):
         # If random, choose a key randomly.
-        if source == "Random":
-            i = 1 + randint(0, len(keys) - 2)
-            source = keys[i]
+        if source[i] == "Random":
+            j = 1 + randint(0, len(keys) - 2)
+            source[i] = keys[j]
         # Create a model from the source.
-        with open('sources/{}'.format(options[s])) as f:
+        with open('sources/{}'.format(options[source[i]])) as f:
             model = markovify.Text.from_json(f.read())
-            with open('procTexts/{}'.format(options[s][:-4] + "txt"), 'r') as of:
+            with open('procTexts/{}'.format(options[source[i]][:-4] + "txt"), 'r') as of:
                 weights.append(len(of.read()))
         models.append(model)
     if len(models) > 1:
