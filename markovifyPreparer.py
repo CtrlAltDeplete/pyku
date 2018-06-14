@@ -18,4 +18,4 @@ if __name__ == '__main__':
     # Write a model for every file in the procTexts directory.
     # for filename in os.listdir("procTexts"):
     #     createCorpus(filename)
-    createCorpus("dota2lore.txt")
+    createCorpus("dota2reviews.txt")
