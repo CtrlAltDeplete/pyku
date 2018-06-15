@@ -1,4 +1,4 @@
-you,yea,eo,ye,oul,oy,ow,ou,ie,igh,ay,oi,oo,oa,au,eu,ea,ee,qui,air,ure,eau,ey,ai,ei
+you,yea,eo,ye,oul,oy,ow,ou,ie,igh,ay,oi,oo,oa,au,eu,ea,ee,qui,air,ure,eau,ey,ai,ei,ya
 th,sh,ph,ch,wh
 some,rea,cou,beau,bea,dis,mis,ab,ad,in,im,com,con,co,bee,be,dea,dee,de,re,pre,pro,per,un,ex,en,tri,di,bi
 anti,reass,any,deall,reall
