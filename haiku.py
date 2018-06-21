@@ -25,7 +25,7 @@ def makeHaiku(model):
         lines = []
         genLine = None
         while not genLine:
-            genLine = model.make_short_sentence(max_chars=100, tries=500)
+            genLine = model.make_short_sentence(max_chars=70, tries=500)
         line, excess = splitAt(genLine, 5)
         # Split of first line was successful.
         if line:
@@ -40,13 +40,13 @@ def makeHaiku(model):
                 else:
                     genLine = None
                     while not genLine:
-                        genLine = model.make_short_sentence(max_chars=70, tries=500)
+                        genLine = model.make_short_sentence(max_chars=46, tries=500)
                     excess += ' ' + genLine
                     line, excess = splitAt(excess, 7)
             # Otherwise, generate a new line.
             else:
                 while not excess:
-                    excess = model.make_short_sentence(max_chars=85, tries=500)
+                    excess = model.make_short_sentence(max_chars=58, tries=500)
                 line, excess = splitAt(excess, 7)
             if line:
                 # Add the result to lines.
@@ -60,13 +60,13 @@ def makeHaiku(model):
                     else:
                         genLine = None
                         while not genLine:
-                            genLine = model.make_short_sentence(max_chars=40, tries=500)
+                            genLine = model.make_short_sentence(max_chars=22, tries=500)
                         excess += ' ' + genLine
                         line, excess = splitAt(excess, 5)
                 # Otherwise, generate a new line.
                 else:
                     while not excess:
-                        excess = model.make_short_sentence(max_chars=55, tries=500)
+                        excess = model.make_short_sentence(max_chars=34, tries=500)
                     line, excess = splitAt(excess, 5)
                 if line:
                     # Add the result to lines.
@@ -83,6 +83,6 @@ if __name__ == '__main__':
     #         model = markovify.Text.from_json(f.read())
     #     print(makeHaiku(model))
     #     print('-' * 30)
-    with open("sources/modestproposal.json") as f:
+    with open("sources/bravenewworld.json") as f:
         model = markovify.Text.from_json(f.read())
     print(makeHaiku(model))
