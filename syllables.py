@@ -111,7 +111,7 @@ def syllablesInWord(word):
             parts.append(word[:mid])
             parts.append(word[mid:])
             word = ''
-        elif countVowels(word[mid - 1:mid + 2]) == 2 and word[mid] in consonants:
+        elif countVowels(word[mid - 1:mid + 2]) == 2 and word[mid] in consonants and word[mid - 1] != 'e':
             parts.append(word[:mid])
             parts.append(word[mid:])
             word = ''
@@ -139,5 +139,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "enraged".split():
+    for word in "hero".split():
         print(word, syllablesInWord(word))
