@@ -57,14 +57,14 @@ def syllablesInWord(word):
     if word[-1] == 's':
         word = word[:-1]
         # Some special cases where we need to add a syllable.
-        if len(word) >= 4 and word[-4:] in ['tche', 'esse', 'asse', 'ishe'] or word[-3:] in ['ace']:
+        if len(word) >= 4 and word[-4:] in ['tche', 'esse', 'asse', 'ishe', 'ange'] or word[-3:] in ['ace']:
             count += 1
     # If the word ends in 'le', add 1 to the count and remove the 'le'.
     if len(word) > 3 and word[-2:] == 'le' and word[-3] in consonants:
         count += 1
         word = word[:-3]
     # There are a few exceptions where the ending should not add a syllable.
-    if len(word) > 5 and word[-5:] in ['tched'] or word[-4:] in ['shed', 'osed', 'ried', 'ened', 'ssed', 'lked', 'wled']:
+    if len(word) > 5 and word[-5:] in ['tched', 'bered'] or word[-4:] in ['shed', 'osed', 'ried', 'ened', 'ssed', 'lked', 'wled', 'iced', 'nked', 'rmed']:
         count -= 1
     # This loop will run until it goes through once without separating the word.
     while split:
@@ -139,5 +139,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "walked about the yard".split():
+    for word in "noticed".split():
         print(word, syllablesInWord(word))
