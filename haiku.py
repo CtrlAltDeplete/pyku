@@ -114,7 +114,7 @@ def thirdLine(model):
     line = model.make_short_sentence(max_chars=50, tries=100)
     # Count the number of syllables in the generated line.
     count = syllables.syllablesInString(line)
-    # Repeate this process until the line has exactly 5 syllables,
+    # Repeat this process until the line has exactly 5 syllables,
     while count != 5:
         line = model.make_short_sentence(max_chars=50, tries=100)
         count = syllables.syllablesInString(line)
