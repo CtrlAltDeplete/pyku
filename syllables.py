@@ -48,6 +48,8 @@ def syllablesInWord(word):
     # If there is no longer a word, return 0.
     if len(word) == 0:
         return 0
+    if word in ['dr', 'mr', 'mrs', 'tv']:
+        return 2
     # Initialize parts, counts, and split.
     parts = []
     count = 0
