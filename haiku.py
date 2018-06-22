@@ -1,5 +1,6 @@
 import syllables
 import markovify
+from random import randint
 import os
 
 
@@ -20,61 +21,23 @@ def splitAt(line, goal):
 
 
 def makeHaiku(model):
-    result = None
-    while not result:
-        lines = []
-        genLine = None
-        while not genLine:
-            genLine = model.make_short_sentence(max_chars=70, tries=500)
-        line, excess = splitAt(genLine, 5)
-        # Split of first line was successful.
-        if line:
-            # Add the result to lines.
-            lines.append(line)
-            # If there is excess, handle it.
-            if excess:
-                # If enough excess for next line, use it.
-                if syllables.syllablesInString(excess) >= 7:
-                    line, excess = splitAt(excess, 7)
-                # Otherwise, concatenate more generation.
-                else:
-                    genLine = None
-                    while not genLine:
-                        genLine = model.make_short_sentence(max_chars=46, tries=500)
-                    excess += ' ' + genLine
-                    line, excess = splitAt(excess, 7)
-            # Otherwise, generate a new line.
-            else:
-                while not excess:
-                    excess = model.make_short_sentence(max_chars=58, tries=500)
-                line, excess = splitAt(excess, 7)
-            if line:
-                # Add the result to lines.
-                lines.append(line)
-                # If there is excess, handle it.
-                if excess:
-                    # If enough excess for next line, use it.
-                    if syllables.syllablesInString(excess) >= 5:
-                        line, excess = splitAt(excess, 5)
-                    # Otherwise, concatenate more generation.
-                    else:
-                        genLine = None
-                        while not genLine:
-                            genLine = model.make_short_sentence(max_chars=22, tries=500)
-                        excess += ' ' + genLine
-                        line, excess = splitAt(excess, 5)
-                # Otherwise, generate a new line.
-                else:
-                    while not excess:
-                        excess = model.make_short_sentence(max_chars=34, tries=500)
-                    line, excess = splitAt(excess, 5)
-                if line:
-                    # Add the result to lines.
-                    lines.append(line)
-                    # If there is excess, the haiku does not work.
-                    if not excess:
-                        result = '\n'.join(lines)
-    return result
+    while True:
+        max_chars = randint(80, 120)
+        line = None
+        while not line:
+            line = model.make_short_sentence(max_chars=max_chars, tries=100)
+        while syllables.syllablesInString(line) < 17:
+            max_chars -= randint(20, 40)
+            newSent = None
+            while not newSent:
+                newSent = model.make_short_sentence(max_chars=max_chars, tries=100)
+            line += ' ' + newSent
+        if syllables.syllablesInString(line) == 17:
+            line1, excess = splitAt(line, 5)
+            if line1:
+                line2, excess = splitAt(excess, 7)
+                if line2:
+                    return "{}\n{}\n{}".format(line1, line2, excess)
 
 
 if __name__ == '__main__':
@@ -83,6 +46,6 @@ if __name__ == '__main__':
     #         model = markovify.Text.from_json(f.read())
     #     print(makeHaiku(model))
     #     print('-' * 30)
-    with open("sources/bravenewworld.json") as f:
+    with open("sources/batman.json") as f:
         model = markovify.Text.from_json(f.read())
     print(makeHaiku(model))
