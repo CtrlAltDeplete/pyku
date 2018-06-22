@@ -1,6 +1,6 @@
 import syllables
 import markovify
-from random import randint
+import time
 import os
 
 
@@ -39,11 +39,13 @@ def makeHaiku(model):
 
 
 if __name__ == '__main__':
-    # for filename in os.listdir("sources"):
-    #     with open("sources/{}".format(filename)) as f:
-    #         model = markovify.Text.from_json(f.read())
-    #     print(makeHaiku(model))
-    #     print('-' * 30)
-    with open("sources/farewelltoarms.json") as f:
-        model = markovify.Text.from_json(f.read())
-    print(makeHaiku(model))
+    for filename in os.listdir("sources"):
+        with open("sources/{}".format(filename)) as f:
+            model = markovify.Text.from_json(f.read())
+        all_times = []
+        for i in range(100):
+            start = time.time()
+            makeHaiku(model)
+            all_times.append(time.time() - start)
+        print("Average: {}".format(sum(all_times) / 100))
+        print("Maximum: {}".format(max(all_times)))
