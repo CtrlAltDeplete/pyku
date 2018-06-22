@@ -22,15 +22,13 @@ def splitAt(line, goal):
 
 def makeHaiku(model):
     while True:
-        max_chars = randint(80, 120)
         line = None
         while not line:
-            line = model.make_short_sentence(max_chars=max_chars, tries=100)
+            line = model.make_short_sentence(max_chars=100, tries=100)
         while syllables.syllablesInString(line) < 17:
-            max_chars -= randint(20, 40)
             newSent = None
             while not newSent:
-                newSent = model.make_short_sentence(max_chars=max_chars, tries=100)
+                newSent = model.make_short_sentence(max_chars=30, tries=100)
             line += ' ' + newSent
         if syllables.syllablesInString(line) == 17:
             line1, excess = splitAt(line, 5)
