@@ -141,5 +141,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "embodied".split():
+    for word in "militia".split():
         print(word, syllablesInWord(word))
