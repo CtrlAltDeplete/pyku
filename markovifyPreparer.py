@@ -47,9 +47,11 @@ def createCorpus(filename):
 
 
 if __name__ == '__main__':
-    # Process every file in the rawTexts directory.
-    for filename in os.listdir("rawTexts"):
-        processFile(filename)
-    # Write a model for every file in the procTexts directory.
-    for filename in os.listdir("procTexts"):
-        createCorpus(filename)
+    # # Process every file in the rawTexts directory.
+    # for filename in os.listdir("rawTexts"):
+    #     processFile(filename)
+    # # Write a model for every file in the procTexts directory.
+    # for filename in os.listdir("procTexts"):
+    #     createCorpus(filename)
+    processFile("shrek.txt")
+    createCorpus("shrek.txt")

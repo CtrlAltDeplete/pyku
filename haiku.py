@@ -40,12 +40,13 @@ def makeHaiku(model):
 
 if __name__ == '__main__':
     for filename in os.listdir("sources"):
-        with open("sources/{}".format(filename)) as f:
-            model = markovify.Text.from_json(f.read())
-        all_times = []
-        for i in range(100):
-            start = time.time()
-            makeHaiku(model)
-            all_times.append(time.time() - start)
-        print("Average: {}".format(sum(all_times) / 100))
-        print("Maximum: {}".format(max(all_times)))
+        if filename not in ['commonsense.json', 'modestproposal.json', 'scottwalker.json']:
+            with open("sources/{}".format(filename)) as f:
+                model = markovify.Text.from_json(f.read())
+            all_times = []
+            for i in range(100):
+                start = time.time()
+                makeHaiku(model)
+                all_times.append(time.time() - start)
+            print("Average: {}".format(sum(all_times) / 100))
+            print("Maximum: {}".format(max(all_times)))
