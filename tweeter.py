@@ -31,7 +31,7 @@ keys.insert(0, 'Random')
 
 
 # Handle is the user to tweet at, and source is the key for the file to base the model.
-def generateTweet(handle='', source=["Random"], send=True):
+def generateTweet(handle='', source=["Random"], send=False):
     models = []
     weights = []
     if len(source) > 3:
@@ -64,9 +64,13 @@ def generateTweet(handle='', source=["Random"], send=True):
         status = "{}\n{}".format(handle, status)
     # Send the tweet, if desired
     if send:
-        api.update_status(status=status)
+        tweet(status)
     # And return the generated tweet.
     return status
+
+
+def tweet(status):
+    api.update_status(status)
 
 
 if __name__ == '__main__':
