@@ -48,7 +48,7 @@ def syllablesInWord(word):
     # If there is no longer a word, return 0.
     if len(word) == 0:
         return 0
-    if word in ['dr', 'mr', 'mrs', 'tv']:
+    if word in ['dr', 'mr', 'mrs', 'tv', 'ok']:
         return 2
     # Initialize parts, counts, and split.
     parts = []
@@ -59,16 +59,16 @@ def syllablesInWord(word):
     if word[-1] == 's':
         word = word[:-1]
         # Some special cases where we need to add a syllable.
-        if len(word) >= 4 and word[-4:] in ['tche', 'esse', 'asse', 'ishe', 'ashe', 'ange', 'orce'] or word[-3:] in ['ace']:
+        if len(word) >= 4 and word[-4:] in ['tche', 'ysse', 'esse', 'asse', 'ishe', 'ashe', 'ange', 'orce', 'ince'] or word[-3:] in ['ace']:
             count += 1
     # If the word ends in 'le', add 1 to the count and remove the 'le'.
     if len(word) > 3 and word[-2:] == 'le' and word[-3] in consonants:
         count += 1
         word = word[:-3]
     # There are a few exceptions where the ending should not add a syllable.
-    if len(word) > 5 and word[-5:] in ['tched'] or word[-4:] in ['shed', 'ried', 'ssed', 'lked', 'wled', 'nked', 'rmed', 'rked', 'died', 'nged']:
+    if len(word) > 5 and word[-5:] in ['tched'] or word[-4:] in ['shed', 'ried', 'ssed', 'lked', 'wled', 'bled', 'nked', 'cked', 'rmed', 'rked', 'died', 'nged', 'ssed']:
         count -= 1
-    if len(word) >= 5 and word[-4] in 'aeiouy' and word[-3] in 'rsncgl' and word[-2] in 'aeiouy' and word[-1] == 'd':
+    if len(word) >= 5 and word[-4] in 'aeiouy' and word[-3] in 'rsncglyk' and word[-2] in 'aeiouy' and word[-1] == 'd':
         count -= 1
     # This loop will run until it goes through once without separating the word.
     while split:
@@ -143,5 +143,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "quest".split():
+    for word in "gately hiked both eyebrows".split():
         print(word, syllablesInWord(word))
