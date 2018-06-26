@@ -59,7 +59,7 @@ def syllablesInWord(word):
     if word[-1] == 's':
         word = word[:-1]
         # Some special cases where we need to add a syllable.
-        if len(word) >= 4 and word[-4:] in ['tche', 'esse', 'asse', 'ishe', 'ange'] or word[-3:] in ['ace']:
+        if len(word) >= 4 and word[-4:] in ['tche', 'esse', 'asse', 'ishe', 'ange', 'orce'] or word[-3:] in ['ace'] or word[-2:] in ['se']:
             count += 1
     # If the word ends in 'le', add 1 to the count and remove the 'le'.
     if len(word) > 3 and word[-2:] == 'le' and word[-3] in consonants:
@@ -68,7 +68,7 @@ def syllablesInWord(word):
     # There are a few exceptions where the ending should not add a syllable.
     if len(word) > 5 and word[-5:] in ['tched'] or word[-4:] in ['shed', 'ried', 'ssed', 'lked', 'wled', 'nked', 'rmed', 'died']:
         count -= 1
-    if len(word) > 5 and word[-4] in 'aeiouy' and word[-3] in 'rsncgl' and word[-2] in 'aeiouy' and word[-1] == 'd':
+    if len(word) >= 5 and word[-4] in 'aeiouy' and word[-3] in 'rsncgl' and word[-2] in 'aeiouy' and word[-1] == 'd':
         count -= 1
     # This loop will run until it goes through once without separating the word.
     while split:
@@ -115,6 +115,10 @@ def syllablesInWord(word):
             parts.append(word[:mid])
             parts.append(word[mid:])
             word = ''
+        elif countVowels(word[mid - 1:mid + 1]) == 0 and countVowels(word[mid - 2:]) == 2 and word[-2:] == 'le':
+            parts.append(word[:mid])
+            parts.append(word[mid:])
+            word = ''
         elif countVowels(word[mid - 1:mid + 2]) == 2 and word[mid] in consonants and word[mid - 1] != 'e':
             parts.append(word[:mid])
             parts.append(word[mid:])
@@ -143,5 +147,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "quest".split():
+    for word in "affairs daisy".split():
         print(word, syllablesInWord(word))
