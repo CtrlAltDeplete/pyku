@@ -64,7 +64,7 @@ def generateTweet(handle='', source=["Random"], send=True):
         status = "{}\n{}".format(handle, status)
     # Send the tweet, if desired
     if send:
-        api.update_status(status=status)
+        api.update_status(status)
     # And return the generated tweet.
     return status
 
