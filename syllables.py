@@ -30,7 +30,10 @@ def syllablesInPart(part):
     # Then subtract one for a silent 'e',
     if part[-1] == 'e':
         part = part[:-1]
-        count -= 1
+        if len(part) > 1 and part[-2:] == 'et':
+            pass
+        else:
+            count -= 1
     # And subtract one for each dipthong.
     for dip in diphthongs:
         if dip in part:
@@ -50,6 +53,8 @@ def syllablesInWord(word):
         return 0
     if word in ['dr', 'mr', 'mrs', 'tv', 'ok']:
         return 2
+    if word in ['cia', 'fbi']:
+        return 3
     # Initialize parts, counts, and split.
     parts = []
     count = 0
@@ -66,7 +71,7 @@ def syllablesInWord(word):
         count += 1
         word = word[:-3]
     # There are a few exceptions where the ending should not add a syllable.
-    if len(word) > 5 and word[-5:] in ['tched'] or word[-4:] in ['shed', 'ried', 'ssed', 'lked', 'wled', 'bled', 'nked', 'cked', 'rmed', 'rked', 'died', 'nged', 'ssed']:
+    if len(word) > 5 and word[-5:] in ['tched'] or word[-4:] in ['shed', 'ried', 'lied', 'ssed', 'lked', 'wled', 'bled', 'nked', 'cked', 'rmed', 'rked', 'died', 'nged', 'ssed']:
         count -= 1
     if len(word) >= 5 and word[-4] in 'aeiouy' and word[-3] in 'rsncglyk' and word[-2] in 'aeiouy' and word[-1] == 'd':
         count -= 1
@@ -143,5 +148,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "gately hiked both eyebrows".split():
+    for word in "veteran".split():
         print(word, syllablesInWord(word))
