@@ -53,5 +53,5 @@ if __name__ == '__main__':
     # # Write a model for every file in the procTexts directory.
     # for filename in os.listdir("procTexts"):
     #     createCorpus(filename)
-    processFile("shrek.txt")
-    createCorpus("shrek.txt")
+    processFile("paradiselost.txt")
+    createCorpus("paradiselost.txt")
