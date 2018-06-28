@@ -3,8 +3,8 @@ import re
 import os
 
 
-# Opens a raw text file and prepares it for everything else.
-def processFile(filename):
+# Create and write a jsonModel for markovify.
+def createCorpus(filename):
     # Read the text in the file.
     try:
         with open("rawTexts/" + filename) as f:
@@ -29,15 +29,8 @@ def processFile(filename):
         if data[i] in ['.', ',', '!', '?']:
             data[i] = ''
     data = ' '.join(data).split()
-    # Write out the processed text to the same file.
-    with open("procTexts/" + filename, 'w') as f:
-        print(" ".join(data), file=f)
-
-
-# Create and write a jsonModel for markovify.
-def createCorpus(filename):
-    # Read in the text file.
-    corpus = open("procTexts/" + filename).read()
+    # Return the processed data.
+    corpus = " ".join(data)
     # Create a model and turn it to json.
     textModel = markovify.Text(corpus, state_size=3, retain_original=False)
     modelJson = textModel.to_json()
@@ -47,11 +40,7 @@ def createCorpus(filename):
 
 
 if __name__ == '__main__':
-    # # Process every file in the rawTexts directory.
-    # for filename in os.listdir("rawTexts"):
-    #     processFile(filename)
-    # # Write a model for every file in the procTexts directory.
-    # for filename in os.listdir("procTexts"):
-    #     createCorpus(filename)
-    processFile("iliad.txt")
-    createCorpus("iliad.txt")
+    # Write a model for every file in the rawTexts directory.
+    for filename in os.listdir("rawTexts"):
+        createCorpus(filename)
+    # createCorpus("iliad.txt")
