@@ -71,9 +71,9 @@ def syllablesInWord(word):
         count += 1
         word = word[:-3]
     # There are a few exceptions where the ending should not add a syllable.
-    if len(word) > 5 and word[-5:] in ['tched'] or word[-4:] in ['shed', 'ried', 'lied', 'ssed', 'lked', 'wled', 'bled', 'nked', 'cked', 'rmed', 'rked', 'died', 'nged', 'ssed']:
+    if len(word) > 5 and word[-5:] in ['tched'] or word[-4:] in ['shed', 'ried', 'lied', 'ssed', 'lked', 'wled', 'bled', 'nked', 'cked', 'rmed', 'rked', 'died', 'nged', 'ssed', 'ghed', 'sked', 'gged']:
         count -= 1
-    if len(word) >= 5 and word[-4] in 'aeiouy' and word[-3] in 'rsncglyk' and word[-2] in 'aeiouy' and word[-1] == 'd':
+    if len(word) >= 5 and word[-4] in 'aeiouy' and word[-3] in 'rsncglykv' and word[-2] in 'aeiouy' and word[-1] == 'd':
         count -= 1
     # This loop will run until it goes through once without separating the word.
     while split:
@@ -148,5 +148,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "veteran".split():
+    for word in "moved".split():
         print(word, syllablesInWord(word))
