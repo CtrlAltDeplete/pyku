@@ -45,7 +45,7 @@ def generateTweet(handle='', source=["Random"], send=True):
         # Create a model from the source.
         with open('sources/{}'.format(options[source[i]])) as f:
             model = markovify.Text.from_json(f.read())
-            with open('procTexts/{}'.format(options[source[i]][:-4] + "txt"), 'r') as of:
+            with open('rawTexts/{}'.format(options[source[i]][:-4] + "txt"), 'r') as of:
                 weights.append(len(of.read()))
         models.append(model)
     if len(models) > 1:
