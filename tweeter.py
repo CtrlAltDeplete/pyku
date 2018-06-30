@@ -23,7 +23,8 @@ options = {
     'Dota 2 Reviews': 'dota2reviews.json',
     'Iliad': 'iliad.json',
     'Shrek': 'shrek.json',
-    'Paradise Lost': 'paradiselost.json'
+    'Paradise Lost': 'paradiselost.json',
+    'Fear And Loathing In Las Vegas': 'fearandloathing.json'
 }
 keys = list(options.keys())
 keys.sort()
