@@ -64,14 +64,14 @@ def syllablesInWord(word):
     if word[-1] == 's':
         word = word[:-1]
         # Some special cases where we need to add a syllable.
-        if len(word) >= 4 and word[-4:] in ['tche', 'ysse', 'esse', 'asse', 'ishe', 'ashe', 'ange', 'orce', 'ince'] or word[-3:] in ['ace']:
+        if len(word) >= 4 and word[-4:] in ['tche', 'ysse', 'esse', 'asse', 'ishe', 'ashe', 'ange', 'orce', 'ince', 'ence'] or word[-3:] in ['ace']:
             count += 1
     # If the word ends in 'le', add 1 to the count and remove the 'le'.
     if len(word) > 3 and word[-2:] == 'le' and word[-3] in consonants:
         count += 1
         word = word[:-3]
     # There are a few exceptions where the ending should not add a syllable.
-    if len(word) > 5 and word[-5:] in ['tched'] or word[-4:] in ['shed', 'ried', 'lied', 'ssed', 'lked', 'wled', 'bled', 'nked', 'cked', 'rmed', 'rked', 'died', 'nged', 'ssed', 'ghed', 'sked', 'gged']:
+    if len(word) > 5 and word[-5:] in ['tched'] or word[-4:] in ['shed', 'ried', 'lied', 'ssed', 'lked', 'lled', 'wled', 'bled', 'nked', 'cked', 'rmed', 'rked', 'died', 'nged', 'ssed', 'ghed', 'sked', 'gged', 'cied']:
         count -= 1
     if len(word) >= 5 and word[-4] in 'aeiouy' and word[-3] in 'rsncglykv' and word[-2] in 'aeiouy' and word[-1] == 'd':
         count -= 1
@@ -148,5 +148,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "moved".split():
+    for word in "weight requirement weightrequirement".split():
         print(word, syllablesInWord(word))
