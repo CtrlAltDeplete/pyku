@@ -8,6 +8,7 @@ api = credentials.api
 
 # A dictionary for all the sources.
 options = {
+    'American Psycho': 'americanpsycho.json',
     'Batman': 'batman.json',
     'Bible': 'bible.json',
     'The Great Gatsby': 'greatgatsby.json',
