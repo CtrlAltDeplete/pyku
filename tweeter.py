@@ -116,4 +116,4 @@ def generateTweet(handle='', source=["Random"], send=True):
 
 
 if __name__ == '__main__':
-    generateTweet()
+    generateTweetWithImage()
