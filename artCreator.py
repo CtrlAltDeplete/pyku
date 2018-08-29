@@ -7,28 +7,28 @@ from Functions import *
 
 font_params = {
     'Courier New.ttf': {
-        'min': 20,
-        'max': 30
+        'min': 30,
+        'max': 40
     },
     'data-latin.ttf': {
-        'min': 25,
-        'max': 38
+        'min': 38,
+        'max': 51
     },
     'Debby.ttf': {
-        'min': 40,
-        'max': 60
+        'min': 60,
+        'max': 80
     },
     'mexcellent 3d.ttf': {
-        'min': 23,
-        'max': 35
+        'min': 35,
+        'max': 47
     },
     'Pokemon_GB.ttf': {
-        'min': 12,
-        'max': 18
+        'min': 18,
+        'max': 24
     },
     'Sailor-Scrawl-Black.ttf': {
-        'min': 18,
-        'max': 27
+        'min': 27,
+        'max': 36
     }
 }
 
@@ -84,7 +84,6 @@ def createText(width, height, words, font, size):
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("fonts/{}".format(font), size)
     draw.text((20, 20), words, (255, 255, 255), font=font)
-    # img.show()
     effectedPixels = []
     minX = width
     maxX = 0
@@ -107,21 +106,24 @@ def createText(width, height, words, font, size):
     return effectedPixels, dx, dy
 
 
-def invert(effectedPixels, dx, dy, img):
+def drawText(effectedPixels, dx, dy, img):
     for p in effectedPixels:
-        r, g, b = img.getpixel((p[0] + dx, p[1] + dy))
-        img.putpixel((p[0] + dx, p[1] + dy), (255 - r, 255 - g, 255 - b))
+        for x in range(-2, 3):
+            for y in range(-2, 3):
+                img.putpixel((p[0] + dx + x, p[1] + dy + y), (0, 0, 0))
+    for p in effectedPixels:
+        img.putpixel((p[0] + dx, p[1] + dy), (255, 255, 255))
 
 
 def createAttachment(name, text, palette=None):
     if palette is None:
         palette = choice(palettes)
-    cHead = FunctionNode(randint(50, 100) / 100)
+    cHead = FunctionNode(randint(50, 90) / 100)
     finalImage = PaletteImage(1024, 512, cHead, palette)
     font = choice(list(font_params.keys()))
     fontSize = randint(font_params[font]['min'], font_params[font]['max'])
     effectedPixels, dx, dy = createText(1024, 512, text, font, fontSize)
-    invert(effectedPixels, dx, dy, finalImage.canvas)
+    drawText(effectedPixels, dx, dy, finalImage.canvas)
     finalImage.save("{}.png".format(name))
     return "{}.png".format(name)
 
