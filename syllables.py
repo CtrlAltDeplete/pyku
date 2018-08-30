@@ -53,7 +53,7 @@ def syllablesInWord(word):
         return 0
     if word in ['dr', 'mr', 'mrs', 'tv', 'ok']:
         return 2
-    if word in ['cia', 'fbi']:
+    if word in ['cia', 'fbi', 'area']:
         return 3
     # Initialize parts, counts, and split.
     parts = []
