@@ -372,9 +372,9 @@ class PolarTheta(Function):
 
 class FunctionNode:
     def __init__(self, prob):
-        self.func = choice([Ripple, Sinkhole, Pulse, Hill, Sinkhole2, Ripple2, Bendy, Checkered, Checkered2, Sum,
-                            Product, Mod, Mod2, Mod3, Mod4, Well, Well2, Tent, Tent2, InverseX, InverseY, PolarR,
-                            PolarTheta])()
+        self.func = choice([Ripple, Ripple, Sinkhole, Sinkhole, Pulse, Pulse, Hill, Hill, Sinkhole2, Sinkhole2, Ripple2,
+                            Ripple2, Bendy, Bendy, Checkered, Checkered, Checkered2, Checkered2, Sum, Product, Well,
+                            Well2, Tent, Tent2, InverseX, InverseY, PolarR, PolarTheta, Mod, Mod2, Mod3, Mod4])()
         if random() > prob:
             self.left = X()
         else:
@@ -441,7 +441,7 @@ def _printTree(tree, depth):
 
 def saveTree(root, filename):
     tree, depth = _createTree(root)
-    with open("tests/{}".format(filename), 'w') as f:
+    with open(filename, 'w') as f:
         print(_printTree(tree, depth), end='', file=f)
 
 
