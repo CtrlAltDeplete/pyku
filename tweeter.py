@@ -3,6 +3,8 @@ import markovify
 import haiku
 from artCreator import *
 from os import remove
+from random import seed
+
 
 # Twitter credentials
 api = credentials.api
@@ -67,6 +69,7 @@ def generateTweetWithImage(handle='', source=["Random"], send=True):
     # Insert the handle at the beginning if needed.
     if handle != '':
         status = "{}\n{}".format(handle, status)
+    seed(poem)
     # Generate the art to attach to the tweet.
     imgName = createAttachment("test", poem)
     # Send the tweet, if desired
