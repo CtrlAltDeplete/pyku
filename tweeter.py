@@ -28,7 +28,8 @@ options = {
     'Iliad': 'iliad.json',
     'Shrek': 'shrek.json',
     'Paradise Lost': 'paradiselost.json',
-    'Fear And Loathing In Las Vegas': 'fearandloathing.json'
+    'Fear And Loathing In Las Vegas': 'fearandloathing.json',
+    'Trump Tweets': 'trumptweets.json'
 }
 keys = list(options.keys())
 keys.sort()
@@ -50,8 +51,12 @@ def generateTweetWithImage(handle='', source=["Random"], send=True):
         # Create a model from the source.
         with open('sources/{}'.format(options[source[i]])) as f:
             model = markovify.Text.from_json(f.read())
-            with open('rawTexts/{}'.format(options[source[i]][:-4] + "txt"), 'r') as of:
-                weights.append(len(of.read()))
+            try:
+                with open('rawTexts/{}'.format(options[source[i]][:-4] + "txt"), 'r') as of:
+                    weights.append(len(of.read()))
+            except UnicodeDecodeError:
+                with open('rawTexts/{}'.format(options[source[i]][:-4] + "txt"), 'r', encoding='utf8') as of:
+                    weights.append(len(of.read()))
         models.append(model)
     if len(models) > 1:
         total = 0
@@ -94,8 +99,12 @@ def generateTweet(handle='', source=["Random"], send=True):
         # Create a model from the source.
         with open('sources/{}'.format(options[source[i]])) as f:
             model = markovify.Text.from_json(f.read())
-            with open('rawTexts/{}'.format(options[source[i]][:-4] + "txt"), 'r') as of:
-                weights.append(len(of.read()))
+            try:
+                with open('rawTexts/{}'.format(options[source[i]][:-4] + "txt"), 'r') as of:
+                    weights.append(len(of.read()))
+            except UnicodeDecodeError:
+                with open('rawTexts/{}'.format(options[source[i]][:-4] + "txt"), 'r', encoding='utf8') as of:
+                    weights.append(len(of.read()))
         models.append(model)
     if len(models) > 1:
         total = 0
