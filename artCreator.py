@@ -74,7 +74,7 @@ def createText(width, height, words, font, size):
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("fonts/{}".format(font), size)
     draw.text((20, 20), words, (255, 255, 255), font=font)
-    img.show()
+    # img.show()
     effectedPixels = []
     minX = width
     maxX = 0
