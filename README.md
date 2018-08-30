@@ -20,15 +20,15 @@ Or make it tweet yourself from it's [website](http://pyku.gavyn.com).
 
 Some example pictures:
 
-![American Psycho](https://raw.githubusercontent.com/CtrlAltDeplete/pyku/tree/master/exampleImages/test-American Psycho.png)
+[[alt=American Psycho|https://github.com/CtrlAltDeplete/pyku/tree/master/exampleImages/test-AmericanPsycho.png]]
 
-![Batman](https://raw.githubusercontent.com/CtrlAltDeplete/pyku/tree/master/exampleImages/test-Batman.png)
+[[alt=Batman|https://github.com/CtrlAltDeplete/pyku/tree/master/exampleImages/test-Batman.png]]
 
-![Brave New World](https://raw.githubusercontent.com/CtrlAltDeplete/pyku/tree/master/exampleImages/test-Braave New World.png)
+[[alt=Brave New World|https://github.com/CtrlAltDeplete/pyku/tree/master/exampleImages/test-BraaveNewWorld.png]]
 
-![Dota 2 Lore](https://raw.githubusercontent.com/CtrlAltDeplete/pyku/tree/master/exampleImages/test-Dota 2 Lore.png)
+[[alt=Dota 2 Lore|https://github.com/CtrlAltDeplete/pyku/tree/master/exampleImages/test-Dota2Lore.png]]
 
-![Shrek](https://raw.githubusercontent.com/CtrlAltDeplete/pyku/tree/master/exampleImages/test-Shrek.png)
+[[alt=Shrek|https://github.com/CtrlAltDeplete/pyku/tree/master/exampleImages/test-Shrek.png]]
 
 ## Authors
 
