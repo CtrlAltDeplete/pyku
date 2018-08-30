@@ -118,7 +118,7 @@ def drawText(effectedPixels, dx, dy, img):
 def createAttachment(name, text, palette=None):
     if palette is None:
         palette = choice(palettes)
-    cHead = FunctionNode(randint(50, 90) / 100)
+    cHead = FunctionNode(randint(70, 100) / 100)
     finalImage = PaletteImage(1024, 512, cHead, palette)
     font = choice(list(font_params.keys()))
     fontSize = randint(font_params[font]['min'], font_params[font]['max'])

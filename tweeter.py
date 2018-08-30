@@ -61,19 +61,20 @@ def generateTweetWithImage(handle='', source=["Random"], send=True):
     else:
         model = models[0]
     # Generate a haiku (and format it).
-    status = haiku.makeHaiku(model)
-    hashtags = "#{}".format(' #'.join(''.join(s.split()) for s in source))
+    poem = haiku.makeHaiku(model)
+    status = poem
+    status = "{}\n#{}".format(status, ' #'.join(''.join(s.split()) for s in source))
     # Insert the handle at the beginning if needed.
     if handle != '':
-        hashtags = "{}\n{}".format(handle, hashtags)
+        status = "{}\n{}".format(handle, status)
     # Generate the art to attach to the tweet.
-    imgName = createAttachment("test", status)
+    imgName = createAttachment("test", poem)
     # Send the tweet, if desired
     if send:
-        api.update_with_media(imgName, status=hashtags)
+        api.update_with_media(imgName, status=status)
     remove(imgName)
     # And return the generated tweet.
-    return status, hashtags
+    return status
 
 
 # Handle is the user to tweet at, and source is the key for the file to base the model.
