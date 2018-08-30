@@ -6,30 +6,17 @@ from Functions import *
 
 
 font_params = {
-    'Courier New.ttf': {
-        'min': 30,
-        'max': 40
-    },
-    'data-latin.ttf': {
-        'min': 38,
-        'max': 51
-    },
-    'Debby.ttf': {
-        'min': 60,
-        'max': 80
-    },
-    'mexcellent 3d.ttf': {
-        'min': 35,
-        'max': 47
-    },
-    'Pokemon_GB.ttf': {
-        'min': 18,
-        'max': 24
-    },
-    'Sailor-Scrawl-Black.ttf': {
-        'min': 27,
-        'max': 36
-    }
+    '256BYTES.ttf': 50,
+    'Courier New.ttf': 34,
+    'data-latin.ttf': 40,
+    'Debby.ttf': 66,
+    'mexcellent 3d.ttf': 44,
+    'Pokemon_GB.ttf': 20,
+    'heav.ttf': 42,
+    'KOMIKAB_.ttf': 40,
+    'federalescort.ttf': 28,
+    'HAMMERHEAD.ttf': 35,
+    'mytype.ttf': 33
 }
 
 
@@ -87,6 +74,7 @@ def createText(width, height, words, font, size):
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("fonts/{}".format(font), size)
     draw.text((20, 20), words, (255, 255, 255), font=font)
+    img.show()
     effectedPixels = []
     minX = width
     maxX = 0
@@ -124,7 +112,7 @@ def createAttachment(name, text, palette=None):
     cHead = FunctionNode(randint(70, 100) / 100)
     finalImage = PaletteImage(1024, 512, cHead, palette)
     font = choice(list(font_params.keys()))
-    fontSize = randint(font_params[font]['min'], font_params[font]['max'])
+    fontSize = randint(font_params[font], int(font_params[font] * 1.5))
     effectedPixels, dx, dy = createText(1024, 512, text, font, fontSize)
     drawText(effectedPixels, dx, dy, finalImage.canvas)
     finalImage.save("{}.png".format(name))
@@ -133,3 +121,6 @@ def createAttachment(name, text, palette=None):
 
 if __name__ == '__main__':
     createAttachment("test", "This is a poorly\nwritten haiku as a test\nto check if this works.")
+    # font = 'mytype.ttf'
+    # fontSize = font_params[font]
+    # createText(512, 256, "This is a poorly\nwritten haiku as a test\nto check if this works.", font, fontSize)
