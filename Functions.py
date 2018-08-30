@@ -375,15 +375,14 @@ class FunctionNode:
         self.func = choice([Ripple, Ripple, Sinkhole, Sinkhole, Pulse, Pulse, Hill, Hill, Sinkhole2, Sinkhole2, Ripple2,
                             Ripple2, Bendy, Bendy, Checkered, Checkered, Checkered2, Checkered2, Sum, Product, Well,
                             Well2, Tent, Tent2, InverseX, InverseY, PolarR, PolarTheta, Mod, Mod2, Mod3, Mod4])()
-        if random() > prob:
+        newProb = prob ** 2
+        if random() > newProb:
             self.left = X()
         else:
-            newProb = prob * prob
             self.left = FunctionNode(newProb)
-        if random() > prob:
+        if random() > newProb:
             self.right = Y()
         else:
-            newProb = prob * prob
             self.right = FunctionNode(newProb)
 
     def eval(self, x, y):
