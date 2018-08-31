@@ -38,7 +38,7 @@ keys.insert(0, 'Random')
 
 
 # Handle is the user to tweet at, and source is the key for the file to base the model.
-def generateTweetWithImage(handle='', source=["Random"], send=True):
+def generateTweetWithImage(handle='', source=["Random"], send=True, delete=True):
     models = []
     weights = []
     if len(source) > 3:
@@ -80,9 +80,10 @@ def generateTweetWithImage(handle='', source=["Random"], send=True):
     # Send the tweet, if desired
     if send:
         api.update_with_media(imgName, status=status)
-    remove(imgName)
+    if delete:
+        remove(imgName)
     # And return the generated tweet.
-    return status
+    return status, imgName
 
 
 # Handle is the user to tweet at, and source is the key for the file to base the model.
