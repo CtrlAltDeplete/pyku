@@ -101,7 +101,10 @@ def drawText(effectedPixels, dx, dy, img):
     for p in effectedPixels:
         for x in range(-2, 3):
             for y in range(-2, 3):
-                img.putpixel((p[0] + dx + x, p[1] + dy + y), (0, 0, 0))
+                try:
+                    img.putpixel((p[0] + dx + x, p[1] + dy + y), (0, 0, 0))
+                except IndexError:
+                    pass
     for p in effectedPixels:
         img.putpixel((p[0] + dx, p[1] + dy), (255, 255, 255))
 
