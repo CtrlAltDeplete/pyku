@@ -79,10 +79,12 @@ def generateTweetWithImage(handle='', source=["Random"], send=True, delete=True)
     imgName = createAttachment("test", poem)
     # Send the tweet, if desired
     if send:
-        api.update_with_media(imgName, status=status)
+        tweet = api.update_with_media(imgName, status=status)
     if delete:
         remove(imgName)
     # And return the generated tweet.
+    if send:
+        return status, tweet.entities['media'][0]['media_url']
     return status, imgName
 
 
