@@ -1,6 +1,7 @@
 from random import choice
 from random import random
 from math import *
+from scipy import special
 
 
 class Function:
@@ -370,19 +371,48 @@ class PolarTheta(Function):
         return "PolarTheta"
 
 
+class GammaLower(Function):
+    def eval(self, x, y, normalized=True):
+        newX = x + self.dx
+        newY = y + self.dy
+        z = special.gammainc(abs(newX * 10 + 1), abs(newY * 10))
+        if normalized:
+            z = max(self.zmin, min(self.zmax, z))
+            return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
+        return z
+
+    def __str__(self):
+        return "GammaLower"
+
+
+class GammaUpper(Function):
+    def eval(self, x, y, normalized=True):
+        newX = x + self.dx
+        newY = y + self.dy
+        z = special.gammainc(abs(newX * 10 + 1), abs(newY * 10))
+        if normalized:
+            z = max(self.zmin, min(self.zmax, z))
+            return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
+        return z
+
+    def __str__(self):
+        return "GammaUpper"
+
+
 class FunctionNode:
     def __init__(self, prob):
-        self.func = choice([Ripple, Ripple, Sinkhole, Sinkhole, Pulse, Pulse, Hill, Hill, Sinkhole2, Sinkhole2, Ripple2,
-                            Ripple2, Bendy, Bendy, Checkered, Checkered, Checkered2, Checkered2, Sum, Product, Well,
-                            Well2, Tent, Tent2, InverseX, InverseY, PolarR, PolarTheta, Mod, Mod2, Mod3, Mod4])()
-        newProb = prob ** 2
-        if random() > newProb:
+        self.func = choice([Ripple, Sinkhole, Pulse, Hill, Sinkhole2, Ripple2, Bendy, Checkered, Checkered2, Sum,
+                            Product, Mod, Mod2, Mod3, Mod4, Well, Well2, Tent, Tent2, InverseX, InverseY, PolarR,
+                            PolarTheta, GammaLower, GammaUpper])()
+        if random() > prob:
             self.left = X()
         else:
+            newProb = prob * prob
             self.left = FunctionNode(newProb)
-        if random() > newProb:
+        if random() > prob:
             self.right = Y()
         else:
+            newProb = prob * prob
             self.right = FunctionNode(newProb)
 
     def eval(self, x, y):
@@ -440,10 +470,14 @@ def _printTree(tree, depth):
 
 def saveTree(root, filename):
     tree, depth = _createTree(root)
-    with open(filename, 'w') as f:
+    with open("tests/{}".format(filename), 'w') as f:
         print(_printTree(tree, depth), end='', file=f)
 
 
 if __name__ == '__main__':
     root = FunctionNode(.8)
     saveTree(root, 'test.csv')
+    # Functions to add:
+    #   Pascal's Triangle with mods
+    #   Newton's method fractal (0)
+
