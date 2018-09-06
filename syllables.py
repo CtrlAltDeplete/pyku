@@ -64,7 +64,7 @@ def syllablesInWord(word):
     if word[-1] == 's':
         word = word[:-1]
         # Some special cases where we need to add a syllable.
-        if len(word) >= 4 and word[-4:] in ['tche', 'ysse', 'esse', 'asse', 'ishe', 'ashe', 'ange', 'orce', 'ince', 'ence'] or word[-3:] in ['ace']:
+        if len(word) >= 4 and word[-4:] in ['tche', 'ysse', 'esse', 'asse', 'ishe', 'ashe', 'ange', 'orce', 'ince', 'ence', 'gree'] or word[-3:] in ['ace']:
             count += 1
     # If the word ends in 'le', add 1 to the count and remove the 'le'.
     if len(word) > 3 and word[-2:] == 'le' and word[-3] in consonants:
@@ -148,5 +148,5 @@ def syllablesInString(text):
 
 
 if __name__ == '__main__':
-    for word in "weight requirement weightrequirement".split():
+    for word in "agreed".split():
         print(word, syllablesInWord(word))
