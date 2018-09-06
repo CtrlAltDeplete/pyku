@@ -12,7 +12,9 @@ class Function:
         Additionally, the input of the function will be [-1, 1],
         and the output of the function needs to be [-1, 1].'''
         self.dx = random() * (-1) ** choice([1, 2]) / 4
+        self.cx = random() * (-1) ** choice([1, 2]) / 8
         self.dy = random() * (-1) ** choice([1, 2]) / 4
+        self.cy = random() * (-1) ** choice([1, 2]) / 8
         self.zmin = self.eval(1, 1, False)
         self.zmax = self.zmin
         # To constrict output between -1 and 1, we calclate the max
@@ -55,30 +57,26 @@ class Y(Function):
 
 class InverseX(Function):
     def eval(self, x, y, normalized=True):
-        if x < 0:
-            return abs(x)
-        else:
-            return -1 * abs(x)
+        newX = x * self.cx + self.dx
+        return -1 * newX
 
     def __str__(self):
-        return "InverseX"
+        return "-1 * (x * {} + {})".format(self.cx, self.dx)
 
 
 class InverseY(Function):
     def eval(self, x, y, normalized=True):
-        if y < 0:
-            return abs(y)
-        else:
-            return -1 * abs(y)
+        newY = y * self.cy + self.dy
+        return -1 * newY
 
     def __str__(self):
-        return "InverseY"
+        return "-1 * (y * {} + {})".format(self.cy, self.dy)
 
 
 class Ripple(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
         z = newX * newY ** 3 - newY * newX ** 3
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
@@ -86,27 +84,32 @@ class Ripple(Function):
         return z
 
     def __str__(self):
-        return "Ripple"
+        return "(x * {} + {}) * (y * {} + {}) ** 3 - (y * {} + {}) * (x * {} + {}) ** 3".format(self.cx, self.dx,
+                                                                                                self.cy, self.dy,
+                                                                                                self.cy, self.dy,
+                                                                                                self.cx, self.dx)
 
 
 class Sinkhole(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
-        z = (newX ** 2 + 3 * newY ** 2) * e ** (-newX ** 2 - newY ** 2)
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
+        z = (newX ** 2 + newY ** 2) * e ** (-newX ** 2 - newY ** 2)
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
     def __str__(self):
-        return "Sinkhole"
+        return "((x * {} + {}) ** 2 + (y * {} + {}) ** 2) * e ** (-(x * {} + {}) ** 2 - (y * {} + {}) ** 2)".format(
+            self.cx, self.dx, self.cy, self.dy, self.cx, self.dx, self.cy, self.dy
+        )
 
 
 class Pulse(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
         z = -newX * newY * e ** (-newX ** 2 - newY ** 2)
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
@@ -114,13 +117,15 @@ class Pulse(Function):
         return z
 
     def __str__(self):
-        return "Pulse"
+        return "-(x * {} + {}) * (y * {} + {}) ** 2) * e ** (-(x * {} + {}) ** 2 - (y * {} + {}) ** 2) ** 2)".format(
+            self.cx, self.dx, self.cy, self.dy, self.cx, self.dx, self.cy, self.dy
+        )
 
 
 class Hill(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
         z = cos(abs(newX) + abs(newY))
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
@@ -128,13 +133,13 @@ class Hill(Function):
         return z
 
     def __str__(self):
-        return "Hill"
+        return "cos(abs((x * {} + {})) + abs((y * {} + {})))".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class Sinkhole2(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
         z = cos(abs(newX) + abs(newY)) * (abs(newX) + abs(newY))
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
@@ -142,41 +147,45 @@ class Sinkhole2(Function):
         return z
 
     def __str__(self):
-        return "Sinkhole2"
+        return "cos(abs((x * {} + {})) + abs((y * {} + {}))) * (abs((x * {} + {})) + abs((y * {} + {})))".format(
+            self.cx, self.dx, self.cy, self.dy, self.cx, self.dx, self.cy, self.dy
+        )
 
 
 class Ripple2(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
-        z = newX ** 3 - 3 * newX + newY ** 3 - 3 * newY
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
+        z = newX ** 3 - newX + newY ** 3 * newY
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
     def __str__(self):
-        return "Ripple2"
+        return "(x * {} + {}) ** 3 - (x * {} + {}) + (y * {} + {}) ** 3 * (y * {} + {})".format(
+            self.cx, self.dx, self.cx, self.dx, self.cy, self.dy, self.cy, self.dy
+        )
 
 
 class Bendy(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
-        z = sin(4 * newX * newY)
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
+        z = sin(newX * newY)
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
     def __str__(self):
-        return "Bendy"
+        return "sin((x * {} + {}) * (y * {} + {}))".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class Checkered(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
         z = sin(cos(tan(newX))) * sin(cos(tan(newY)))
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
@@ -184,7 +193,7 @@ class Checkered(Function):
         return z
 
     def __str__(self):
-        return "Checkered"
+        return "sin(cos(tan((x * {} + {})))) * sin(cos(tan((y * {} + {}))))".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class Checkered2(Function):
@@ -196,13 +205,13 @@ class Checkered2(Function):
         return z
 
     def __str__(self):
-        return "Checkered2"
+        return "asin((x * {} + {})) + asin((x * {} + {}))".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class Sum(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
         z = newX + newY
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
@@ -210,13 +219,13 @@ class Sum(Function):
         return z
 
     def __str__(self):
-        return "Sum"
+        return "(x * {} + {}) + (y * {} + {})".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class Product(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
         z = newX * newY
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
@@ -224,13 +233,13 @@ class Product(Function):
         return z
 
     def __str__(self):
-        return "Product"
+        return "(x * {} + {}) * (y * {} + {})".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class Mod(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
         z = newX % newY
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
@@ -238,13 +247,13 @@ class Mod(Function):
         return z
 
     def __str__(self):
-        return "Mod"
+        return "(x * {} + {}) % (y * {} + {})".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class Mod2(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
         z = newY % newX
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
@@ -252,89 +261,39 @@ class Mod2(Function):
         return z
 
     def __str__(self):
-        return "Mod2"
-
-
-class Mod3(Function):
-    def eval(self, x, y, normalized=True):
-        z = x % (self.dx * 10)
-        if normalized:
-            z = max(self.zmin, min(self.zmax, z))
-            return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
-        return z
-
-    def __str__(self):
-        return "Mod3"
-
-
-class Mod4(Function):
-    def eval(self, x, y, normalized=True):
-        z = y % self.dy
-        if normalized:
-            z = max(self.zmin, min(self.zmax, z))
-            return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
-        return z
-
-    def __str__(self):
-        return "Mod4"
+        return "(y * {} + {}) % (x * {} + {})".format(self.cy, self.dy, self.cx, self.dx)
 
 
 class Well(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        z = 1 - 2 / (1 + newX * newX) ** 8
+        newX = x * self.cx + self.dx
+        z = 1 - 2 / (newX ** 2) ** 8
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
     def __str__(self):
-        return "Well"
+        return "1 - 2 / ((x * {} + {}) ** 2) ** 8".format(self.cx, self.dx)
 
 
 class Well2(Function):
     def eval(self, x, y, normalized=True):
-        newY = y + self.dy
-        z = 1 - 2 / (1 + newY * newY) ** 8
+        newY = y * self.cy + self.dy
+        z = 1 - 2 / (newY ** 2) ** 8
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
     def __str__(self):
-        return "Well2"
-
-
-class Tent(Function):
-    def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        z = 1 - 2 * abs(newX)
-        if normalized:
-            z = max(self.zmin, min(self.zmax, z))
-            return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
-        return z
-
-    def __str__(self):
-        return "Tent"
-
-
-class Tent2(Function):
-    def eval(self, x, y, normalized=True):
-        newY = y + self.dy
-        z = 1 - 2 * abs(newY)
-        if normalized:
-            z = max(self.zmin, min(self.zmax, z))
-            return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
-        return z
-
-    def __str__(self):
-        return "Tent2"
+        return "1 - 2 / ((x * {} + {}) ** 2) ** 8".format(self.cy, self.dy)
 
 
 class PolarR(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
         z = sqrt(newX ** 2 + newY ** 2)
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
@@ -342,13 +301,13 @@ class PolarR(Function):
         return z
 
     def __str__(self):
-        return "PolarR"
+        return "sqrt((x * {} + {}) ** 2 + (y * {} + {}) ** 2)".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class PolarTheta(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
         try:
             z = atan(newY / newX)
         except ValueError:
@@ -368,13 +327,13 @@ class PolarTheta(Function):
         return z
 
     def __str__(self):
-        return "PolarTheta"
+        return "atan((y * {} + {}) / (x * {} + {}))".format(self.cy, self.dy, self.cx, self.dx)
 
 
 class GammaLower(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
         z = special.gammainc(abs(newX * 10 + 1), abs(newY * 10))
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
@@ -382,13 +341,15 @@ class GammaLower(Function):
         return z
 
     def __str__(self):
-        return "GammaLower"
+        return "lowerGamma(abs((x * {} + {}) * 10 + 1), abs((y * {} + {}) * 10))".format(
+            self.cx, self.dx, self.cy, self.dy
+        )
 
 
 class GammaUpper(Function):
     def eval(self, x, y, normalized=True):
-        newX = x + self.dx
-        newY = y + self.dy
+        newX = x * self.cx + self.dx
+        newY = y * self.cy + self.dy
         z = special.gammainc(abs(newX * 10 + 1), abs(newY * 10))
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
@@ -396,24 +357,26 @@ class GammaUpper(Function):
         return z
 
     def __str__(self):
-        return "GammaUpper"
+        return "upperGamma(abs((x * {} + {}) * 10 + 1), abs((y * {} + {}) * 10))".format(
+            self.cx, self.dx, self.cy, self.dy
+        )
 
 
 class FunctionNode:
-    def __init__(self, prob):
+    def __init__(self, prob, depth=0):
         self.func = choice([Ripple, Sinkhole, Pulse, Hill, Sinkhole2, Ripple2, Bendy, Checkered, Checkered2, Sum,
-                            Product, Mod, Mod2, Mod3, Mod4, Well, Well2, Tent, Tent2, InverseX, InverseY, PolarR,
-                            PolarTheta, GammaLower, GammaUpper])()
-        if random() > prob:
+                            Product, Mod, Mod2, Well, Well2, InverseX, InverseY, PolarR, PolarTheta, GammaLower,
+                            GammaUpper])()
+        if depth > 4 or random() > prob:
             self.left = X()
         else:
             newProb = prob * prob
-            self.left = FunctionNode(newProb)
-        if random() > prob:
+            self.left = FunctionNode(newProb, depth + 1)
+        if depth > 4 or random() > prob:
             self.right = Y()
         else:
             newProb = prob * prob
-            self.right = FunctionNode(newProb)
+            self.right = FunctionNode(newProb, depth + 1)
 
     def eval(self, x, y):
         newX = self.left.eval(x, y)
