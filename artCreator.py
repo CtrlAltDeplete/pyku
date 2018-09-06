@@ -16,7 +16,11 @@ font_params = {
     'KOMIKAB_.ttf': 40,
     'federalescort.ttf': 28,
     'HAMMERHEAD.ttf': 35,
-    'mytype.ttf': 33
+    'mytype.ttf': 33,
+    'orange juice 2.0.ttf': 50,
+    'MotionPicture.ttf': 84,
+    'airstrike.ttf': 36,
+    'SnackerComic.ttf': 60
 }
 
 
