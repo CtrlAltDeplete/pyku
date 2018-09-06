@@ -5,8 +5,12 @@ Pyku is a twitter bot that generates poems using markov chains and popular books
 ### Prerequisites
 
 For this project, you will need:
+
 [tweepy](https://github.com/tweepy/tweepy) to interact with twitter.
-[markovify](https://github.com/jsvine/markovify) to process your sorces and generate poems.
+
+[markovify](https://github.com/jsvine/markovify) to process your sources and generate poems.
+
+[scipy](https://www.scipy.org/install.html) for some of the functions used.
 
 ## Setup
 
@@ -16,7 +20,7 @@ Just clone the repository and set up a credentials file, as per [tweepy's instru
 
 See the [bot live](https://twitter.com/PythonHaiku)!
 
-Or make it tweet yourself from it's [website](http://pyku.gavyn.com).
+Or make it tweet yourself from it's [website](https://pyku.gavyn.com).
 
 Some example pictures:
 
