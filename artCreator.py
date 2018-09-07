@@ -3,6 +3,7 @@ from PIL import ImageDraw
 from PIL import Image
 from random import randint
 from Functions import *
+from random import seed
 
 
 font_params = {
@@ -113,7 +114,9 @@ def drawText(effectedPixels, dx, dy, img):
         img.putpixel((p[0] + dx, p[1] + dy), (255, 255, 255))
 
 
-def createAttachment(name, text, palette=None):
+def createAttachment(name, text, palette=None, s=None):
+    if s is not None:
+        seed(s)
     if palette is None:
         palette = choice(palettes)
     cHead = FunctionNode(randint(70, 100) / 100)

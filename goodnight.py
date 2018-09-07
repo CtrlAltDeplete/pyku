@@ -1,17 +1,11 @@
 from artCreator import *
 from os import remove
 import credentials
+from datetime import datetime
 
 
 def sayGoodnight():
-    palette = choice(palettes)
-    cHead = FunctionNode(randint(70, 100) / 100)
-    finalImage = PaletteImage(1024, 512, cHead, palette)
-    font = choice(list(font_params.keys()))
-    fontSize = randint(font_params[font] * 2, int(font_params[font] * 2.5))
-    effectedPixels, dx, dy = createText(1024, 512, "Goodnight", font, fontSize)
-    drawText(effectedPixels, dx, dy, finalImage.canvas)
-    finalImage.save("goodnight.png")
+    createAttachment("goodnight", "Goodnight", s=datetime())
 
     api = credentials.api
     api.update_with_media("goodnight.png")
