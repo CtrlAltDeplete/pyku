@@ -1,6 +1,6 @@
 # Pyku
 
-Pyku is a twitter bot that generates poems using markov chains and popular books or movies. Now, he also generateas art to accompany his tweets.
+Pyku is a twitter bot that generates poems using markov chains and popular books or movies. Now, he also generates art to accompany his tweets.
 
 ### Prerequisites
 

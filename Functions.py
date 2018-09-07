@@ -11,10 +11,10 @@ class Function:
         delta x and y to make sure everything is not centered.
         Additionally, the input of the function will be [-1, 1],
         and the output of the function needs to be [-1, 1].'''
-        self.dx = random() * (-1) ** choice([1, 2]) / 4
-        self.cx = random() * (-1) ** choice([1, 2]) / 8
-        self.dy = random() * (-1) ** choice([1, 2]) / 4
-        self.cy = random() * (-1) ** choice([1, 2]) / 8
+        self.dx = random() * choice([1, -1]) / 4
+        self.dy = random() * choice([1, -1]) / 4
+        self.cx = random() * choice([1, -1]) + 1
+        self.cy = random() * choice([1, -1]) + 1
         self.zmin = self.eval(1, 1, False)
         self.zmax = self.zmin
         # To constrict output between -1 and 1, we calclate the max
@@ -364,15 +364,15 @@ class GammaUpper(Function):
 
 class FunctionNode:
     def __init__(self, prob, depth=0):
-        self.func = choice([Ripple, Sinkhole, Pulse, Hill, Sinkhole2, Ripple2, Bendy, Checkered, Checkered2, Sum,
-                            Product, Mod, Mod2, Well, Well2, InverseX, InverseY, PolarR, PolarTheta, GammaLower,
-                            GammaUpper])()
-        if depth > 4 or random() > prob:
+        self.func = choice([Ripple, Ripple2, Sinkhole, Sinkhole2, Pulse, Bendy, Checkered, Checkered2, Sum, Product,
+                            Well, Well2, PolarR, PolarTheta, GammaLower, GammaLower, GammaUpper, GammaUpper, Mod, Mod2,
+                            InverseX, InverseY])()
+        if depth > 6 or random() > prob:
             self.left = X()
         else:
             newProb = prob * prob
             self.left = FunctionNode(newProb, depth + 1)
-        if depth > 4 or random() > prob:
+        if depth > 6 or random() > prob:
             self.right = Y()
         else:
             newProb = prob * prob
@@ -384,7 +384,7 @@ class FunctionNode:
         return self.func.eval(newX, newY)
 
 
-def _createTree(root):
+def createTree(root):
     tree = [str(root.func)]
     queue = [root.left, root.right]
 
@@ -432,7 +432,7 @@ def _printTree(tree, depth):
 
 
 def saveTree(root, filename):
-    tree, depth = _createTree(root)
+    tree, depth = createTree(root)
     with open("tests/{}".format(filename), 'w') as f:
         print(_printTree(tree, depth), end='', file=f)
 
