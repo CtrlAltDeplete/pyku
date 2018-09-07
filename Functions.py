@@ -198,7 +198,9 @@ class Checkered(Function):
 
 class Checkered2(Function):
     def eval(self, x, y, normalized=True):
-        z = asin(x) + asin(y)
+        newX = ((100 * x) % 100) / 100
+        newY = ((100 * x) % 100) / 100
+        z = asin(newX) + asin(newY)
         if normalized:
             z = max(self.zmin, min(self.zmax, z))
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
