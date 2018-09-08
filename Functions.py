@@ -367,8 +367,8 @@ class GammaUpper(Function):
 class FunctionNode:
     def __init__(self, prob, depth=0):
         self.func = choice([Ripple, Ripple2, Sinkhole, Sinkhole2, Pulse, Bendy, Checkered, Checkered2, Sum, Product,
-                            Well, Well2, PolarR, PolarTheta, GammaLower, GammaLower, GammaUpper, GammaUpper, Mod, Mod2,
-                            InverseX, InverseY])()
+                            Well, Well2, PolarR, PolarTheta, GammaLower, GammaLower, GammaUpper, GammaUpper, InverseX,
+                            InverseY])()
         if depth > 6 or random() > prob:
             self.left = X()
         else:
