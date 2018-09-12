@@ -1,11 +1,10 @@
 from PIL import ImageFont
 from PIL import ImageDraw
 from PIL import Image
-from PIL import ImageFilter
-from PIL import ImageEnhance
 from random import randint
 from Functions import *
 from random import seed
+from colorsys import hsv_to_rgb
 
 
 font_params = {
@@ -76,8 +75,8 @@ class PaletteImage:
         self.canvas.save("{}".format(name), "PNG")
 
 
-class VaporWave:
-    def __init__(self, width, height, red, green, blue, filterComp, enhanceComp):
+class RGB:
+    def __init__(self, width, height, red, green, blue):
         self.width = width
         self.height = height
         self.red = red
@@ -92,31 +91,31 @@ class VaporWave:
                 g = (self.green.eval(newX, newY) + 1) * 127.5
                 b = (self.blue.eval(newX, newY) + 1) * 127.5
                 self.canvas.putpixel((x, y), (int(r), int(g), int(b)))
-        while random() <= filterComp:
-            self.canvas = filter(self.canvas)
-            filterComp = filterComp ** 2
-        while random() <= enhanceComp:
-            self.canvas = enhance(self.canvas)
-            enhanceComp = enhanceComp ** 2
 
     def save(self, name):
         self.canvas.save("{}".format(name), "PNG")
 
 
-def filter(img):
-    filter = choice([ImageFilter.BLUR, ImageFilter.CONTOUR, ImageFilter.DETAIL, ImageFilter.EDGE_ENHANCE,
-                     ImageFilter.EDGE_ENHANCE_MORE, ImageFilter.EMBOSS, ImageFilter.FIND_EDGES, ImageFilter.SHARPEN,
-                     ImageFilter.SMOOTH, ImageFilter.SMOOTH_MORE])
-    return img.filter(filter)
+class HSV:
+    def __init__(self, width, height, red, green, blue, filterComp, enhanceComp):
+        self.width = width
+        self.height = height
+        self.red = red
+        self.green = green
+        self.blue = blue
+        self.canvas = Image.new("RGB", (width, height))
+        for x in range(width):
+            for y in range(height):
+                newX = (x - (width / 2)) / width * 2
+                newY = (y - (height / 2)) / height * 2
+                h = (self.red.eval(newX, newY) + 1) * 180
+                s = (self.green.eval(newX, newY) + 1) * 20 + 60
+                v = (self.blue.eval(newX, newY) + 1) * 20 + 60
+                r, g, b = hsv_to_rgb(h, s, v)
+                self.canvas.putpixel((x, y), (int(r), int(g), int(b)))
 
-
-def enhance(img):
-    enhanced = choice([ImageEnhance.Brightness, ImageEnhance.Color, ImageEnhance.Contrast, ImageEnhance.Sharpness])(img)
-    if type(enhanced) == ImageEnhance.Sharpness:
-        factor = random() * 2
-    else:
-        factor = random() + .9
-    return enhanced.enhance(factor)
+    def save(self, name):
+        self.canvas.save("{}".format(name), "png")
 
 
 def createText(width, height, words, font, size):
@@ -159,11 +158,19 @@ def drawText(effectedPixels, dx, dy, img):
         img.putpixel((p[0] + dx, p[1] + dy), (255, 255, 255))
 
 
-def createVaporWave():
+def createRGB():
     rHead = FunctionNode(randint(60, 90) / 100)
     gHead = FunctionNode(randint(60, 90) / 100)
     bHead = FunctionNode(randint(60, 90) / 100)
-    finalImage = VaporWave(1024, 512, rHead, gHead, bHead, randint(20, 50) / 100, randint(20, 50) / 100)
+    finalImage = RGB(1024, 512, rHead, gHead, bHead)
+    return finalImage
+
+
+def createHSV():
+    hHead = FunctionNode(randint(60, 90) / 100)
+    sHead = FunctionNode(randint(60, 90) / 100)
+    vHead = FunctionNode(randint(60, 90) / 100)
+    finalImage = RGB(1024, 512, hHead, sHead, vHead)
     return finalImage
 
 
@@ -176,7 +183,7 @@ def createPaletteBased():
 def createAttachment(name, text, s=None):
     if s is not None:
         seed(s)
-    finalImage = choice([createVaporWave, createPaletteBased])()
+    finalImage = choice([createRGB, createHSV, createPaletteBased])()
     font = choice(list(font_params.keys()))
     fontSize = randint(font_params[font], int(font_params[font] * 1.5))
     effectedPixels, dx, dy = createText(1024, 512, text, font, fontSize)
