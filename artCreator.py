@@ -97,7 +97,7 @@ class RGB:
 
 
 class HSV:
-    def __init__(self, width, height, red, green, blue, filterComp, enhanceComp):
+    def __init__(self, width, height, red, green, blue):
         self.width = width
         self.height = height
         self.red = red
@@ -109,7 +109,7 @@ class HSV:
                 newX = (x - (width / 2)) / width * 2
                 newY = (y - (height / 2)) / height * 2
                 h = (self.red.eval(newX, newY) + 1) * 180
-                s = (self.green.eval(newX, newY) + 1) * 20 + 60
+                s = (self.green.eval(newX, newY) + 1) * 30
                 v = (self.blue.eval(newX, newY) + 1) * 20 + 60
                 r, g, b = hsv_to_rgb(h, s, v)
                 self.canvas.putpixel((x, y), (int(r), int(g), int(b)))
