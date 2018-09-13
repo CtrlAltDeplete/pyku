@@ -4,7 +4,7 @@ from PIL import Image
 from random import randint
 from Functions import *
 from random import seed
-from colorsys import hsv_to_rgb
+from colorsys import hls_to_rgb
 
 
 font_params = {
@@ -96,7 +96,7 @@ class RGB:
         self.canvas.save("{}".format(name), "PNG")
 
 
-class HSV:
+class HSL:
     def __init__(self, width, height, red, green, blue):
         self.width = width
         self.height = height
@@ -109,9 +109,9 @@ class HSV:
                 newX = (x - (width / 2)) / width * 2
                 newY = (y - (height / 2)) / height * 2
                 h = (self.red.eval(newX, newY) + 1) * 180
-                s = (self.green.eval(newX, newY) + 1) * 30
-                v = (self.blue.eval(newX, newY) + 1) * 20 + 60
-                r, g, b = hsv_to_rgb(h, s, v)
+                s = (self.green.eval(newX, newY) + 1) * 40 + 20
+                l = (self.blue.eval(newX, newY) + 1) * 30 + 20
+                r, g, b = hls_to_rgb(h, l, s)
                 self.canvas.putpixel((x, y), (int(r), int(g), int(b)))
 
     def save(self, name):
@@ -166,11 +166,11 @@ def createRGB():
     return finalImage
 
 
-def createHSV():
+def createHSL():
     hHead = FunctionNode(randint(60, 90) / 100)
     sHead = FunctionNode(randint(60, 90) / 100)
-    vHead = FunctionNode(randint(60, 90) / 100)
-    finalImage = RGB(1024, 512, hHead, sHead, vHead)
+    lHead = FunctionNode(randint(60, 90) / 100)
+    finalImage = HSL(1024, 512, hHead, sHead, lHead)
     return finalImage
 
 
@@ -183,7 +183,7 @@ def createPaletteBased():
 def createAttachment(name, text, s=None):
     if s is not None:
         seed(s)
-    finalImage = choice([createRGB, createHSV, createPaletteBased])()
+    finalImage = choice([createRGB, createHSL, createPaletteBased])()
     font = choice(list(font_params.keys()))
     fontSize = randint(font_params[font], int(font_params[font] * 1.5))
     effectedPixels, dx, dy = createText(1024, 512, text, font, fontSize)
