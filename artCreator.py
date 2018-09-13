@@ -167,7 +167,7 @@ def createRGB():
 
 
 def createHSL():
-    hHead = FunctionNode(randint(60, 90) / 100)
+    hHead = FunctionNode(randint(10, 15) / 100)
     sHead = FunctionNode(randint(60, 90) / 100)
     lHead = FunctionNode(randint(60, 90) / 100)
     finalImage = HSL(1024, 512, hHead, sHead, lHead)
