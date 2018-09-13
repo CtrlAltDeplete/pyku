@@ -109,8 +109,8 @@ class HSL:
                 newX = (x - (width / 2)) / width * 2
                 newY = (y - (height / 2)) / height * 2
                 h = (self.red.eval(newX, newY) + 1) * 180
-                s = (self.green.eval(newX, newY) + 1) * 40 + 20
-                l = (self.blue.eval(newX, newY) + 1) * 30 + 20
+                s = (self.green.eval(newX, newY) + 1) * 50
+                l = (self.blue.eval(newX, newY) + 1) * 5 + 45
                 r, g, b = hls_to_rgb(h, l, s)
                 self.canvas.putpixel((x, y), (int(r), int(g), int(b)))
 
