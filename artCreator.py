@@ -104,7 +104,7 @@ class HSL:
         self.blue = blue
         self.canvas = Image.new("RGB", (width, height))
         self.dh = randint(0, 360)
-        self.ch = randint(15, 90)
+        self.ch = randint(15, 60)
         for x in range(width):
             for y in range(height):
                 newX = (x - (width / 2)) / width * 2
@@ -142,7 +142,7 @@ class HSV:
         self.blue = blue
         self.canvas = Image.new("RGB", (width, height))
         self.dh = randint(0, 360)
-        self.ch = randint(15, 90)
+        self.ch = randint(15, 60)
         for x in range(width):
             for y in range(height):
                 newX = (x - (width / 2)) / width * 2
