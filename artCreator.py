@@ -4,7 +4,6 @@ from PIL import Image
 from random import randint
 from Functions import *
 from random import seed
-from colorsys import hls_to_rgb
 
 
 font_params = {
@@ -109,10 +108,60 @@ class HSL:
                 newX = (x - (width / 2)) / width * 2
                 newY = (y - (height / 2)) / height * 2
                 h = (self.red.eval(newX, newY) + 1) * 180
-                s = (self.green.eval(newX, newY) + 1) * 50
-                l = (self.blue.eval(newX, newY) + 1) * 5 + 45
-                r, g, b = hls_to_rgb(h, l, s)
-                self.canvas.putpixel((x, y), (int(r), int(g), int(b)))
+                s = (self.green.eval(newX, newY) + 1) * .5
+                l = (self.blue.eval(newX, newY) + 1) * .5
+                c = (1 - abs(2 * l - 1)) * s
+                x1 = c * (1 - abs((h / 60) % 2 - 1))
+                m = l - c / 2
+                if 0 <= h < 60:
+                    r, g, b = c, x1, 0
+                elif 60 <= h < 120:
+                    r, g, b = x1, c, 0
+                elif 120 <= h < 180:
+                    r, g, b = 0, c, x1
+                elif 180 <= h < 240:
+                    r, g, b = 0, x1, c
+                elif 240 <= h < 300:
+                    r, g, b = x1, 0, c
+                else:
+                    r, g, b = c, 0, x1
+                self.canvas.putpixel((x, y), (int((r + m) * 255), int((g + m) * 255), int((b + m) * 255)))
+
+    def save(self, name):
+        self.canvas.save("{}".format(name), "png")
+
+
+class HSV:
+    def __init__(self, width, height, red, green, blue):
+        self.width = width
+        self.height = height
+        self.red = red
+        self.green = green
+        self.blue = blue
+        self.canvas = Image.new("RGB", (width, height))
+        for x in range(width):
+            for y in range(height):
+                newX = (x - (width / 2)) / width * 2
+                newY = (y - (height / 2)) / height * 2
+                h = (self.red.eval(newX, newY) + 1) * 180
+                s = (self.green.eval(newX, newY) + 1) * .5
+                v = (self.blue.eval(newX, newY) + 1) * .5
+                c = v * s
+                x1 = c * (1 - abs((h / 60) % 2 - 1))
+                m = v - c
+                if 0 <= h < 60:
+                    r, g, b = c, x1, 0
+                elif 60 <= h < 120:
+                    r, g, b = x1, c, 0
+                elif 120 <= h < 180:
+                    r, g, b = 0, c, x1
+                elif 180 <= h < 240:
+                    r, g, b = 0, x1, c
+                elif 240 <= h < 300:
+                    r, g, b = x1, 0, c
+                else:
+                    r, g, b = c, 0, x1
+                self.canvas.putpixel((x, y), (int((r + m) * 255), int((g + m) * 255), int((b + m) * 255)))
 
     def save(self, name):
         self.canvas.save("{}".format(name), "png")
@@ -159,23 +208,31 @@ def drawText(effectedPixels, dx, dy, img):
 
 
 def createRGB():
-    rHead = FunctionNode(randint(60, 90) / 100)
-    gHead = FunctionNode(randint(60, 90) / 100)
-    bHead = FunctionNode(randint(60, 90) / 100)
+    rHead = FunctionNode(randint(50, 70) / 100)
+    gHead = FunctionNode(randint(50, 70) / 100)
+    bHead = FunctionNode(randint(50, 70) / 100)
     finalImage = RGB(1024, 512, rHead, gHead, bHead)
     return finalImage
 
 
 def createHSL():
-    hHead = FunctionNode(randint(10, 15) / 100)
-    sHead = FunctionNode(randint(60, 90) / 100)
-    lHead = FunctionNode(randint(60, 90) / 100)
+    hHead = FunctionNode(randint(20, 40) / 100)
+    sHead = FunctionNode(randint(50, 70) / 100)
+    lHead = FunctionNode(randint(50, 70) / 100)
     finalImage = HSL(1024, 512, hHead, sHead, lHead)
     return finalImage
 
 
+def createHSV():
+    hHead = FunctionNode(randint(20, 40) / 100)
+    sHead = FunctionNode(randint(50, 70) / 100)
+    vHead = FunctionNode(randint(50, 70) / 100)
+    finalImage = HSV(1024, 512, hHead, sHead, vHead)
+    return finalImage
+
+
 def createPaletteBased():
-    cHead = FunctionNode(randint(70, 99) / 100)
+    cHead = FunctionNode(randint(60, 80) / 100)
     finalImage = PaletteImage(1024, 512, cHead, choice(palettes))
     return finalImage
 
@@ -183,7 +240,7 @@ def createPaletteBased():
 def createAttachment(name, text, s=None):
     if s is not None:
         seed(s)
-    finalImage = choice([createRGB, createHSL, createPaletteBased])()
+    finalImage = choice([createRGB, createHSL, createHSV, createPaletteBased])()
     font = choice(list(font_params.keys()))
     fontSize = randint(font_params[font], int(font_params[font] * 1.5))
     effectedPixels, dx, dy = createText(1024, 512, text, font, fontSize)

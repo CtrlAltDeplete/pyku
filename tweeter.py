@@ -130,4 +130,4 @@ def generateTweet(handle='', source=["Random"], send=True):
 
 
 if __name__ == '__main__':
-    generateTweetWithImage()
+    generateTweetWithImage(send=False, delete=False, source=['Shrek'])
