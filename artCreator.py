@@ -103,11 +103,13 @@ class HSL:
         self.green = green
         self.blue = blue
         self.canvas = Image.new("RGB", (width, height))
+        self.dh = randint(0, 360)
+        self.ch = randint(15, 90)
         for x in range(width):
             for y in range(height):
                 newX = (x - (width / 2)) / width * 2
                 newY = (y - (height / 2)) / height * 2
-                h = (self.red.eval(newX, newY) + 1) * 180
+                h = ((self.red.eval(newX, newY) + 1) * self.ch + self.dh) % 360
                 s = (self.green.eval(newX, newY) + 1) * .5
                 l = (self.blue.eval(newX, newY) + 1) * .5
                 c = (1 - abs(2 * l - 1)) * s
@@ -139,11 +141,13 @@ class HSV:
         self.green = green
         self.blue = blue
         self.canvas = Image.new("RGB", (width, height))
+        self.dh = randint(0, 360)
+        self.ch = randint(15, 90)
         for x in range(width):
             for y in range(height):
                 newX = (x - (width / 2)) / width * 2
                 newY = (y - (height / 2)) / height * 2
-                h = (self.red.eval(newX, newY) + 1) * 180
+                h = ((self.red.eval(newX, newY) + 1) * self.ch + self.dh) % 360
                 s = (self.green.eval(newX, newY) + 1) * .5
                 v = (self.blue.eval(newX, newY) + 1) * .5
                 c = v * s
