@@ -212,15 +212,15 @@ def drawText(effectedPixels, dx, dy, img):
 
 
 def createRGB():
-    rHead = FunctionNode(randint(50, 70) / 100)
-    gHead = FunctionNode(randint(50, 70) / 100)
-    bHead = FunctionNode(randint(50, 70) / 100)
+    rHead = FunctionNode(randint(80, 90) / 100)
+    gHead = FunctionNode(randint(80, 90) / 100)
+    bHead = FunctionNode(randint(80, 90) / 100)
     finalImage = RGB(1024, 512, rHead, gHead, bHead)
     return finalImage
 
 
 def createHSL():
-    hHead = FunctionNode(randint(20, 40) / 100)
+    hHead = FunctionNode(randint(80, 90) / 100)
     sHead = FunctionNode(randint(50, 70) / 100)
     lHead = FunctionNode(randint(50, 70) / 100)
     finalImage = HSL(1024, 512, hHead, sHead, lHead)
@@ -228,7 +228,7 @@ def createHSL():
 
 
 def createHSV():
-    hHead = FunctionNode(randint(20, 40) / 100)
+    hHead = FunctionNode(randint(80, 90) / 100)
     sHead = FunctionNode(randint(50, 70) / 100)
     vHead = FunctionNode(randint(50, 70) / 100)
     finalImage = HSV(1024, 512, hHead, sHead, vHead)
@@ -236,7 +236,7 @@ def createHSV():
 
 
 def createPaletteBased():
-    cHead = FunctionNode(randint(60, 80) / 100)
+    cHead = FunctionNode(randint(80, 90) / 100)
     finalImage = PaletteImage(1024, 512, cHead, choice(palettes))
     return finalImage
 
