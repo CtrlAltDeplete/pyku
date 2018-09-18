@@ -174,8 +174,8 @@ class HSV:
 
 class WaterColor:
     def __init__(self, width, height, brushMin, brushMax, blotches, thickness, palette):
-        self.img = Image.new("RGB", (width, height), (255, 255, 255))
-        draw = ImageDraw.Draw(self.img, "RGBA")
+        self.canvas = Image.new("RGB", (width, height), (255, 255, 255))
+        draw = ImageDraw.Draw(self.canvas, "RGBA")
         c = 0
         for i in range(blotches):
             c += 1
@@ -230,7 +230,7 @@ class WaterColor:
         return newPoly
 
     def save(self, name):
-        self.img.save("".format(name), "png")
+        self.canvas.save("{}".format(name), "png")
 
 
 def createText(width, height, words, font, size):
@@ -238,7 +238,6 @@ def createText(width, height, words, font, size):
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("fonts/{}".format(font), size)
     draw.text((20, 20), words, (255, 255, 255), font=font)
-    # img.show()
     effectedPixels = []
     minX = width
     maxX = 0
