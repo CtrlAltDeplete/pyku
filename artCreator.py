@@ -4,6 +4,7 @@ from PIL import Image
 from random import randint
 from Functions import *
 from random import seed
+import math
 
 
 font_params = {
@@ -171,6 +172,67 @@ class HSV:
         self.canvas.save("{}".format(name), "png")
 
 
+class WaterColor:
+    def __init__(self, width, height, brushMin, brushMax, blotches, thickness, palette):
+        self.img = Image.new("RGB", (width, height), (255, 255, 255))
+        draw = ImageDraw.Draw(self.img, "RGBA")
+        c = 0
+        for i in range(blotches):
+            c += 1
+            c %= len(palette)
+            x, y = randint(-brushMax, width + brushMax), randint(-brushMax, height + brushMax)
+            size = randint(brushMin, brushMax)
+            for j in range(thickness):
+                dx, dy = randint(-brushMax // 4, brushMax // 4), randint(-brushMax // 4, brushMax // 4)
+                dsize = randint(-brushMin // 4, brushMin // 4)
+                x += dx
+                y += dy
+                size += dsize
+                poly = self.polygon(x + dx, y + dy, size + dsize, 6)
+                for k in range(brushMax // 20):
+                    poly = self.deformPolygon(poly)
+                draw.polygon(poly, fill=(palette[c][0], palette[c][1], palette[c][2], randint(4, 30)))
+
+    def polygon(self, x, y, size, npoints):
+        angle = 2 * math.pi / npoints
+        points = []
+        curAngle = 0
+        while curAngle < 2 * math.pi:
+            px, py = x + math.cos(curAngle) * size, y + math.sin(curAngle) * size
+            points.append((px, py))
+            curAngle += angle
+        return points
+
+    def randPoint(self, p1, p2):
+        dx = p2[0] - p1[0]
+        dy = p2[1] - p1[1]
+        try:
+            x = dx / abs(dx) * randint(0, int(abs(dx)))
+        except ZeroDivisionError:
+            x = 0
+        try:
+            y = dy / abs(dy) * randint(0, int(abs(dy)))
+        except ZeroDivisionError:
+            y = 0
+        return p1[0] + x, p1[1] + y
+
+    def deformPolygon(self, polygon):
+        newPoly = []
+        for i in range(len(polygon)):
+            p1 = polygon[i]
+            if len(polygon) - 1 == i:
+                p2 = polygon[0]
+                newPoly.append(p1)
+            else:
+                p2 = polygon[i + 1]
+            newPoly.append(self.randPoint(p1, p2))
+            newPoly.append(p2)
+        return newPoly
+
+    def save(self, name):
+        self.img.save("".format(name), "png")
+
+
 def createText(width, height, words, font, size):
     img = Image.new("RGB", (width, height), color=(0, 0, 0))
     draw = ImageDraw.Draw(img)
@@ -241,10 +303,15 @@ def createPaletteBased():
     return finalImage
 
 
+def createWaterColor():
+    finalImage = WaterColor(1024, 512, randint(40, 60), randint(120, 180), randint(160, 200), choice(15, 25), choice(palettes))
+    return finalImage
+
+
 def createAttachment(name, text, s=None):
     if s is not None:
         seed(s)
-    finalImage = choice([createRGB, createHSL, createHSV, createPaletteBased])()
+    finalImage = choice([createRGB, createHSL, createHSV, createPaletteBased, createWaterColor])()
     font = choice(list(font_params.keys()))
     fontSize = randint(font_params[font], int(font_params[font] * 1.5))
     effectedPixels, dx, dy = createText(1024, 512, text, font, fontSize)
