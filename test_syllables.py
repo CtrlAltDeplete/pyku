@@ -10,7 +10,8 @@ class TestSyllables(unittest.TestCase):
         'ruin': 2,
         'civil': 2,
         'service': 2,
-        'looking': 2
+        'looking': 2,
+        'specified': 3
     }
 
     def test_word(self):

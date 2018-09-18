@@ -304,7 +304,7 @@ def createPaletteBased():
 
 
 def createWaterColor():
-    finalImage = WaterColor(1024, 512, randint(40, 60), randint(120, 180), randint(160, 200), choice(15, 25), choice(palettes))
+    finalImage = WaterColor(1024, 512, randint(40, 60), randint(120, 180), randint(160, 200), randint(15, 25), choice(palettes))
     return finalImage
 
 
