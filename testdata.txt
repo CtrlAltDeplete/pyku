@@ -1,0 +1,12 @@
+{
+    "utterly": ["utterly", 3],
+    "vacuum": ["vacuum", 2],
+    "spoil": ["spoil", 2],
+    "ruin": ["ruin", 2],
+    "civil": ["civil", 2],
+    "service": ["service", 2],
+    "looking": ["looking", 2],
+    "specified": ["specified", 3],
+    "lootboxes": ["lootboxes", 3],
+    "any": ["any", 2]
+}
