@@ -8,5 +8,6 @@
     "looking": ["looking", 2],
     "specified": ["specified", 3],
     "lootboxes": ["lootboxes", 3],
-    "any": ["any", 2]
+    "any": ["any", 2],
+    "marriage": ["marriage", 2]
 }
