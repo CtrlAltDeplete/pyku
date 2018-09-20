@@ -173,50 +173,123 @@ class HSV:
 
 
 class WaterColor:
-    def __init__(self, width, height, brushMin, brushMax, blotches, thickness, palette):
-        self.canvas = Image.new("RGB", (width, height), (255, 255, 255))
-        draw = ImageDraw.Draw(self.canvas, "RGBA")
+    def __init__(self, size):
+        self.width, self.height = size
+        self.canvas = Image.new("RGB", (self.width, self.height), (255, 255, 255))
+        self.draw = ImageDraw.Draw(self.canvas, "RGBA")
+
+    def paintStrokes(self, strokeCount, brushMin, brushMax, thickMin, thickMax, palette):
         c = 0
-        for i in range(blotches):
+        for i in range(strokeCount):
             c += 1
             c %= len(palette)
-            x, y = randint(-brushMax, width + brushMax), randint(-brushMax, height + brushMax)
+            # Create and Draw Stroke
+            points = []
+            numPoints = randint(3, 10)
+            for j in range(numPoints):
+                x = randint(-self.width // 2, self.width * 3 // 2)
+                y = randint(-self.height // 2, self.height * 3 // 2)
+                points.append((x, y))
             size = randint(brushMin, brushMax)
-            for j in range(thickness):
-                dx, dy = randint(-brushMax // 4, brushMax // 4), randint(-brushMax // 4, brushMax // 4)
-                dsize = randint(-brushMin // 4, brushMin // 4)
-                x += dx
-                y += dy
-                size += dsize
-                poly = self.polygon(x + dx, y + dy, size + dsize, 6)
-                for k in range(brushMax // 20):
+            for j in range(randint(thickMin, thickMax)):
+                newPoints = []
+                dx, dy = randint(-5, 5), randint(-5, 5)
+                for p in points:
+                    newPoints.append((p[0] + dx, p[1] + dy))
+                bcurve = self.bcurve(newPoints, steps=3 * numPoints)
+                dSize = randint(-brushMin // 4, brushMin // 4)
+                stroke = self.createStroke(bcurve, size + dSize)
+                poly = stroke
+                for k in range(randint(brushMin // 8, brushMin // 4)):
                     poly = self.deformPolygon(poly)
-                draw.polygon(poly, fill=(palette[c][0], palette[c][1], palette[c][2], randint(4, 30)))
+                self.draw.polygon(poly, fill=(palette[c][0], palette[c][1], palette[c][2], randint(3, 15)))
 
-    def polygon(self, x, y, size, npoints):
-        angle = 2 * math.pi / npoints
-        points = []
-        curAngle = 0
-        while curAngle < 2 * math.pi:
-            px, py = x + math.cos(curAngle) * size, y + math.sin(curAngle) * size
-            points.append((px, py))
-            curAngle += angle
-        return points
+    def paintBlobs(self, blobCount, brushMin, brushMax, thickMin, thickMax, palette):
+        c = 0
+        for i in range(blobCount):
+            c += 1
+            c %= len(palette)
+            # Create and Draw Blob
+            x = randint(-brushMax, self.width + brushMax)
+            y = randint(-brushMax, self.height + brushMax)
+            size = randint(brushMin, brushMax)
+            for j in range(randint(thickMin, thickMax)):
+                x += randint(-5, 5)
+                y += randint(-5, 5)
+                size += randint(-brushMin // 4, brushMin // 4)
+                blob = self.createBlob((x, y), size)
+                poly = blob
+                for k in range(randint(brushMin // 4, brushMin // 2)):
+                    poly = self.deformPolygon(poly)
+                self.draw.polygon(poly, fill=(palette[c][0], palette[c][1], palette[c][2], randint(3, 15)))
 
-    def randPoint(self, p1, p2):
-        dx = p2[0] - p1[0]
-        dy = p2[1] - p1[1]
-        try:
-            x = dx / abs(dx) * randint(0, int(abs(dx)))
-        except ZeroDivisionError:
+    def bcurve(self, points, steps=12):
+        newPoints = []
+        for i in range(steps):
+            t = i / (steps - 1)
             x = 0
-        try:
-            y = dy / abs(dy) * randint(0, int(abs(dy)))
-        except ZeroDivisionError:
             y = 0
-        return p1[0] + x, p1[1] + y
+            for n in range(len(points)):
+                coef1 = math.factorial(len(points) - 1) / (math.factorial(len(points) - 1 - n) * math.factorial(n))
+                coef2 = (1 - t) ** (len(points) - 1 - n)
+                coef3 = t ** n
+                x += coef1 * coef2 * coef3 * points[n][0]
+                y += coef1 * coef2 * coef3 * points[n][1]
+            newPoints.append((x, y))
+        return newPoints
+
+    def createStroke(self, points, size):
+        strokePoints = []
+        # Draw the rounded beginning, starting with the upper perp
+        angle = self.calcPerp(points[0], points[1])
+        for i in range(4):
+            x = points[0][0] + size * math.cos(angle)
+            y = points[0][1] + size * math.sin(angle)
+            strokePoints.append((x, y))
+            angle += math.pi / 3
+        # Draw the lower perp for each mid point
+        for i in range(1, len(points) - 1):
+            angle = self.calcPerp(points[i - 1], points[i + 1], False)
+            x = points[i][0] + size * math.cos(angle)
+            y = points[i][1] + size * math.sin(angle)
+            strokePoints.append((x, y))
+        # Draw the rounded end, starting with the lower perp
+        angle = self.calcPerp(points[-2], points[-1], False)
+        for i in range(4):
+            x = points[-1][0] + size * math.cos(angle)
+            y = points[-1][1] + size * math.sin(angle)
+            strokePoints.append((x, y))
+            angle += math.pi / 3
+        # Draw the upper perp for each mid point
+        for i in range(1, len(points) - 1):
+            angle = self.calcPerp(points[len(points) - i - 2], points[len(points) - i])
+            x = points[len(points) - 1 - i][0] + size * math.cos(angle)
+            y = points[len(points) - 1 - i][1] + size * math.sin(angle)
+            strokePoints.append((x, y))
+        return strokePoints
+
+    def createBlob(self, point, size):
+        blobPoints = []
+        angle = randint(0, 359) / 360 * 2 * math.pi
+        for i in range(6):
+            blobPoints.append((point[0] + math.cos(angle) * size, point[1] + math.sin(angle) * size))
+            angle += math.pi / 3
+        return blobPoints
 
     def deformPolygon(self, polygon):
+        def randPoint(p1, p2):
+            dx = p2[0] - p1[0]
+            dy = p2[1] - p1[1]
+            try:
+                x = dx / abs(dx) * randint(0, int(abs(dx)))
+            except ZeroDivisionError:
+                x = 0
+            try:
+                y = dy / abs(dy) * randint(0, int(abs(dy)))
+            except ZeroDivisionError:
+                y = 0
+            return p1[0] + x, p1[1] + y
+
         newPoly = []
         for i in range(len(polygon)):
             p1 = polygon[i]
@@ -225,9 +298,47 @@ class WaterColor:
                 newPoly.append(p1)
             else:
                 p2 = polygon[i + 1]
-            newPoly.append(self.randPoint(p1, p2))
+            newPoly.append(randPoint(p1, p2))
             newPoly.append(p2)
         return newPoly
+
+    def calcAngle(self, p1, p2):
+        dx = p2[0] - p1[0]
+        dy = p2[1] - p1[1]
+        quad = 1
+        if dx < 0:
+            if dy < 0:
+                quad = 3
+            else:
+                quad = 2
+        else:
+            if dy < 0:
+                quad = 4
+        try:
+            angle = math.atan(dy / dx)
+            if quad == 2:
+                angle += math.pi
+            elif quad == 3:
+                angle = math.pi + angle
+        except ZeroDivisionError:
+            if dy > 0:
+                angle = math.pi / 2
+            else:
+                angle = 3 * math.pi / 2
+        while angle < 0 or angle >= 2 * math.pi:
+            angle += (math.pi * 2)
+            angle %= (math.pi * 2)
+        return angle
+
+    def calcPerp(self, p1, p2, upper=True):
+        if upper:
+            angle = self.calcAngle(p1, p2) + math.pi / 2
+        else:
+            angle = self.calcAngle(p1, p2) - math.pi / 2
+        while angle < 0 or angle >= 2 * math.pi:
+            angle += (math.pi * 2)
+            angle %= (math.pi * 2)
+        return angle
 
     def save(self, name):
         self.canvas.save("{}".format(name), "png")
@@ -303,7 +414,10 @@ def createPaletteBased():
 
 
 def createWaterColor():
-    finalImage = WaterColor(1024, 512, randint(40, 60), randint(120, 180), randint(160, 200), randint(15, 25), choice(palettes))
+    finalImage = WaterColor((1024, 512))
+    palette = choice(palettes)
+    finalImage.paintBlobs(randint(500, 600), 10, 90, 5, 10, palette)
+    finalImage.paintStrokes(randint(20, 40), 30, 60, 3, 6, palette)
     return finalImage
 
 

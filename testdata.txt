@@ -9,5 +9,14 @@
     "specified": ["specified", 3],
     "lootboxes": ["lootboxes", 3],
     "any": ["any", 2],
-    "marriage": ["marriage", 2]
+    "marriage": ["marriage", 2],
+    "reed": ["reed", 1],
+    "cases": ["cases", 2],
+    "pierre": ["pierre", 2],
+    "bruised": ["bruised", 1],
+    "napoleons": ["napoleons", 4],
+    "allow": ["allow", 2],
+    "baseball": ["baseball", 2],
+    "complete": ["complete", 2],
+    "completely": ["completely", 3]
 }
