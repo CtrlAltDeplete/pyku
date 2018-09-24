@@ -353,7 +353,7 @@ class SquareImage:
         self.hue = hue
         self.sat = sat
         self.val = val
-        self.canvas = Image.new("RGB", (width, height), (255, 255, 255))
+        self.canvas = Image.new("RGB", (width, height), (127, 127, 127))
         self.draw = ImageDraw.ImageDraw(self.canvas, "RGBA")
         self.dh = randint(0, 360)
         self.ch = randint(15, 60)
