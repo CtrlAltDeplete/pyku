@@ -344,6 +344,63 @@ class WaterColor:
         self.canvas.save("{}".format(name), "png")
 
 
+class SquareImage:
+    def __init__(self, width, height, rotation, size, hue, sat, val):
+        self.width = width
+        self.height = height
+        self.rot = rotation
+        self.size = size
+        self.hue = hue
+        self.sat = sat
+        self.val = val
+        self.canvas = Image.new("RGB", (width, height), (255, 255, 255))
+        self.draw = ImageDraw.ImageDraw(self.canvas, "RGBA")
+        self.dh = randint(0, 360)
+        self.ch = randint(15, 60)
+        for x in range(0, width, 10):
+            for y in range(0, height, 10):
+                newX = (x - (width / 2)) / width * 2
+                newY = (y - (height / 2)) / height * 2
+                rot = (self.rot.eval(newX, newY) + 1) * 180
+                size = (self.size.eval(newX, newY) + 2) * 12
+                h = ((self.hue.eval(newX, newY) + 1) * self.ch + self.dh) % 360
+                s = (self.sat.eval(newX, newY) + 1) * .5
+                v = (self.val.eval(newX, newY) + 1) * .5
+                c = v * s
+                x1 = c * (1 - abs((h / 60) % 2 - 1))
+                m = v - c
+                if 0 <= h < 60:
+                    r, g, b = c, x1, 0
+                elif 60 <= h < 120:
+                    r, g, b = x1, c, 0
+                elif 120 <= h < 180:
+                    r, g, b = 0, c, x1
+                elif 180 <= h < 240:
+                    r, g, b = 0, x1, c
+                elif 240 <= h < 300:
+                    r, g, b = x1, 0, c
+                else:
+                    r, g, b = c, 0, x1
+                r, g, b = (int((r + m) * 255), int((g + m) * 255), int((b + m) * 255))
+                self.createSquare((r, g, b), (x, y), size, rot)
+
+    def createSquare(self, color, position, size, rotation):
+        angles = []
+        for i in range(4):
+            angles.append(math.pi * i / 2 + math.pi / 4 + rotation)
+        points = []
+        for i in range(4):
+            x = position[0] + math.cos(angles[i]) * size
+            y = position[1] + math.sin(angles[i]) * size
+            points.append((x, y))
+        fill = color[0], color[1], color[2], 60
+        outline = color[0], color[1], color[2], 120
+        self.draw.polygon(points, fill, outline)
+
+    def save(self, name):
+        self.canvas.save("{}".format(name), "png")
+
+
 def createText(width, height, words, font, size):
     img = Image.new("RGB", (width, height), color=(0, 0, 0))
     draw = ImageDraw.Draw(img)
@@ -421,10 +478,20 @@ def createWaterColor():
     return finalImage
 
 
+def createSquareBased():
+    rotHead = FunctionNode(randint(20, 30) / 100)
+    sizHead = FunctionNode(randint(20, 30) / 100)
+    hueHead = FunctionNode(randint(40, 50) / 100)
+    satHead = FunctionNode(randint(40, 50) / 100)
+    valHead = FunctionNode(randint(40, 50) / 100)
+    finalImage = SquareImage(1024, 512, rotHead, sizHead, hueHead, satHead, valHead)
+    return finalImage
+
+
 def createAttachment(name, text, s=None):
     if s is not None:
         seed(s)
-    finalImage = choice([createRGB, createHSL, createHSV, createPaletteBased, createWaterColor])()
+    finalImage = choice([choice([createRGB, createHSL, createHSL]), createPaletteBased, createWaterColor, createSquareBased])()
     font = choice(list(font_params.keys()))
     fontSize = randint(font_params[font], int(font_params[font] * 1.5))
     effectedPixels, dx, dy = createText(1024, 512, text, font, fontSize)
