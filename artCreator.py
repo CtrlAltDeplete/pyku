@@ -350,7 +350,7 @@ class PolygonImage:
         self.height = height
         self.nsides = nsides
         self.rot = rotation
-        self.size = size
+        self.size = FunctionNode(randint(30, 50) / 100)
         self.hue = hue
         self.sat = sat
         self.val = val
@@ -358,12 +358,12 @@ class PolygonImage:
         self.draw = ImageDraw.ImageDraw(self.canvas, "RGBA")
         self.dh = randint(0, 360)
         self.ch = randint(15, 60)
-        for x in range(-10, width + 10, 10):
-            for y in range(-10, height + 10, 10):
+        for x in range(-size, width + size, size):
+            for y in range(-size, height + size, size):
                 newX = (x - (width / 2)) / width * 2
                 newY = (y - (height / 2)) / height * 2
                 rot = (self.rot.eval(newX, newY) + 1) * 180
-                size = (self.size.eval(newX, newY) + 2) * 10
+                newSize = (self.size.eval(newX, newY) + 2) * size
                 h = ((self.hue.eval(newX, newY) + 1) * self.ch + self.dh) % 360
                 s = (self.sat.eval(newX, newY) + 1) * .5
                 v = (self.val.eval(newX, newY) + 1) * .5
@@ -383,12 +383,12 @@ class PolygonImage:
                 else:
                     r, g, b = c, 0, x1
                 r, g, b = (int((r + m) * 255), int((g + m) * 255), int((b + m) * 255))
-                self.createPolygon((r, g, b), (x, y), size, rot)
+                self.createPolygon((r, g, b), (x, y), newSize, rot)
 
     def createPolygon(self, color, position, size, rotation):
         angles = []
         for i in range(self.nsides):
-            angles.append(math.pi * 2 / self.nsides * i)
+            angles.append(math.pi * 2 / self.nsides * i + rotation)
         points = []
         for i in range(self.nsides):
             x = position[0] + math.cos(angles[i]) * size
@@ -482,12 +482,12 @@ def createWaterColor():
 def createPolygonBased():
     nsides = randint(3, 8)
     bg = randint(0, 255)
+    size = randint(10, 25)
     rotHead = FunctionNode(randint(20, 30) / 100)
-    sizHead = FunctionNode(randint(20, 30) / 100)
     hueHead = FunctionNode(randint(40, 50) / 100)
     satHead = FunctionNode(randint(40, 50) / 100)
     valHead = FunctionNode(randint(40, 50) / 100)
-    finalImage = PolygonImage(1024, 512, nsides, bg, rotHead, sizHead, hueHead, satHead, valHead)
+    finalImage = PolygonImage(1024, 512, nsides, bg, rotHead, size, hueHead, satHead, valHead)
     return finalImage
 
 
