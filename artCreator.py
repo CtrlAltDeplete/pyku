@@ -348,18 +348,23 @@ class PolygonImage:
     def __init__(self, width, height, nsides, bg, rotation, size, hue, sat, val):
         self.width = width
         self.height = height
-        self.nsides = nsides
+        self.angles = []
+        for i in range(nsides):
+            self.angles.append(randint(0, 359) * math.pi / 180)
+        self.angles.sort()
         self.rot = rotation
         self.size = FunctionNode(randint(30, 50) / 100)
         self.hue = hue
         self.sat = sat
         self.val = val
-        self.canvas = Image.new("RGB", (width, height), bg)
+        self.canvas = Image.new("RGB", (width, height), (bg, bg, bg))
         self.draw = ImageDraw.ImageDraw(self.canvas, "RGBA")
         self.dh = randint(0, 360)
         self.ch = randint(15, 60)
-        for x in range(-size, width + size, size):
-            for y in range(-size, height + size, size):
+        dx = 1.5 + randint(0, 5) / 10
+        dy = 1.5 + randint(0, 5) / 10
+        for x in range(-size, width + size, int(size / dx)):
+            for y in range(-size, height + size, int(size / dy)):
                 newX = (x - (width / 2)) / width * 2
                 newY = (y - (height / 2)) / height * 2
                 rot = (self.rot.eval(newX, newY) + 1) * 180
@@ -387,12 +392,12 @@ class PolygonImage:
 
     def createPolygon(self, color, position, size, rotation):
         angles = []
-        for i in range(self.nsides):
-            angles.append(math.pi * 2 / self.nsides * i + rotation)
+        for theta in self.angles:
+            angles.append(theta + rotation)
         points = []
-        for i in range(self.nsides):
-            x = position[0] + math.cos(angles[i]) * size
-            y = position[1] + math.sin(angles[i]) * size
+        for theta in angles:
+            x = position[0] + math.cos(theta) * size
+            y = position[1] + math.sin(theta) * size
             points.append((x, y))
         fill = color[0], color[1], color[2], 60
         outline = color[0], color[1], color[2], 120
