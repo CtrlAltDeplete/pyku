@@ -29,7 +29,8 @@ options = {
     'Paradise Lost': 'paradiselost.json',
     'Fear And Loathing In Las Vegas': 'fearandloathing.json',
     'Trump Tweets': 'trumptweets.json',
-    'Fortune Cookie': 'fortune.json'
+    'Fortune Cookie': 'fortune.json',
+    'Perverted Justice Logs': 'pervertedjustice.json'
 }
 keys = list(options.keys())
 keys.sort()
