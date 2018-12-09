@@ -133,5 +133,4 @@ def generateTweet(handle='', source=["Random"], send=True):
 
 
 if __name__ == '__main__':
-    # generateTweetWithImage()
-    generateTweetWithImage(source=["American Psycho"], send=False, delete=False)
+    generateTweetWithImage()
