@@ -2,7 +2,7 @@ from Functions import *
 from PIL import Image as PILImage
 from PIL import ImageTk
 from random import randint
-from sys import argv
+# from sys import argv
 # from tkinter import *
 
 

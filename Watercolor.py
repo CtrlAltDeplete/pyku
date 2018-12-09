@@ -2,10 +2,10 @@ import math
 
 from PIL import Image as PILImage
 from PIL import ImageDraw
-from PIL import ImageTk
+# from PIL import ImageTk
 from random import choice
 from random import randint
-from sys import argv
+# from sys import argv
 # from tkinter import *
 
 

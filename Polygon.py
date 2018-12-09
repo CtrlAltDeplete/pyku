@@ -3,12 +3,12 @@ import math
 import multiprocessing
 
 from Functions import *
-from os import remove
+# from os import remove
 from PIL import Image as PILImage
 from PIL import ImageDraw
-from PIL import ImageTk
+# from PIL import ImageTk
 from random import randint
-from sys import argv
+# from sys import argv
 # from tkinter import *
 
 
