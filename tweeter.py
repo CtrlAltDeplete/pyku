@@ -76,7 +76,8 @@ def generateTweetWithImage(handle='', source=["Random"], send=True, delete=True)
     if handle != '':
         status = "{}\n{}".format(handle, status)
     # Generate the art to attach to the tweet.
-    imgName = createAttachment("test", poem, s=poem)
+    createAttachment(poem, "test", poem)
+    imgName = "test.png"
     # Send the tweet, if desired
     if send:
         tweet = api.update_with_media(imgName, status=status)
@@ -132,4 +133,5 @@ def generateTweet(handle='', source=["Random"], send=True):
 
 
 if __name__ == '__main__':
-    generateTweetWithImage()
+    # generateTweetWithImage()
+    generateTweetWithImage(source=["American Psycho"], send=False, delete=False)

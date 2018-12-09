@@ -30,7 +30,7 @@ class Function:
         return
 
     def __str__(self):
-        pass
+        return str(type(self))[18:-2]
 
 
 class X(Function):
@@ -40,8 +40,8 @@ class X(Function):
     def eval(self, x, y, normalized=True):
         return x
 
-    def __str__(self):
-        return "x"
+    # def __str__(self):
+    #     return "x"
 
 
 class Y(Function):
@@ -51,8 +51,8 @@ class Y(Function):
     def eval(self, x, y, normalized=True):
         return y
 
-    def __str__(self):
-        return "y"
+    # def __str__(self):
+    #     return "y"
 
 
 class InverseX(Function):
@@ -60,8 +60,8 @@ class InverseX(Function):
         newX = x * self.cx + self.dx
         return -1 * newX
 
-    def __str__(self):
-        return "-1 * (x * {} + {})".format(self.cx, self.dx)
+    # def __str__(self):
+    #     return "-1 * (x * {} + {})".format(self.cx, self.dx)
 
 
 class InverseY(Function):
@@ -69,8 +69,8 @@ class InverseY(Function):
         newY = y * self.cy + self.dy
         return -1 * newY
 
-    def __str__(self):
-        return "-1 * (y * {} + {})".format(self.cy, self.dy)
+    # def __str__(self):
+    #     return "-1 * (y * {} + {})".format(self.cy, self.dy)
 
 
 class Ripple(Function):
@@ -83,11 +83,11 @@ class Ripple(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "(x * {} + {}) * (y * {} + {}) ** 3 - (y * {} + {}) * (x * {} + {}) ** 3".format(self.cx, self.dx,
-                                                                                                self.cy, self.dy,
-                                                                                                self.cy, self.dy,
-                                                                                                self.cx, self.dx)
+    # def __str__(self):
+    #     return "(x * {} + {}) * (y * {} + {}) ** 3 - (y * {} + {}) * (x * {} + {}) ** 3".format(self.cx, self.dx,
+    #                                                                                             self.cy, self.dy,
+    #                                                                                             self.cy, self.dy,
+    #                                                                                             self.cx, self.dx)
 
 
 class Sinkhole(Function):
@@ -100,10 +100,10 @@ class Sinkhole(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "((x * {} + {}) ** 2 + (y * {} + {}) ** 2) * e ** (-(x * {} + {}) ** 2 - (y * {} + {}) ** 2)".format(
-            self.cx, self.dx, self.cy, self.dy, self.cx, self.dx, self.cy, self.dy
-        )
+    # def __str__(self):
+    #     return "((x * {} + {}) ** 2 + (y * {} + {}) ** 2) * e ** (-(x * {} + {}) ** 2 - (y * {} + {}) ** 2)".format(
+    #         self.cx, self.dx, self.cy, self.dy, self.cx, self.dx, self.cy, self.dy
+    #     )
 
 
 class Pulse(Function):
@@ -116,10 +116,10 @@ class Pulse(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "-(x * {} + {}) * (y * {} + {}) ** 2) * e ** (-(x * {} + {}) ** 2 - (y * {} + {}) ** 2) ** 2)".format(
-            self.cx, self.dx, self.cy, self.dy, self.cx, self.dx, self.cy, self.dy
-        )
+    # def __str__(self):
+    #     return "-(x * {} + {}) * (y * {} + {}) ** 2) * e ** (-(x * {} + {}) ** 2 - (y * {} + {}) ** 2) ** 2)".format(
+    #         self.cx, self.dx, self.cy, self.dy, self.cx, self.dx, self.cy, self.dy
+    #     )
 
 
 class Hill(Function):
@@ -132,8 +132,8 @@ class Hill(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "cos(abs((x * {} + {})) + abs((y * {} + {})))".format(self.cx, self.dx, self.cy, self.dy)
+    # def __str__(self):
+    #     return "cos(abs((x * {} + {})) + abs((y * {} + {})))".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class Sinkhole2(Function):
@@ -146,10 +146,10 @@ class Sinkhole2(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "cos(abs((x * {} + {})) + abs((y * {} + {}))) * (abs((x * {} + {})) + abs((y * {} + {})))".format(
-            self.cx, self.dx, self.cy, self.dy, self.cx, self.dx, self.cy, self.dy
-        )
+    # def __str__(self):
+    #     return "cos(abs((x * {} + {})) + abs((y * {} + {}))) * (abs((x * {} + {})) + abs((y * {} + {})))".format(
+    #         self.cx, self.dx, self.cy, self.dy, self.cx, self.dx, self.cy, self.dy
+    #     )
 
 
 class Ripple2(Function):
@@ -162,10 +162,10 @@ class Ripple2(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "(x * {} + {}) ** 3 - (x * {} + {}) + (y * {} + {}) ** 3 * (y * {} + {})".format(
-            self.cx, self.dx, self.cx, self.dx, self.cy, self.dy, self.cy, self.dy
-        )
+    # def __str__(self):
+    #     return "(x * {} + {}) ** 3 - (x * {} + {}) + (y * {} + {}) ** 3 * (y * {} + {})".format(
+    #         self.cx, self.dx, self.cx, self.dx, self.cy, self.dy, self.cy, self.dy
+    #     )
 
 
 class Bendy(Function):
@@ -178,8 +178,8 @@ class Bendy(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "sin((x * {} + {}) * (y * {} + {}))".format(self.cx, self.dx, self.cy, self.dy)
+    # def __str__(self):
+    #     return "sin((x * {} + {}) * (y * {} + {}))".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class Checkered(Function):
@@ -192,8 +192,8 @@ class Checkered(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "sin(cos(tan((x * {} + {})))) * sin(cos(tan((y * {} + {}))))".format(self.cx, self.dx, self.cy, self.dy)
+    # def __str__(self):
+    #     return "sin(cos(tan((x * {} + {})))) * sin(cos(tan((y * {} + {}))))".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class Checkered2(Function):
@@ -206,8 +206,8 @@ class Checkered2(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "asin((x * {} + {})) + asin((x * {} + {}))".format(self.cx, self.dx, self.cy, self.dy)
+    # def __str__(self):
+    #     return "asin((x * {} + {})) + asin((x * {} + {}))".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class Sum(Function):
@@ -220,8 +220,8 @@ class Sum(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "(x * {} + {}) + (y * {} + {})".format(self.cx, self.dx, self.cy, self.dy)
+    # def __str__(self):
+    #     return "(x * {} + {}) + (y * {} + {})".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class Product(Function):
@@ -234,8 +234,8 @@ class Product(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "(x * {} + {}) * (y * {} + {})".format(self.cx, self.dx, self.cy, self.dy)
+    # def __str__(self):
+    #     return "(x * {} + {}) * (y * {} + {})".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class Mod(Function):
@@ -248,8 +248,8 @@ class Mod(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "(x * {} + {}) % (y * {} + {})".format(self.cx, self.dx, self.cy, self.dy)
+    # def __str__(self):
+    #     return "(x * {} + {}) % (y * {} + {})".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class Mod2(Function):
@@ -262,8 +262,8 @@ class Mod2(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "(y * {} + {}) % (x * {} + {})".format(self.cy, self.dy, self.cx, self.dx)
+    # def __str__(self):
+    #     return "(y * {} + {}) % (x * {} + {})".format(self.cy, self.dy, self.cx, self.dx)
 
 
 class Well(Function):
@@ -275,8 +275,8 @@ class Well(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "1 - 2 / ((x * {} + {}) ** 2) ** 8".format(self.cx, self.dx)
+    # def __str__(self):
+    #     return "1 - 2 / ((x * {} + {}) ** 2) ** 8".format(self.cx, self.dx)
 
 
 class Well2(Function):
@@ -288,8 +288,8 @@ class Well2(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "1 - 2 / ((x * {} + {}) ** 2) ** 8".format(self.cy, self.dy)
+    # def __str__(self):
+    #     return "1 - 2 / ((x * {} + {}) ** 2) ** 8".format(self.cy, self.dy)
 
 
 class PolarR(Function):
@@ -302,8 +302,8 @@ class PolarR(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "sqrt((x * {} + {}) ** 2 + (y * {} + {}) ** 2)".format(self.cx, self.dx, self.cy, self.dy)
+    # def __str__(self):
+    #     return "sqrt((x * {} + {}) ** 2 + (y * {} + {}) ** 2)".format(self.cx, self.dx, self.cy, self.dy)
 
 
 class PolarTheta(Function):
@@ -328,8 +328,8 @@ class PolarTheta(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "atan((y * {} + {}) / (x * {} + {}))".format(self.cy, self.dy, self.cx, self.dx)
+    # def __str__(self):
+    #     return "atan((y * {} + {}) / (x * {} + {}))".format(self.cy, self.dy, self.cx, self.dx)
 
 
 class GammaLower(Function):
@@ -342,10 +342,10 @@ class GammaLower(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "lowerGamma(abs((x * {} + {}) * 10 + 1), abs((y * {} + {}) * 10))".format(
-            self.cx, self.dx, self.cy, self.dy
-        )
+    # def __str__(self):
+    #     return "lowerGamma(abs((x * {} + {}) * 10 + 1), abs((y * {} + {}) * 10))".format(
+    #         self.cx, self.dx, self.cy, self.dy
+    #     )
 
 
 class GammaUpper(Function):
@@ -358,29 +358,35 @@ class GammaUpper(Function):
             return (z - self.zmin) / (self.zmax - self.zmin) * 2 - 1
         return z
 
-    def __str__(self):
-        return "upperGamma(abs((x * {} + {}) * 10 + 1), abs((y * {} + {}) * 10))".format(
-            self.cx, self.dx, self.cy, self.dy
-        )
+    # def __str__(self):
+    #     return "upperGamma(abs((x * {} + {}) * 10 + 1), abs((y * {} + {}) * 10))".format(
+    #         self.cx, self.dx, self.cy, self.dy
+    #     )
 
 
 class FunctionNode:
-    def __init__(self, prob, depth=0):
+    def __init__(self, prob, depth=0, func=None):
         # self.func = choice([Ripple, Ripple2, Sinkhole, Sinkhole2, Pulse, Bendy, Checkered, Checkered2, Sum, Product,
         #                     Well, Well2, PolarR, PolarTheta, GammaLower, GammaLower, GammaUpper, GammaUpper, InverseX,
         #                     InverseY])()
-        self.func = choice([Ripple, Ripple2, Sinkhole, Sinkhole2, Pulse, Bendy, Checkered, Checkered2, Well, Well2,
-                            PolarR, PolarTheta, GammaLower, GammaUpper])()
-        if depth > 6 or random() > prob:
+        if func is None:
+            self.func = choice([Ripple, Ripple2, Sinkhole, Sinkhole2, Pulse, Bendy, Checkered, Checkered2, Well, Well2,
+                                PolarR, PolarTheta, GammaLower, GammaUpper])()
+        else:
+            self.func = func
+        if depth >= 4 or random() > prob:
             self.left = X()
+            self.left.depth = 0
         else:
             newProb = prob * prob
             self.left = FunctionNode(newProb, depth + 1)
-        if depth > 6 or random() > prob:
+        if depth >= 4 or random() > prob:
             self.right = Y()
+            self.right.depth = 0
         else:
             newProb = prob * prob
             self.right = FunctionNode(newProb, depth + 1)
+        self.depth = max(self.left.depth + 1, self.right.depth + 1)
 
     def eval(self, x, y):
         newX = self.left.eval(x, y)
@@ -442,7 +448,8 @@ def saveTree(root, filename):
 
 
 if __name__ == '__main__':
-    root = FunctionNode(.8)
+    root = FunctionNode(1)
+    print(root.depth)
     saveTree(root, 'test.csv')
     # Functions to add:
     #   Pascal's Triangle with mods

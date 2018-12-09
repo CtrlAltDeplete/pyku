@@ -5,7 +5,7 @@ from datetime import date
 
 
 def sayGoodnight():
-    createAttachment("goodnight", "Goodnight", s=date.today())
+    createAttachment("Goodnight", "goodnight", date.today())
 
     api = credentials.api
     api.update_with_media("goodnight.png")
