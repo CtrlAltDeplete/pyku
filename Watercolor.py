@@ -6,7 +6,7 @@ from PIL import ImageTk
 from random import choice
 from random import randint
 from sys import argv
-from tkinter import *
+# from tkinter import *
 
 
 class WatercolorImage:
@@ -135,95 +135,95 @@ class WatercolorImage:
         return blob_points
 
 
-class GUI:
-    class Preview:
-        def __init__(self, master):
-            self.master = master
-            self.frame = Frame(self.master)
-            self.pil_image = PILImage.new("RGB", (600, 400))
-            self.draw = ImageDraw.Draw(self.pil_image, "RGBA")
-            self.watercolor = None
-            self.colors = None
-            self.tk_image = None
-            self.label = None
-            self.new()
-
-        def new(self, retain=False):
-            if retain:
-                strokes = self.watercolor.strokes
-                blobs = self.watercolor.blobs
-                strokes["values"] = []
-                blobs["values"] = []
-                self.watercolor = WatercolorImage(600, 400, strokes, blobs)
-            else:
-                self.watercolor = WatercolorImage(600, 400)
-            self.colors = [(randint(0, 255), randint(0, 255), randint(0, 255), 8),
-                           (randint(0, 255), randint(0, 255), randint(0, 255), 8),
-                           (randint(0, 255), randint(0, 255), randint(0, 255), 8),
-                           (randint(0, 255), randint(0, 255), randint(0, 255), 8)]
-            self.draw.rectangle([0, 0, 600, 400], fill="white")
-            all_polys = self.watercolor.strokes["values"].copy()
-            all_polys.extend(self.watercolor.blobs["values"])
-            for poly in all_polys:
-                paint_polygon(self.watercolor, poly, choice(self.colors), self.draw)
-            self.tk_image = ImageTk.PhotoImage(image=self.pil_image)
-            if self.label:
-                self.label.destroy()
-            self.label = Label(self.master, image=self.tk_image)
-            self.label.pack()
-
-    def __init__(self, master):
-        self.master = master
-        self.frame = Frame(self.master)
-        self.preview = self.Preview(Toplevel(self.master))
-
-        Label(self.master, text="Min Size").grid(row=0, column=1)
-        Label(self.master, text="Max Size").grid(row=0, column=3)
-        Label(self.master, text="Count").grid(row=0, column=5)
-        Label(self.master, text="Strokes").grid(row=1, column=0)
-        Label(self.master, text="Blobs").grid(row=2, column=0)
-
-        self.stroke_min_size = Entry(self.master)
-        self.stroke_max_size = Entry(self.master)
-        self.stroke_count = Entry(self.master)
-        self.stroke_min_size.grid(row=1, column=1, columnspan=2)
-        self.stroke_max_size.grid(row=1, column=3, columnspan=2)
-        self.stroke_count.grid(row=1, column=5, columnspan=2)
-        self.stroke_min_size.insert(0, str(self.preview.watercolor.strokes["size"][0]))
-        self.stroke_max_size.insert(0, str(self.preview.watercolor.strokes["size"][1]))
-        self.stroke_count.insert(0, str(self.preview.watercolor.strokes["count"]))
-
-        self.blob_min_size = Entry(self.master)
-        self.blob_max_size = Entry(self.master)
-        self.blob_count = Entry(self.master)
-        self.blob_min_size.grid(row=2, column=1, columnspan=2)
-        self.blob_max_size.grid(row=2, column=3, columnspan=2)
-        self.blob_count.grid(row=2, column=5, columnspan=2)
-        self.blob_min_size.insert(0, str(self.preview.watercolor.blobs["size"][0]))
-        self.blob_max_size.insert(0, str(self.preview.watercolor.blobs["size"][1]))
-        self.blob_count.insert(0, str(self.preview.watercolor.blobs["count"]))
-
-        self.new_button = Button(self.master, text="New", command=self.preview.new)
-        self.new_button.grid(row=3, column=0)
-
-        self.update_button = Button(self.master, text="Update", command=self.update)
-        self.update_button.grid(row=3, column=1)
-
-        self.save_name = Entry(self.master)
-        self.save_name.grid(row=3, column=3, columnspan=2)
-        self.save_name.insert(0, "test")
-        self.save_button = Button(master=self.master, text="Save", command=self.save)
-        self.save_button.grid(row=3, column=5)
-
-    def update(self):
-        self.preview.watercolor.strokes["size"] = (int(self.stroke_min_size.get()), int(self.stroke_max_size.get()))
-        self.preview.watercolor.strokes["count"] = int(self.stroke_count.get())
-        self.preview.watercolor.blobs["size"] = (int(self.blob_min_size.get()), int(self.blob_max_size.get()))
-        self.preview.watercolor.blobs["count"] = int(self.blob_count.get())
-        self.preview.new(True)
-
-    def save(self):
-        self.preview.pil_image.save(self.save_name.get() + ".png", "PNG")
+# class GUI:
+#     class Preview:
+#         def __init__(self, master):
+#             self.master = master
+#             self.frame = Frame(self.master)
+#             self.pil_image = PILImage.new("RGB", (600, 400))
+#             self.draw = ImageDraw.Draw(self.pil_image, "RGBA")
+#             self.watercolor = None
+#             self.colors = None
+#             self.tk_image = None
+#             self.label = None
+#             self.new()
+#
+#         def new(self, retain=False):
+#             if retain:
+#                 strokes = self.watercolor.strokes
+#                 blobs = self.watercolor.blobs
+#                 strokes["values"] = []
+#                 blobs["values"] = []
+#                 self.watercolor = WatercolorImage(600, 400, strokes, blobs)
+#             else:
+#                 self.watercolor = WatercolorImage(600, 400)
+#             self.colors = [(randint(0, 255), randint(0, 255), randint(0, 255), 8),
+#                            (randint(0, 255), randint(0, 255), randint(0, 255), 8),
+#                            (randint(0, 255), randint(0, 255), randint(0, 255), 8),
+#                            (randint(0, 255), randint(0, 255), randint(0, 255), 8)]
+#             self.draw.rectangle([0, 0, 600, 400], fill="white")
+#             all_polys = self.watercolor.strokes["values"].copy()
+#             all_polys.extend(self.watercolor.blobs["values"])
+#             for poly in all_polys:
+#                 paint_polygon(self.watercolor, poly, choice(self.colors), self.draw)
+#             self.tk_image = ImageTk.PhotoImage(image=self.pil_image)
+#             if self.label:
+#                 self.label.destroy()
+#             self.label = Label(self.master, image=self.tk_image)
+#             self.label.pack()
+#
+#     def __init__(self, master):
+#         self.master = master
+#         self.frame = Frame(self.master)
+#         self.preview = self.Preview(Toplevel(self.master))
+#
+#         Label(self.master, text="Min Size").grid(row=0, column=1)
+#         Label(self.master, text="Max Size").grid(row=0, column=3)
+#         Label(self.master, text="Count").grid(row=0, column=5)
+#         Label(self.master, text="Strokes").grid(row=1, column=0)
+#         Label(self.master, text="Blobs").grid(row=2, column=0)
+#
+#         self.stroke_min_size = Entry(self.master)
+#         self.stroke_max_size = Entry(self.master)
+#         self.stroke_count = Entry(self.master)
+#         self.stroke_min_size.grid(row=1, column=1, columnspan=2)
+#         self.stroke_max_size.grid(row=1, column=3, columnspan=2)
+#         self.stroke_count.grid(row=1, column=5, columnspan=2)
+#         self.stroke_min_size.insert(0, str(self.preview.watercolor.strokes["size"][0]))
+#         self.stroke_max_size.insert(0, str(self.preview.watercolor.strokes["size"][1]))
+#         self.stroke_count.insert(0, str(self.preview.watercolor.strokes["count"]))
+#
+#         self.blob_min_size = Entry(self.master)
+#         self.blob_max_size = Entry(self.master)
+#         self.blob_count = Entry(self.master)
+#         self.blob_min_size.grid(row=2, column=1, columnspan=2)
+#         self.blob_max_size.grid(row=2, column=3, columnspan=2)
+#         self.blob_count.grid(row=2, column=5, columnspan=2)
+#         self.blob_min_size.insert(0, str(self.preview.watercolor.blobs["size"][0]))
+#         self.blob_max_size.insert(0, str(self.preview.watercolor.blobs["size"][1]))
+#         self.blob_count.insert(0, str(self.preview.watercolor.blobs["count"]))
+#
+#         self.new_button = Button(self.master, text="New", command=self.preview.new)
+#         self.new_button.grid(row=3, column=0)
+#
+#         self.update_button = Button(self.master, text="Update", command=self.update)
+#         self.update_button.grid(row=3, column=1)
+#
+#         self.save_name = Entry(self.master)
+#         self.save_name.grid(row=3, column=3, columnspan=2)
+#         self.save_name.insert(0, "test")
+#         self.save_button = Button(master=self.master, text="Save", command=self.save)
+#         self.save_button.grid(row=3, column=5)
+#
+#     def update(self):
+#         self.preview.watercolor.strokes["size"] = (int(self.stroke_min_size.get()), int(self.stroke_max_size.get()))
+#         self.preview.watercolor.strokes["count"] = int(self.stroke_count.get())
+#         self.preview.watercolor.blobs["size"] = (int(self.blob_min_size.get()), int(self.blob_max_size.get()))
+#         self.preview.watercolor.blobs["count"] = int(self.blob_count.get())
+#         self.preview.new(True)
+#
+#     def save(self):
+#         self.preview.pil_image.save(self.save_name.get() + ".png", "PNG")
 
 
 def deform_polygon(poly):
@@ -282,47 +282,47 @@ def save_watercolor(name, width, height, blobs, strokes):
     pil_image.save(name + ".png", "PNG")
 
 
-if __name__ == "__main__":
-    if "-gui" in argv:
-        root = Tk()
-        gui = GUI(root)
-        root.mainloop()
-    else:
-        width = None
-        height = None
-        name = None
-        if "-size" in argv:
-            index = argv.index("-size")
-            width = int(argv[index + 1])
-            height = int(argv[index + 2])
-        if "-name" in argv:
-            name = argv[argv.index("-name") + 1]
-        if "-blob_count" in argv:
-            blob_count = int(argv[argv.index("-blob_count") + 1])
-        else:
-            blob_count = randint(80, 120)
-        if "-blob_size" in argv:
-            blob_min = int(argv[argv.index("-blob_size") + 1])
-            blob_max = int(argv[argv.index("-blob_size") + 2])
-        else:
-            blob_min, blob_max = 30, 70
-        if "-stroke_count" in argv:
-            stroke_count = int(argv[argv.index("-stroke_count") + 1])
-        else:
-            stroke_count = randint(60, 90)
-        if "-stroke_size" in argv:
-            stroke_min = int(argv[argv.index("-stroke_size") + 1])
-            stroke_max = int(argv[argv.index("-stroke_size") + 2])
-        else:
-            stroke_min, stroke_max = 10, 55
-        blobs = {
-            "count": blob_count,
-            "size": (blob_min, blob_max),
-            "values": []
-        }
-        strokes = {
-            "count": stroke_count,
-            "size": (stroke_min, stroke_max),
-            "values": []
-        }
-        save_watercolor(name, width, height, blobs, strokes)
+# if __name__ == "__main__":
+#     if "-gui" in argv:
+#         root = Tk()
+#         gui = GUI(root)
+#         root.mainloop()
+#     else:
+#         width = None
+#         height = None
+#         name = None
+#         if "-size" in argv:
+#             index = argv.index("-size")
+#             width = int(argv[index + 1])
+#             height = int(argv[index + 2])
+#         if "-name" in argv:
+#             name = argv[argv.index("-name") + 1]
+#         if "-blob_count" in argv:
+#             blob_count = int(argv[argv.index("-blob_count") + 1])
+#         else:
+#             blob_count = randint(80, 120)
+#         if "-blob_size" in argv:
+#             blob_min = int(argv[argv.index("-blob_size") + 1])
+#             blob_max = int(argv[argv.index("-blob_size") + 2])
+#         else:
+#             blob_min, blob_max = 30, 70
+#         if "-stroke_count" in argv:
+#             stroke_count = int(argv[argv.index("-stroke_count") + 1])
+#         else:
+#             stroke_count = randint(60, 90)
+#         if "-stroke_size" in argv:
+#             stroke_min = int(argv[argv.index("-stroke_size") + 1])
+#             stroke_max = int(argv[argv.index("-stroke_size") + 2])
+#         else:
+#             stroke_min, stroke_max = 10, 55
+#         blobs = {
+#             "count": blob_count,
+#             "size": (blob_min, blob_max),
+#             "values": []
+#         }
+#         strokes = {
+#             "count": stroke_count,
+#             "size": (stroke_min, stroke_max),
+#             "values": []
+#         }
+#         save_watercolor(name, width, height, blobs, strokes)
