@@ -12,23 +12,23 @@ from Functions import *
 from random import seed
 
 
-font_params = {
-    '256BYTES.ttf': 50,
-    'Courier New.ttf': 34,
-    'data-latin.ttf': 40,
-    'Debby.ttf': 66,
-    'mexcellent 3d.ttf': 44,
-    'Pokemon_GB.ttf': 20,
-    'heav.ttf': 42,
-    'KOMIKAB_.ttf': 40,
-    'federalescort.ttf': 28,
-    'HAMMERHEAD.ttf': 35,
-    'mytype.ttf': 33,
-    'orange juice 2.0.ttf': 50,
-    'MotionPicture.ttf': 84,
-    'airstrike.ttf': 36,
-    'SnackerComic.ttf': 60
-}
+font_params = [
+    '256BYTES.ttf',
+    'Courier New.ttf',
+    'data-latin.ttf',
+    'Debby.ttf',
+    'mexcellent 3d.ttf',
+    'Pokemon_GB.ttf',
+    'heav.ttf',
+    'KOMIKAB_.ttf',
+    'federalescort.ttf',
+    'HAMMERHEAD.ttf',
+    'mytype.ttf',
+    'orange juice 2.0.ttf',
+    'MotionPicture.ttf',
+    'airstrike.ttf',
+    'SnackerComic.ttf'
+]
 
 
 def createText(width, height, words, font, size):
@@ -58,16 +58,22 @@ def createText(width, height, words, font, size):
     return effectedPixels, dx, dy
 
 
-def drawText(effectedPixels, dx, dy, img):
-    for p in effectedPixels:
-        for x in range(-2, 3):
-            for y in range(-2, 3):
-                try:
-                    img.putpixel((p[0] + dx + x, p[1] + dy + y), (0, 0, 0))
-                except IndexError:
-                    pass
-    for p in effectedPixels:
-        img.putpixel((p[0] + dx, p[1] + dy), (255, 255, 255))
+def drawText(img, text):
+    font_name = "fonts/" + choice(font_params)
+    font_size = 10
+    font = ImageFont.truetype(font_name, font_size)
+    text_width, text_height = font.getsize(text)
+    while text_width < img.width * 3 // 4 and text_height < img.height * 3 // 4:
+        font_size += 5
+        font = ImageFont.truetype(font_name, font_size)
+        text_width, text_height = font.getsize(text)
+    draw = ImageDraw.Draw(img, "RGB")
+    x = randint(0, img.width - text_width)
+    y = randint(0, img.height - text_height)
+    for dy in range(-2, 3):
+        for dx in range(-2, 3):
+            draw.text((x + dx, y + dy), text, font=font, fill="white")
+    draw.text((x, y), text, font=font, fill="black")
 
 
 def createRGB(name):
@@ -105,15 +111,12 @@ def createAttachment(text, name="test", s=None):
         seed(s)
     choice([createRGB, createHSV, createPalette, createPolygon, createWatercolor])(name)
     finalImage = Image.open("{}.png".format(name))
-    font = choice(list(font_params.keys()))
-    fontSize = randint(font_params[font], int(font_params[font] * 1.5))
-    effectedPixels, dx, dy = createText(1024, 512, text, font, fontSize)
-    drawText(effectedPixels, dx, dy, finalImage)
+    drawText(finalImage, text)
     finalImage.save("{}.png".format(name), "PNG")
 
 
 if __name__ == '__main__':
-    createAttachment("test", "This is a poorly\nwritten haiku as a test\nto check if this works.")
+    createAttachment("This is a poorly\nwritten haiku as a test\nto check if this works.")
     # font = 'mytype.ttf'
     # fontSize = font_params[font]
     # createText(512, 256, "This is a poorly\nwritten haiku as a test\nto check if this works.", font, fontSize)
