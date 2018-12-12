@@ -64,7 +64,7 @@ def drawText(img, text):
     font = ImageFont.truetype(font_name, font_size)
     text_width, text_height = font.getsize(text)
     while text_width < img.width * 3 // 4 and text_height < img.height * 3 // 4:
-        font_size += 5
+        font_size += 1
         font = ImageFont.truetype(font_name, font_size)
         text_width, text_height = font.getsize(text)
     draw = ImageDraw.Draw(img, "RGB")
