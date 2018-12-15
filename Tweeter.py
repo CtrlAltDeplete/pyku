@@ -1,7 +1,7 @@
 import credentials
 import markovify
-import haiku
-from artCreator import *
+import Haiku
+from ArtCreator import *
 from os import remove
 
 
@@ -39,7 +39,7 @@ keys.insert(0, 'Random')
 
 
 # Handle is the user to tweet at, and source is the key for the file to base the model.
-def generateTweetWithImage(handle='', source=["Random"], send=True, delete=True):
+def generate_tweet_with_image(handle='', source=["Random"], send=True, delete=True):
     models = []
     weights = []
     if len(source) > 3:
@@ -69,28 +69,28 @@ def generateTweetWithImage(handle='', source=["Random"], send=True, delete=True)
     else:
         model = models[0]
     # Generate a haiku (and format it).
-    poem = haiku.makeHaiku(model)
+    poem = Haiku.make_haiku(model)
     status = poem
     status = "{}\n#{}".format(status, ' #'.join(''.join(s.split()) for s in source))
     # Insert the handle at the beginning if needed.
     if handle != '':
         status = "{}\n{}".format(handle, status)
     # Generate the art to attach to the tweet.
-    createAttachment(poem, "test", poem)
-    imgName = "test.png"
+    create_attachment(poem, "test", poem)
+    img_name = "test.png"
     # Send the tweet, if desired
     if send:
-        tweet = api.update_with_media(imgName, status=status)
+        tweet = api.update_with_media(img_name, status=status)
     if delete:
-        remove(imgName)
+        remove(img_name)
     # And return the generated tweet.
     if send:
         return status, tweet.entities['media'][0]['media_url']
-    return status, imgName
+    return status, img_name
 
 
 # Handle is the user to tweet at, and source is the key for the file to base the model.
-def generateTweet(handle='', source=["Random"], send=True):
+def generate_tweet(handle='', source=["Random"], send=True):
     models = []
     weights = []
     if len(source) > 3:
@@ -120,7 +120,7 @@ def generateTweet(handle='', source=["Random"], send=True):
     else:
         model = models[0]
     # Generate a haiku (and format it).
-    status = haiku.makeHaiku(model)
+    status = Haiku.make_haiku(model)
     status = "{}\n#{}".format(status, ' #'.join(''.join(s.split()) for s in source))
     # Insert the handle at the beginning if needed.
     if handle != '':
@@ -133,4 +133,4 @@ def generateTweet(handle='', source=["Random"], send=True):
 
 
 if __name__ == '__main__':
-    generateTweetWithImage()
+    generate_tweet_with_image()
