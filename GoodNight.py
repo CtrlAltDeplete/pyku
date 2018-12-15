@@ -1,11 +1,12 @@
-from artCreator import *
-from os import remove
 import credentials
+
+from ArtCreator import *
 from datetime import date
+from os import remove
 
 
-def sayGoodnight():
-    createAttachment("Goodnight", "goodnight", date.today())
+def say_goodnight():
+    create_attachment("Goodnight", "goodnight", date.today())
 
     api = credentials.api
     api.update_with_media("goodnight.png")
@@ -13,4 +14,4 @@ def sayGoodnight():
 
 
 if __name__ == '__main__':
-    sayGoodnight()
+    say_goodnight()

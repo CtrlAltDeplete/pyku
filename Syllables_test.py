@@ -1,4 +1,4 @@
-from syllables import *
+from Syllables import *
 import unittest
 from ddt import ddt
 from ddt import file_data
