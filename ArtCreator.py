@@ -18,7 +18,7 @@ def draw_text(img, text):
     font_size = 10
     font = ImageFont.truetype(font_name, font_size)
     text_width, text_height = font.getsize(text)
-    while text_width < img.width // 2 and text_height < img.height // 2:
+    while text_width < img.width * 4 / 5 and text_height < img.height * 4 / 5:
         font_size += 1
         font = ImageFont.truetype(font_name, font_size)
         text_width, text_height = font.getsize(text)
