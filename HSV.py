@@ -6,7 +6,36 @@ from random import randint
 
 
 class HSVImage:
-    def __init__(self, width, height):
+    """
+    The HSVImage is a class comprised of three separate Function Trees:
+        Hue
+        Saturation
+        Value
+
+    Args:
+        width (int): The width of the image to generate.
+        height (int): The height of the image to generate.
+
+    Attributes:
+        width (int): The width of the image to generate.
+        height (int): The height of the image to generate.
+        hue (dict): All information related to the hue values for every pixel.
+            tree (FunctionNode): The Functional Tree to calculate the values.
+            values (list): The list of floats of values for the hues.
+            shift (int): The amount every hue value is shifted.
+            range (int): The range of the hue values.
+        sat (dict): All information related to the saturation values for every pixel.
+            tree (FunctionNode): The Functional Tree to calculate the values.
+            values (list): The list of floats of values for the saturation.
+            shift (int): The amount every saturation value is shifted.
+            range (int): The range of the saturation values.
+
+    Methods:
+        new: Assigns new Functional Trees to the hue, saturation, and value, and calls
+             generate on the new trees.
+        generate: Generates the values for each tree in hue, saturation, and value.
+    """
+    def __init__(self, width: int, height: int):
         self.width = width
         self.height = height
         self.hue = {
@@ -30,6 +59,7 @@ class HSVImage:
         self.generate()
 
     def generate(self):
+        """Sets the hue, saturation, and value values."""
         manager = multiprocessing.Manager()
         return_dict = manager.dict()
 
@@ -48,9 +78,9 @@ class HSVImage:
     def _generate_hues(self, return_dict=None):
         values = []
         for y in range(self.height):
-            adjusted_y = 2 * y / self.height
+            adjusted_y = map_to(y, 0, self.height, -1, 1)
             for x in range(self.width):
-                adjusted_x = 2 * x / self.width
+                adjusted_x = map_to(x, 0, self.width, -1, 1)
                 values.append(self.hue["tree"].eval(adjusted_x, adjusted_y))
         if return_dict is not None:
             return_dict["hue"] = values
@@ -60,9 +90,9 @@ class HSVImage:
     def _generate_sats(self, return_dict=None):
         values = []
         for y in range(self.height):
-            adjusted_y = 2 * y / self.height
+            adjusted_y = map_to(y, 0, self.height, -1, 1)
             for x in range(self.width):
-                adjusted_x = 2 * x / self.width
+                adjusted_x = map_to(x, 0, self.width, -1, 1)
                 values.append(self.sat["tree"].eval(adjusted_x, adjusted_y))
         if return_dict is not None:
             return_dict["sat"] = values
@@ -72,9 +102,9 @@ class HSVImage:
     def _generate_vals(self, return_dict=None):
         values = []
         for y in range(self.height):
-            adjusted_y = 2 * y / self.height
+            adjusted_y = map_to(y, 0, self.height, -1, 1)
             for x in range(self.width):
-                adjusted_x = 2 * x / self.width
+                adjusted_x = map_to(x, 0, self.width, -1, 1)
                 values.append(self.val["tree"].eval(adjusted_x, adjusted_y))
         if return_dict is not None:
             return_dict["val"] = values
@@ -94,13 +124,24 @@ class HSVImage:
         self._generate_vals()
 
     def new(self, complexity=(0.6, 0.6, 0.6)):
+        """Creates new trees for hue, saturation, and value, and then generates values for these."""
         self.hue["tree"] = FunctionNode(complexity[0])
         self.sat["tree"] = FunctionNode(complexity[1])
         self.val["tree"] = FunctionNode(complexity[2])
         self.generate()
 
 
-def generate_band(width, height, visible, head, shift, stretch):
+def generate_band(width: int, height: int, visible: bool, head: FunctionNode, shift: int, stretch: int):
+    """
+    Generates a band with the given input.
+    :param width:
+    :param height:
+    :param visible:
+    :param head:
+    :param shift:
+    :param stretch:
+    :return:
+    """
     if visible:
         band = PILImage.new("L", (width, height))
         data = []

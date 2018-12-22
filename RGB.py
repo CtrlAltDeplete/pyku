@@ -48,9 +48,9 @@ class RGBImage:
     def _generate_reds(self, return_dict=None):
         values = []
         for y in range(self.height):
-            adjusted_y = 2 * y / self.height
+            adjusted_y = map_to(y, 0, self.height, -1, 1)
             for x in range(self.width):
-                adjusted_x = 2 * x / self.width
+                adjusted_x = map_to(x, 0, self.width, -1, 1)
                 values.append(self.red["tree"].eval(adjusted_x, adjusted_y))
         if return_dict is not None:
             return_dict["red"] = values
@@ -60,9 +60,9 @@ class RGBImage:
     def _generate_greens(self, return_dict=None):
         values = []
         for y in range(self.height):
-            adjusted_y = 2 * y / self.height
+            adjusted_y = map_to(y, 0, self.height, -1, 1)
             for x in range(self.width):
-                adjusted_x = 2 * x / self.width
+                adjusted_x = map_to(x, 0, self.width, -1, 1)
                 values.append(self.green["tree"].eval(adjusted_x, adjusted_y))
         if return_dict is not None:
             return_dict["green"] = values
@@ -72,9 +72,9 @@ class RGBImage:
     def _generate_blues(self, return_dict=None):
         values = []
         for y in range(self.height):
-            adjusted_y = 2 * y / self.height
+            adjusted_y = map_to(y, 0, self.height, -1, 1)
             for x in range(self.width):
-                adjusted_x = 2 * x / self.width
+                adjusted_x = map_to(x, 0, self.width, -1, 1)
                 values.append(self.blue["tree"].eval(adjusted_x, adjusted_y))
         if return_dict is not None:
             return_dict["blue"] = values

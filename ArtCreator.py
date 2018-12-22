@@ -3,6 +3,7 @@ import Polygon
 import Palette
 import RGB
 import Watercolor
+import Wander
 
 from Functions import *
 from os import listdir
@@ -57,6 +58,10 @@ def create_watercolor(name):
     Watercolor.save_watercolor(name, 1024, 512, blobs, strokes)
 
 
+def create_wander(name):
+    Wander.save_wander(name, 1024, 512, 150)
+
+
 def create_polygon(name):
     Polygon.save_polygon_png(1024, 512, name)
 
@@ -64,7 +69,7 @@ def create_polygon(name):
 def create_attachment(text, name="test", s=None):
     if s is not None:
         seed(s)
-    choice([create_RGB, create_HSV, create_palette, create_palette, create_polygon, create_watercolor])(name)
+    choice([create_RGB, create_HSV, create_palette, create_palette, create_polygon, create_watercolor, create_wander])(name)
     final_image = Image.open("{}.png".format(name))
     draw_text(final_image, text)
     final_image.save("{}.png".format(name), "PNG")
