@@ -24,8 +24,8 @@ def draw_text(img, text):
         font = ImageFont.truetype(font_name, font_size)
         text_width, text_height = font.getsize(text)
     draw = ImageDraw.Draw(img, "RGB")
-    x = randint(0, img.width - text_width)
-    y = randint(0, img.height - text_height)
+    x = randint(50, img.width - text_width - 50)
+    y = randint(50, img.height - text_height - 50)
     for dy in range(-2, 3):
         for dx in range(-2, 3):
             draw.text((x + dx, y + dy), text, font=font, fill="white")
